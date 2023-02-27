@@ -1,7 +1,7 @@
 ﻿using System;
-namespace Haakostr.Lettsok.Advertisements.Model
+namespace Haakostr.Lettsok.Advertisements.Model.V1
 {
-	public class Advertisement
+	public class V1Advertisement
 	{
 		public string? Uuid
 		{

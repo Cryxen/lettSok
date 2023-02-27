@@ -1,6 +1,8 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Text.Json;
 using Haakostr.Lettsok.Advertisements.Model;
+using Haakostr.Lettsok.Advertisements.Model.V1;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Haakostr.Lettsok.Advertisements.Controllers.V2;
@@ -9,6 +11,8 @@ namespace Haakostr.Lettsok.Advertisements.Controllers.V2;
 [Route("api/v2/Advertisements")]
 public class V2Advertisements : ControllerBase
 {
+    public List<V1Advertisement> advertisements { get; private set; }
+
     private readonly ILogger<V2Advertisements> _logger;
 
     public V2Advertisements(ILogger<V2Advertisements> logger)
@@ -16,8 +20,33 @@ public class V2Advertisements : ControllerBase
         _logger = logger;
     }
 
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("GetJobs")]
-    public async Task<string> GetJobs()
+    public async Task<ActionResult<List<V1Advertisement>>> GetJobs()
+    {
+        // Endpoint URL: https://arbeidsplassen.nav.no/public-feed/api/v1/ads
+        // Documentation (Including public key): https://github.com/navikt/pam-public-feed
+        using var client = new HttpClient();
+
+        // Insert public key to header of request.
+        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdWJsaWMudG9rZW4udjFAbmF2Lm5vIiwiYXVkIjoiZmVlZC1hcGktdjEiLCJpc3MiOiJuYXYubm8iLCJpYXQiOjE1NTc0NzM0MjJ9.jNGlLUF9HxoHo5JrQNMkweLj_91bgk97ZebLdfx3_UQ");
+
+        // URL of public API.
+        var jsonUrl = "https://arbeidsplassen.nav.no/public-feed/api/v1/ads";
+
+        // Retrieve JSON from API.
+        string? json = await client.GetStringAsync(jsonUrl);
+
+        var advertisements = ParseJson(json);
+
+        return Ok(advertisements);
+    }
+
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpGet("GetJob")]
+    public async Task<ActionResult<V1Advertisement>> GetJobs(string uuid)
     {
         // Endpoint URL: https://arbeidsplassen.nav.no/public-feed/api/v1/ads
         // Documentation (Including public key): https://github.com/navikt/pam-public-feed
@@ -36,10 +65,21 @@ public class V2Advertisements : ControllerBase
 
         var advertisements = ParseJson(json);
 
-        return json;
+        foreach (var advertisement in advertisements)
+        {
+            if (advertisement.Uuid == uuid)
+            {
+                return Ok(advertisement);
+            }
+                
+        }
+        return NotFound();
     }
 
-    private List<Advertisement> ParseJson(string json)
+
+
+
+    private List<V1Advertisement> ParseJson(string json)
     {
         bool isNextUuid = false;
         bool isNextExpires = false;
@@ -62,7 +102,7 @@ public class V2Advertisements : ControllerBase
         byte[] data = Encoding.UTF8.GetBytes(json);
         Utf8JsonReader reader = new(data);
 
-        var advertisements = new List<Advertisement>();
+        var advertisements = new List<V1Advertisement>();
 
 
         while (reader.Read())
@@ -147,20 +187,20 @@ public class V2Advertisements : ControllerBase
                 engagementType = reader.GetString();
                 isNextEngagementType = false;
             }
-
-            advertisements.Add(new Advertisement
+            if (uuid != "" && title != "" && description != "" )
             {
-                Uuid = uuid,
-                Expires = expires,
-                Municipal = municipal,
-                Title = title,
-                Description = description,
-                JobTitle = jobTitle,
-                Employer = employer,
-                EngagementType = engagementType
-            });
-            
-
+                advertisements.Add(new V1Advertisement
+                {
+                    Uuid = uuid,
+                    Expires = expires,
+                    Municipal = municipal,
+                    Title = title,
+                    Description = description,
+                    JobTitle = jobTitle,
+                    Employer = employer,
+                    EngagementType = engagementType
+                });
+            }
         }
         return advertisements;
     }
