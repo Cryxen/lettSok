@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Haakostr.Lettsok.Advertisements.Controllers;
+namespace Haakostr.Lettsok.Advertisements.Controllers.V1;
 
 [ApiController]
-[Route("[controller]")]
-public class Advertisements : ControllerBase
+[Route("api/v1/Advertisements")]
+public class V1Advertisements : ControllerBase
 {
-    private readonly ILogger<Advertisements> _logger;
+    private readonly ILogger<V1Advertisements> _logger;
 
-    public Advertisements(ILogger<Advertisements> logger)
+    public V1Advertisements(ILogger<V1Advertisements> logger)
     {
         _logger = logger;
     }
@@ -32,5 +32,7 @@ public class Advertisements : ControllerBase
 
         return json;
     }
+
+
 }
 
