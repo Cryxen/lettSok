@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "wYnjBGFuSl1tvXx5ldBYPGzEbt2BPhd0lARrgn0jnUA=",
+  "Source": "JobListingsDatabaseService",
+  "BasePath": "_content/JobListingsDatabaseService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
