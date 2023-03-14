@@ -15,8 +15,6 @@ namespace JobListingsDatabaseService.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //root@127.0.0.1:3306
-            //optionsBuilder.UseSqlServer("Server=127.0.0.1, 3306; Database=DotnetDatabase;Uid=root;Pwd=sejguf-ziBky4-xexfon;");
             //Using: https://dev.mysql.com/doc/connector-net/en/connector-net-entityframework-core.html
             optionsBuilder.UseMySQL("server=localhost;Database=DotnetDatabase;user=dbuser;password=password");
 

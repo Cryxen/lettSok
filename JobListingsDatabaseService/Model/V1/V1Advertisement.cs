@@ -43,13 +43,14 @@ namespace Haakostr.Lettsok.JobListingsDatabaseController.Model.V1
 			get;
 			set;
 		}
-
+	
         /*
          * Virtual er funnet fra:
          *	https://learn.microsoft.com/en-us/ef/ef6/modeling/code-first/workflows/new-database  
          */
-        public virtual List<V1Advertisement>? V1Advertisements { get; set; }
+       // public virtual List<V1Advertisement>? V1Advertisements { get; set; }
 
     }
+	
 }
 
