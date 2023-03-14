@@ -1,4 +1,5 @@
 ﻿using Haakostr.Lettsok.JobListingsDatabaseController.Model.V1;
+using JobListingsDatabaseService.Model.V1;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobListingsDatabaseService.Controllers;
@@ -44,9 +45,11 @@ public class V1JobListingsDatabaseController : ControllerBase
      };
     }
     [HttpPost]
-    public V1Advertisement saveAdvertisements(V1Advertisement advertisementPost)
+    public V1Restult<V1Advertisement> saveAdvertisements(V1Advertisement advertisementPost)
     {
-        return new V1Advertisement
+
+        var result = new V1Restult<V1Advertisement>();
+        result.Value = new V1Advertisement
         {
             Uuid = advertisementPost.Uuid,
             Expires = advertisementPost.Expires,
@@ -57,6 +60,8 @@ public class V1JobListingsDatabaseController : ControllerBase
             Employer = advertisementPost.Employer,
             EngagementType = advertisementPost.EngagementType
         };
+
+        return result;
     }
 }
 
