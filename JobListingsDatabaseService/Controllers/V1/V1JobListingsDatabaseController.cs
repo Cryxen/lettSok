@@ -1,6 +1,7 @@
-﻿using Haakostr.Lettsok.JobListingsDatabaseController.Model.V1;
+﻿using JobListingsDatabaseService.Data;
 using JobListingsDatabaseService.Model.V1;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobListingsDatabaseService.Controllers;
 
@@ -16,37 +17,48 @@ public class V1JobListingsDatabaseController : ControllerBase
     }
 
     [HttpGet("")]
-    public IEnumerable<V1Advertisement> Get()
+    public async Task<V1Restult<IEnumerable<V1Advertisement>>> Get()
     {
-        return new[]
-        {
-         new V1Advertisement
-         {
-             Uuid = "Random uuid",
-             Expires = "When it expires",
-             Municipal = "Ås",
-             Title = "Strange job",
-             Description = "Some weird HTML description",
-             JobTitle = "The super job title",
-             Employer = "Someone no one wants to work for",
-             EngagementType = "Life"
-         },
-         new V1Advertisement
-         {
-             Uuid = "Random uuid 2",
-             Expires = "When it expires 2",
-             Municipal = "Ski",
-             Title = "Strange job 2",
-             Description = "Some weird HTML description 2",
-             JobTitle = "The super job title 2",
-             Employer = "Someone no one wants to work for 2",
-             EngagementType = "Life 2"
-         }
-     };
+        var dbContext = new AdvertisementDbContext();
+
+        var responseAdvertisements = await dbContext.advertisements
+            .Select(advertisement => new V1Advertisement
+            {
+                Expires = advertisement.Expires,
+                Municipal = advertisement.Municipal,
+                Title = advertisement.Title,
+                Description = advertisement.Description,
+                JobTitle = advertisement.JobTitle,
+                Employer = advertisement.Employer,
+                EngagementType = advertisement.EngagementType
+
+            })
+            .ToListAsync();
+       
+        return new V1Restult<IEnumerable<V1Advertisement>>(responseAdvertisements);
+           
+     
+      
     }
     [HttpPost]
-    public V1Restult<V1Advertisement> saveAdvertisements(V1Advertisement advertisementPost)
+    public async Task<V1Restult<V1Advertisement>> saveAdvertisements(V1Advertisement advertisementPost)
     {
+
+        var dbContext = new AdvertisementDbContext();
+        var advertisement = new Advertisement()
+        {
+            Uuid = advertisementPost.Uuid,
+            Expires = advertisementPost.Expires,
+            Municipal = advertisementPost.Municipal,
+            Title = advertisementPost.Title,
+            Description = advertisementPost.Description,
+            JobTitle = advertisementPost.JobTitle,
+            Employer = advertisementPost.Employer,
+            EngagementType = advertisementPost.EngagementType
+        };
+
+        dbContext.Add(advertisement);
+        await dbContext.SaveChangesAsync();
 
         var result = new V1Restult<V1Advertisement>();
         result.Value = new V1Advertisement

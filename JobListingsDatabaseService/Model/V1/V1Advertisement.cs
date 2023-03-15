@@ -1,7 +1,7 @@
 ﻿using System;
-namespace Haakostr.Lettsok.JobListingsDatabaseController.Model.V1
-{
-	public class V1Advertisement
+namespace JobListingsDatabaseService.Model.V1;
+
+    public class V1Advertisement
 	{
 		public string? Uuid
 		{
@@ -52,5 +52,5 @@ namespace Haakostr.Lettsok.JobListingsDatabaseController.Model.V1
 
     }
 	
-}
+
 
