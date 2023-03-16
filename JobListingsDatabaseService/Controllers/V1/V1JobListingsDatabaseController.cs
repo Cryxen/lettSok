@@ -40,7 +40,7 @@ public class V1JobListingsDatabaseController : ControllerBase
      
       
     }
-    [HttpPost]
+    [HttpPost("saveAdvertisement")]
     public async Task<V1Restult<V1Advertisement>> saveAdvertisements(V1Advertisement advertisementPost)
     {
 

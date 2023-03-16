@@ -23,10 +23,13 @@ namespace JobListingsDatabaseService.Data
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        { 
+        {
+       
 
             modelBuilder.Entity<Advertisement>(mb =>
             {
+                mb.ToTable("Advertisement");
+
                 mb.Property(Advertisement => Advertisement.Uuid);
                 mb.Property(Advertisement => Advertisement.Expires);
                 mb.Property(Advertisement => Advertisement.Municipal);
