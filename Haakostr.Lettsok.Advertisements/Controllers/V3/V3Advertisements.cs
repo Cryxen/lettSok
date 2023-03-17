@@ -226,13 +226,15 @@ public class V3Advertisements : ControllerBase
             new MediaTypeWithQualityHeaderValue("application/json"));
     }
 
-      'https://localhost:7223/V1/Advertisements/saveAdvertisement' 
+      'http://localhost:5201/V1/Advertisements/saveAdvertisement' 
 
     */
 
+    // TODO: FIND OUT WHY IT'S NOT WORKING -- Had to make JobListingsDatabaseService start as HTTP.
+    // TODO: BUG: As the API pulls several of same entry down, the program stops instead of pulling the rest of the jobs.
     private async Task<Uri?> postAdvertisementsToDatabase(List<V1Advertisement> advertisements)
     {
-        client.BaseAddress = new Uri("https://loclahost:7223/");
+        client.BaseAddress = new Uri("http://localhost:5201/");
         client.DefaultRequestHeaders.Accept.Clear();
         client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));

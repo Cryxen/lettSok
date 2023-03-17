@@ -4,15 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace JobListingsDatabaseService.Controllers.V1;
+namespace JobListingsDatabaseService.Controllers.V2;
 
 [ApiController]
-[Route("api/V1/Advertisements")]
-public class V1JobListingsDatabaseController : ControllerBase
+[Route("api/V2/Advertisements")]
+public class V2JobListingsDatabaseController : ControllerBase
 {
-    private readonly ILogger<V1JobListingsDatabaseController> _logger;
+    private readonly ILogger<V2JobListingsDatabaseController> _logger;
 
-    public V1JobListingsDatabaseController(ILogger<V1JobListingsDatabaseController> logger)
+    public V2JobListingsDatabaseController(ILogger<V2JobListingsDatabaseController> logger)
     {
         _logger = logger;
     }
