@@ -6,7 +6,7 @@ public class Advertisement
         get;
         set;
     }
-    public DateTime? Expires
+    public DateTime Expires
     {
         get;
         set;

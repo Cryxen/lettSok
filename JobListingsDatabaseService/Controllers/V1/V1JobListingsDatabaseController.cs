@@ -25,7 +25,7 @@ public class V1JobListingsDatabaseController : ControllerBase
         var responseAdvertisements = await dbContext.advertisements
             .Select(advertisement => new V1Advertisement
             {
-                Expires = advertisement.Expires,
+                Expires = (DateTime)advertisement.Expires,
                 Municipal = advertisement.Municipal,
                 Title = advertisement.Title,
                 Description = advertisement.Description,

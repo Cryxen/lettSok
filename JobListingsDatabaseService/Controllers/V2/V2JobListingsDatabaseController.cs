@@ -25,6 +25,7 @@ public class V2JobListingsDatabaseController : ControllerBase
         var responseAdvertisements = await dbContext.advertisements
             .Select(advertisement => new V1Advertisement
             {
+                Uuid = advertisement.Uuid,
                 Expires = advertisement.Expires,
                 Municipal = advertisement.Municipal,
                 Title = advertisement.Title,
@@ -35,6 +36,11 @@ public class V2JobListingsDatabaseController : ControllerBase
 
             })
             .ToListAsync();
+        
+        foreach (var advertisement in responseAdvertisements)
+        {
+            await checkExpiration(advertisement, dbContext);
+        }
 
         //return new V1Restult<IEnumerable<V1Advertisement>>(responseAdvertisements);
         return responseAdvertisements;
@@ -42,6 +48,8 @@ public class V2JobListingsDatabaseController : ControllerBase
      
       
     }
+
+
     [HttpPost("saveAdvertisement")]
     public async Task<V1Restult<V1Advertisement>> saveAdvertisements(V1Advertisement advertisementPost)
     {
@@ -109,13 +117,20 @@ public class V2JobListingsDatabaseController : ControllerBase
     }
 
 
-    private void checkExpiration(Advertisement advertisement)
+    private async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement, AdvertisementDbContext dbContext)
     {
-        DateTime date = new DateTime();
-        if (DateTime.Compare(date, (DateTime)advertisement.Expires) < 0)
+        DateTime date = DateTime.Today;
+        if (DateTime.Compare(date, (DateTime)deleteAdvertisement.Expires) > 0)
         {
+            var advertisement = new Advertisement
+            {
+                Uuid = deleteAdvertisement.Uuid
+            };
 
+            dbContext.Remove(advertisement);
+            await dbContext.SaveChangesAsync();
         }
+        return deleteAdvertisement;
     }
 }
 
