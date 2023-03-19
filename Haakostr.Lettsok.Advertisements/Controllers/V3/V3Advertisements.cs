@@ -241,11 +241,9 @@ public class V3Advertisements : ControllerBase
 
         foreach (var advertisement in advertisements)
         {
-            HttpResponseMessage response = await client.PostAsJsonAsync("V1/Advertisements/saveAdvertisement", advertisement);
-            response.EnsureSuccessStatusCode();
-
-            return response.Headers.Location;
-
+            HttpResponseMessage  response = await client.PostAsJsonAsync("api/V2/Advertisements/saveAdvertisement", advertisement);
+            //response.EnsureSuccessStatusCode();
+            //return response.Headers.Location;
         }
         return null;
 

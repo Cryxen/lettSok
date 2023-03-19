@@ -18,7 +18,7 @@ public class V2JobListingsDatabaseController : ControllerBase
     }
 
     [HttpGet("")]
-    public async Task<V1Restult<IEnumerable<V1Advertisement>>> Get()
+    public async Task<List<V1Advertisement>> Get()
     {
         var dbContext = new AdvertisementDbContext();
 
@@ -35,8 +35,9 @@ public class V2JobListingsDatabaseController : ControllerBase
 
             })
             .ToListAsync();
-       
-        return new V1Restult<IEnumerable<V1Advertisement>>(responseAdvertisements);
+
+        //return new V1Restult<IEnumerable<V1Advertisement>>(responseAdvertisements);
+        return responseAdvertisements;
            
      
       
@@ -44,21 +45,51 @@ public class V2JobListingsDatabaseController : ControllerBase
     [HttpPost("saveAdvertisement")]
     public async Task<V1Restult<V1Advertisement>> saveAdvertisements(V1Advertisement advertisementPost)
     {
-
+        var advertisementsFromDb = await Get();
         var dbContext = new AdvertisementDbContext();
-        var advertisement = new Advertisement()
-        {
-            Uuid = advertisementPost.Uuid,
-            Expires = advertisementPost.Expires,
-            Municipal = advertisementPost.Municipal,
-            Title = advertisementPost.Title,
-            Description = advertisementPost.Description,
-            JobTitle = advertisementPost.JobTitle,
-            Employer = advertisementPost.Employer,
-            EngagementType = advertisementPost.EngagementType
-        };
 
-        dbContext.Add(advertisement);
+        if (advertisementsFromDb.Count > 0)
+        {
+            foreach (var item in advertisementsFromDb)
+            {
+                if (item.Uuid == advertisementPost.Uuid)
+                {
+                    Console.WriteLine("Already in Database");
+                }
+                else
+                {
+                    var advertisement = new Advertisement()
+                    {
+                        Uuid = advertisementPost.Uuid,
+                        Expires = advertisementPost.Expires,
+                        Municipal = advertisementPost.Municipal,
+                        Title = advertisementPost.Title,
+                        Description = advertisementPost.Description,
+                        JobTitle = advertisementPost.JobTitle,
+                        Employer = advertisementPost.Employer,
+                        EngagementType = advertisementPost.EngagementType
+                    };
+                    dbContext.Add(advertisement);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            var advertisement = new Advertisement()
+            {
+                Uuid = advertisementPost.Uuid,
+                Expires = advertisementPost.Expires,
+                Municipal = advertisementPost.Municipal,
+                Title = advertisementPost.Title,
+                Description = advertisementPost.Description,
+                JobTitle = advertisementPost.JobTitle,
+                Employer = advertisementPost.Employer,
+                EngagementType = advertisementPost.EngagementType
+            };
+            dbContext.Add(advertisement);
+        }
+        
         await dbContext.SaveChangesAsync();
 
         var result = new V1Restult<V1Advertisement>();
