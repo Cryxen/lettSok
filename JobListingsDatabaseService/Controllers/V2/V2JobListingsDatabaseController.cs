@@ -109,6 +109,13 @@ public class V2JobListingsDatabaseController : ControllerBase
     }
 
 
+    private void checkExpiration(Advertisement advertisement)
+    {
+        DateTime date = new DateTime();
+        if (DateTime.Compare(date, (DateTime)advertisement.Expires) < 0)
+        {
 
+        }
+    }
 }
 

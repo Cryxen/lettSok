@@ -8,7 +8,7 @@ namespace JobListingsDatabaseService.Model.V1;
 			get;
 			set;
 		}
-		public string? Expires
+		public DateTime? Expires
 		{
 			get;
 			set;
