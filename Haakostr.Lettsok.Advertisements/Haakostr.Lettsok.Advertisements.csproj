@@ -19,6 +19,7 @@
     <None Remove="Controllers\V2\" />
     <None Remove="Model\V1\" />
     <None Remove="Controllers\V3\" />
+    <None Remove="Controllers\V4\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
@@ -26,5 +27,6 @@
     <Folder Include="Controllers\V2\" />
     <Folder Include="Model\V1\" />
     <Folder Include="Controllers\V3\" />
+    <Folder Include="Controllers\V4\" />
   </ItemGroup>
 </Project>
