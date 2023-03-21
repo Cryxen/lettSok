@@ -79,7 +79,8 @@ public class V4Advertisements : ControllerBase
 
         return Ok(advertisements);
     }
-
+    /*
+     * This one is being moved to view. There is no need to have a method iterating through database in this microservice.
     /// <summary>
     /// Method to return a single job from public API.
     /// TODO: Turn it to search database?
@@ -108,7 +109,7 @@ public class V4Advertisements : ControllerBase
         return NotFound();
     }
 
-
+    */
 
     /// <summary>
     /// Post method saving advertisements to database.
@@ -133,14 +134,7 @@ public class V4Advertisements : ControllerBase
 
     }
 
-    //TODO Finish retrieving from database.
-    private async Task<List<V1Advertisement>> getAdvertisementsFromDatabase()
-    {
-        List<V1Advertisement>advertisements = await client.GetAsync("http://localhost:5201/api/V2/Advertisements");
-
-        return advertisements;
-
-    }
+    
     // TODO: IS THIS NECESSARY?
     /// <summary>
     /// Parse string to make a json string. Used to make the string returned from public API to a usable JSON.

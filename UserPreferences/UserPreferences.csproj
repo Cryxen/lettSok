@@ -11,27 +11,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Controllers\V1\" />
     <None Remove="Model\" />
     <None Remove="Model\V1\" />
-    <None Remove="Controllers\V2\" />
-    <None Remove="Model\V2\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\V1\" />
     <Folder Include="Model\" />
     <Folder Include="Model\V1\" />
-    <Folder Include="Controllers\V2\" />
-    <Folder Include="Model\V2\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\JobListingsDatabaseService.Data\JobListingsDatabaseService.Data.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
   </ItemGroup>
 </Project>

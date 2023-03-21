@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobListingsDatabaseService"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobListingsDatabaseService.Data", "JobListingsDatabaseService.Data\JobListingsDatabaseService.Data.csproj", "{C0FFA330-6DAE-43CC-A03D-AB0F2DB5471B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPreferences", "UserPreferences\UserPreferences.csproj", "{96B1FE8C-1D18-483F-8C4B-EEC1208AF6BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C0FFA330-6DAE-43CC-A03D-AB0F2DB5471B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0FFA330-6DAE-43CC-A03D-AB0F2DB5471B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0FFA330-6DAE-43CC-A03D-AB0F2DB5471B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B1FE8C-1D18-483F-8C4B-EEC1208AF6BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B1FE8C-1D18-483F-8C4B-EEC1208AF6BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B1FE8C-1D18-483F-8C4B-EEC1208AF6BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B1FE8C-1D18-483F-8C4B-EEC1208AF6BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
