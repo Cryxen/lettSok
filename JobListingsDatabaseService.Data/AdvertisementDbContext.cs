@@ -12,6 +12,7 @@ namespace JobListingsDatabaseService.Data
 			 * https://learn.microsoft.com/en-us/ef/ef6/modeling/code-first/workflows/new-database 
 			 */
 		public DbSet<Advertisement> advertisements { get; set; }
+        public DbSet<User> users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,10 +39,28 @@ namespace JobListingsDatabaseService.Data
                 mb.Property(Advertisement => Advertisement.JobTitle);
                 mb.Property(Advertisement => Advertisement.Employer);
                 mb.Property(Advertisement => Advertisement.EngagementType);
-
+                
                 mb.HasKey(Advertisement => Advertisement.Uuid);
+
+
+
+            });
+
+            modelBuilder.Entity<User>(mb =>
+            {
+                mb.ToTable("User");
+                mb.Property(User => User.Id);
+                mb.Property(User => User.Name);
+                mb.Property(User => User.Interested);
+                mb.Property(User => User.Uninterested);
+
+                mb.HasKey(User => User.Id);
+
             });
         }
+
+        
+
     }
 }
 

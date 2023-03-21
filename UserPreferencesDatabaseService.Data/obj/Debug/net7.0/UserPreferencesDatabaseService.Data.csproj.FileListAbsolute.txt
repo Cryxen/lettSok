@@ -1,0 +1,14 @@
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/bin/Debug/net7.0/UserPreferencesDatabaseService.Data.deps.json
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/bin/Debug/net7.0/UserPreferencesDatabaseService.Data.runtimeconfig.json
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/bin/Debug/net7.0/UserPreferencesDatabaseService.Data.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/bin/Debug/net7.0/UserPreferencesDatabaseService.Data.pdb
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/obj/Debug/net7.0/UserPreferencesDatabaseService.Data.csproj.AssemblyReference.cache
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/obj/Debug/net7.0/UserPreferencesDatabaseService.Data.GeneratedMSBuildEditorConfig.editorconfig
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/obj/Debug/net7.0/UserPreferencesDatabaseService.Data.AssemblyInfoInputs.cache
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/obj/Debug/net7.0/UserPreferencesDatabaseService.Data.AssemblyInfo.cs
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/obj/Debug/net7.0/UserPreferencesDatabaseService.Data.csproj.CoreCompileInputs.cache
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/obj/Debug/net7.0/UserPreferencesDatabaseService.Data.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/obj/Debug/net7.0/refint/UserPreferencesDatabaseService.Data.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/obj/Debug/net7.0/UserPreferencesDatabaseService.Data.pdb
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/obj/Debug/net7.0/UserPreferencesDatabaseService.Data.genruntimeconfig.cache
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/UserPreferencesDatabaseService.Data/obj/Debug/net7.0/ref/UserPreferencesDatabaseService.Data.dll
