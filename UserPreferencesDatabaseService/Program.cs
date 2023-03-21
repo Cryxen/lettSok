@@ -1,4 +1,5 @@
-﻿using UserPreferencesDatabaseService.Data;
+﻿
+using JobListingsDatabaseService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var dbcontext = new UserDbContext();
+var dbcontext = new AdvertisementDbContext();
 await dbcontext.Database.EnsureCreatedAsync();
 
 app.Run();

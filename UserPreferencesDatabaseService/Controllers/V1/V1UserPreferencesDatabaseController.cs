@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using JobListingsDatabaseService.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using UserPreferencesDatabaseService.Model.V1;
 
 namespace UserPreferencesDatabaseService.Controllers.V1;
@@ -15,20 +17,50 @@ public class V1UserPreferencesDatabaseController : ControllerBase
     {
         _logger = logger;
     }
-    /*
+    
     [HttpGet("")]
-    public Get()
+    public async Task<List<V1User>> Get()
     {
-        throw NotImplementedException;
-        return null;
-    }
+        var dbContext = new AdvertisementDbContext();
 
+        var responseUsers = await dbContext.users
+            .Select(user => new V1User
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Interested = user.Interested,
+                Uninterested = user.Uninterested
+            }).ToListAsync();
+
+        return responseUsers;
+    }
+    
     [HttpPost("saveUser")]
     public async Task<V1Result<V1User>> saveUser(V1User userPost)
     {
-        throw NotImplementedException;
-        return null;
+        var dbContext = new AdvertisementDbContext();
+        var User = new User()
+        {
+            Id = userPost.Id,
+            Name = userPost.Name,
+            Interested = userPost.Interested,
+            Uninterested = userPost.Uninterested
+        };
+        dbContext.Add(User);
+
+        await dbContext.SaveChangesAsync();
+
+        var result = new V1Result<V1User>();
+        result.Value = new V1User
+        {
+            Id = userPost.Id,
+            Name = userPost.Name,
+            Interested = userPost.Interested,
+            Uninterested = userPost.Uninterested
+        };
+        return result;
     }
-    */
+        
+    
 }
 

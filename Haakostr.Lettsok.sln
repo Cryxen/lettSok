@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobListingsDatabaseService.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPreferences", "UserPreferences\UserPreferences.csproj", "{96B1FE8C-1D18-483F-8C4B-EEC1208AF6BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPreferencesDatabaseService", "UserPreferencesDatabaseService\UserPreferencesDatabaseService.csproj", "{EF41F021-ACCC-4763-B6C3-F08C4A7DE33B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPreferencesDatabaseService", "UserPreferencesDatabaseService\UserPreferencesDatabaseService.csproj", "{9A946AA6-DDF1-4FD2-9216-FA4BB27719E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{96B1FE8C-1D18-483F-8C4B-EEC1208AF6BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96B1FE8C-1D18-483F-8C4B-EEC1208AF6BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96B1FE8C-1D18-483F-8C4B-EEC1208AF6BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF41F021-ACCC-4763-B6C3-F08C4A7DE33B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF41F021-ACCC-4763-B6C3-F08C4A7DE33B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF41F021-ACCC-4763-B6C3-F08C4A7DE33B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF41F021-ACCC-4763-B6C3-F08C4A7DE33B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A946AA6-DDF1-4FD2-9216-FA4BB27719E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A946AA6-DDF1-4FD2-9216-FA4BB27719E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A946AA6-DDF1-4FD2-9216-FA4BB27719E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A946AA6-DDF1-4FD2-9216-FA4BB27719E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

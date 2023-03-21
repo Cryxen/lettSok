@@ -23,4 +23,9 @@
     <Folder Include="Model\" />
     <Folder Include="Model\V1\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JobListingsDatabaseService.Data\JobListingsDatabaseService.Data.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

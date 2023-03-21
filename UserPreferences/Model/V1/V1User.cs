@@ -7,9 +7,9 @@ namespace UserPreferences.Model.V1
 
 		public string Name { get; set; }
 
-		public List<string> Interested { get; set; }
+		public Guid Interested { get; set; }
 
-		public List<string> Uninterested { get; set; }
+		public Guid Uninterested { get; set; }
 	}
 	
 }
