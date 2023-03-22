@@ -25,7 +25,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var dbcontext = new AdvertisementDbContext();
+var dbcontext = new LettsokDbContext();
 await dbcontext.Database.EnsureCreatedAsync();
 
 app.Run();

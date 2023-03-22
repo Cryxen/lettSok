@@ -21,15 +21,13 @@ public class V1UserPreferencesDatabaseController : ControllerBase
     [HttpGet("")]
     public async Task<List<V1User>> Get()
     {
-        var dbContext = new AdvertisementDbContext();
+        var dbContext = new LettsokDbContext();
 
         var responseUsers = await dbContext.users
             .Select(user => new V1User
             {
                 Id = user.Id,
                 Name = user.Name,
-                Interested = user.Interested,
-                Uninterested = user.Uninterested
             }).ToListAsync();
 
         return responseUsers;
@@ -38,13 +36,11 @@ public class V1UserPreferencesDatabaseController : ControllerBase
     [HttpPost("saveUser")]
     public async Task<V1Result<V1User>> saveUser(V1User userPost)
     {
-        var dbContext = new AdvertisementDbContext();
+        var dbContext = new LettsokDbContext();
         var User = new User()
         {
             Id = userPost.Id,
             Name = userPost.Name,
-            Interested = userPost.Interested,
-            Uninterested = userPost.Uninterested
         };
         dbContext.Add(User);
 

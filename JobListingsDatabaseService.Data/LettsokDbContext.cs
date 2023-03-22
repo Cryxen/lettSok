@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace JobListingsDatabaseService.Data
 {
-	public class AdvertisementDbContext : DbContext
+	public class LettsokDbContext : DbContext
 	{
         /*
              * Source:
@@ -51,12 +51,45 @@ namespace JobListingsDatabaseService.Data
                 mb.ToTable("User");
                 mb.Property(User => User.Id);
                 mb.Property(User => User.Name);
-                mb.Property(User => User.Interested);
+                //mb.Property(User => User.Interested);
                 mb.Property(User => User.Uninterested);
 
                 mb.HasKey(User => User.Id);
 
             });
+
+            modelBuilder.Entity<InterestedAdvertisement>()
+            .HasKey(ia => new { ia.UserGuid, ia.AdvertisementUuid });
+            modelBuilder.Entity<InterestedAdvertisement>()
+                .HasOne(ia => ia.User)
+                .WithMany(u => u.interestedAdvertisements)
+                .HasForeignKey(ia => ia.UserGuid);
+            modelBuilder.Entity<InterestedAdvertisement>()
+                .HasOne(ia => ia.advertisement)
+                .WithMany(a => a.interestedAdvertisements)
+                .HasForeignKey(ia => ia.AdvertisementUuid);
+            /*
+            modelBuilder.Entity<User>()
+                .HasMany(s => s.Interested)
+                .WithMany(c => c.Users)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("InterestedRefId");
+                    cs.MapRightKey("AdvertisementRefId");
+                    cs.ToTable("InterestedAdvertisement");
+                });
+
+            modelBuilder.Entity<User>()
+                .HasMany(s => s.Uninterested)
+                .WithMany(c => c.Users)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("UninterestedRefId");
+                    cs.MapRightKey("AdvertisementRefId");
+                    cs.ToTable("UninterestedAdvertisement");
+                });*/
+
+
         }
 
         

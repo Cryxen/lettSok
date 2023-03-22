@@ -1,6 +1,8 @@
 ﻿namespace JobListingsDatabaseService.Data;
 public class Advertisement
 {
+   
+
     public string? Uuid
     {
         get;
@@ -48,5 +50,12 @@ public class Advertisement
      */
     public virtual List<Advertisement>? Advertisements { get; set; }
 
+    /*
+     * Many to many:
+     * https://www.entityframeworktutorial.net/code-first/configure-many-to-many-relationship-in-code-first.aspx?utm_content=cmp-true
+     
+    public virtual ICollection<User>? Users { get; set; }
+    */
+    public ICollection<InterestedAdvertisement> interestedAdvertisements { get; set; }
 }
 

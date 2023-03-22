@@ -20,7 +20,7 @@ public class V2JobListingsDatabaseController : ControllerBase
     [HttpGet("")]
     public async Task<List<V1Advertisement>> Get()
     {
-        var dbContext = new AdvertisementDbContext();
+        var dbContext = new LettsokDbContext();
 
         var responseAdvertisements = await dbContext.advertisements
             .Select(advertisement => new V1Advertisement
@@ -54,7 +54,7 @@ public class V2JobListingsDatabaseController : ControllerBase
     public async Task<V1Restult<V1Advertisement>> saveAdvertisements(V1Advertisement advertisementPost)
     {
         var advertisementsFromDb = await Get();
-        var dbContext = new AdvertisementDbContext();
+        var dbContext = new LettsokDbContext();
 
         if (advertisementsFromDb.Count > 0)
         {
@@ -117,7 +117,7 @@ public class V2JobListingsDatabaseController : ControllerBase
     }
 
 
-    private async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement, AdvertisementDbContext dbContext)
+    private async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement, LettsokDbContext dbContext)
     {
         DateTime date = DateTime.Today;
         if (DateTime.Compare(date, (DateTime)deleteAdvertisement.Expires) > 0)

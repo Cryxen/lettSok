@@ -20,7 +20,7 @@ public class V1JobListingsDatabaseController : ControllerBase
     [HttpGet("")]
     public async Task<V1Restult<IEnumerable<V1Advertisement>>> Get()
     {
-        var dbContext = new AdvertisementDbContext();
+        var dbContext = new LettsokDbContext();
 
         var responseAdvertisements = await dbContext.advertisements
             .Select(advertisement => new V1Advertisement
@@ -45,7 +45,7 @@ public class V1JobListingsDatabaseController : ControllerBase
     public async Task<V1Restult<V1Advertisement>> saveAdvertisements(V1Advertisement advertisementPost)
     {
 
-        var dbContext = new AdvertisementDbContext();
+        var dbContext = new LettsokDbContext();
         var advertisement = new Advertisement()
         {
             Uuid = advertisementPost.Uuid,
