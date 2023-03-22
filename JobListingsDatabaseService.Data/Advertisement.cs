@@ -48,7 +48,7 @@ public class Advertisement
      * Virtual er funnet fra:
      *	https://learn.microsoft.com/en-us/ef/ef6/modeling/code-first/workflows/new-database  
      */
-    public virtual List<Advertisement>? Advertisements { get; set; }
+    //public virtual List<Advertisement>? Advertisements { get; set; }
 
     /*
      * Many to many:
