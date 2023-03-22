@@ -51,7 +51,6 @@ namespace JobListingsDatabaseService.Data
                 mb.ToTable("User");
                 mb.Property(User => User.Id);
                 mb.Property(User => User.Name);
-                mb.Property(User => User.Uninterested);
 
                 mb.HasKey(User => User.Id);
 
@@ -60,8 +59,20 @@ namespace JobListingsDatabaseService.Data
             /*
              * Source: https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
              */
-            modelBuilder.Entity<InterestedAdvertisement>()
+            modelBuilder.Entity<UninterestedAdvertisement>()
             .HasKey(ia => new { ia.UserGuid, ia.AdvertisementUuid });
+            modelBuilder.Entity<UninterestedAdvertisement>()
+                .HasOne(ia => ia.User)
+                .WithMany(u => u.uninterestedAdvertisements)
+                .HasForeignKey(ia => ia.UserGuid);
+            modelBuilder.Entity<UninterestedAdvertisement>()
+                .HasOne(ia => ia.advertisement)
+                .WithMany(a => a.uninterestedAdvertisements)
+                .HasForeignKey(ia => ia.AdvertisementUuid);
+
+
+            modelBuilder.Entity<InterestedAdvertisement>()
+       .HasKey(ia => new { ia.UserGuid, ia.AdvertisementUuid });
             modelBuilder.Entity<InterestedAdvertisement>()
                 .HasOne(ia => ia.User)
                 .WithMany(u => u.interestedAdvertisements)
@@ -70,8 +81,6 @@ namespace JobListingsDatabaseService.Data
                 .HasOne(ia => ia.advertisement)
                 .WithMany(a => a.interestedAdvertisements)
                 .HasForeignKey(ia => ia.AdvertisementUuid);
-   
-
         }
 
         

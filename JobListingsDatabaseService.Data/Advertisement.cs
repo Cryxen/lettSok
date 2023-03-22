@@ -57,5 +57,7 @@ public class Advertisement
     public virtual ICollection<User>? Users { get; set; }
     */
     public ICollection<InterestedAdvertisement> interestedAdvertisements { get; set; }
+    public ICollection<UninterestedAdvertisement> uninterestedAdvertisements { get; set; }
+
 }
 
