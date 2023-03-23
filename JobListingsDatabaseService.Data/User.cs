@@ -7,6 +7,10 @@ public class User
 
     public string Name { get; set; }
 
+    public int InterestedId { get; set; }
+
+    public int UninterestedId { get; set; }
+
 
     //public virtual ICollection<Advertisement> Uninterested { get; set; }
 
@@ -16,8 +20,10 @@ public class User
  
     public virtual ICollection<Advertisement>? Advertisements { get; set; }
 */
-    public ICollection<UninterestedAdvertisement> uninterestedAdvertisements { get; set; }
-    public ICollection<InterestedAdvertisement> interestedAdvertisements { get; set; }
+    //public ICollection<UninterestedAdvertisement>? uninterestedAdvertisements { get; set; }
+    //public ICollection<InterestedAdvertisement>? interestedAdvertisements { get; set; }
+
+    public ICollection<Advertisement> advertisements = new HashSet<Advertisement>();
 
 }
 
