@@ -54,6 +54,11 @@ namespace JobListingsDatabaseService.Data
                 mb.HasKey(User => User.Id);
             });
 
+       
+
+            /*
+             * modelBuilder seems to be overwriting based on the class it has as input
+             * 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.advertisements)
                 .WithMany(a => a.users)
@@ -63,10 +68,10 @@ namespace JobListingsDatabaseService.Data
                 .HasMany(u => u.advertisements)
                 .WithMany(a => a.users)
                 .UsingEntity(j => j.ToTable("UninterestedAdvertisement"));
+            */
 
-
-            /*
-             * Source: https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
+            
+            // * Source: https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
              
             modelBuilder.Entity<UninterestedAdvertisement>()
             .HasKey(ia => new { ia.UserGuid, ia.AdvertisementUuid });
@@ -75,11 +80,11 @@ namespace JobListingsDatabaseService.Data
                 .WithMany(u => u.uninterestedAdvertisements)
                 .HasForeignKey(ia => ia.UserGuid);
             modelBuilder.Entity<UninterestedAdvertisement>()
-                .HasOne(ia => ia.advertisement)
+                .HasOne(ia => ia.Advertisement)
                 .WithMany(a => a.uninterestedAdvertisements)
                 .HasForeignKey(ia => ia.AdvertisementUuid);
 
-
+            
             modelBuilder.Entity<InterestedAdvertisement>()
        .HasKey(ia => new { ia.UserGuid, ia.AdvertisementUuid });
             modelBuilder.Entity<InterestedAdvertisement>()
@@ -87,10 +92,10 @@ namespace JobListingsDatabaseService.Data
                 .WithMany(u => u.interestedAdvertisements)
                 .HasForeignKey(ia => ia.UserGuid);
             modelBuilder.Entity<InterestedAdvertisement>()
-                .HasOne(ia => ia.advertisement)
+                .HasOne(ia => ia.Advertisement)
                 .WithMany(a => a.interestedAdvertisements)
                 .HasForeignKey(ia => ia.AdvertisementUuid);
-            */
+            
 
             /*
              * From text book
