@@ -19,6 +19,8 @@
     <None Remove="Model\V1\" />
     <None Remove="Controllers\V2\" />
     <None Remove="Model\V2\" />
+    <None Remove="Model\V3\" />
+    <None Remove="Controllers\V3\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\V1\" />
@@ -26,9 +28,14 @@
     <Folder Include="Model\V1\" />
     <Folder Include="Controllers\V2\" />
     <Folder Include="Model\V2\" />
+    <Folder Include="Model\V3\" />
+    <Folder Include="Controllers\V3\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JobListingsDatabaseService.Data\JobListingsDatabaseService.Data.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\JobListingsDatabaseService\JobListingsDatabaseService.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>
