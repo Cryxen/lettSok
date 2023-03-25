@@ -11,18 +11,20 @@ namespace JobListingsDatabaseService.Controllers.V2;
 public class V2JobListingsDatabaseController : ControllerBase
 {
     private readonly ILogger<V2JobListingsDatabaseController> _logger;
+    private readonly LettsokDbContext _lettsokDbContext;
 
-    public V2JobListingsDatabaseController(ILogger<V2JobListingsDatabaseController> logger)
+    public V2JobListingsDatabaseController(ILogger<V2JobListingsDatabaseController> logger, LettsokDbContext lettsokDbContext)
     {
         _logger = logger;
+        _lettsokDbContext = lettsokDbContext;
     }
 
     [HttpGet("")]
     public async Task<List<V1Advertisement>> Get()
     {
-        var dbContext = new LettsokDbContext();
+        //var dbContext = new LettsokDbContext();
 
-        var responseAdvertisements = await dbContext.advertisements
+        var responseAdvertisements = await _lettsokDbContext.advertisements
             .Select(advertisement => new V1Advertisement
             {
                 Uuid = advertisement.Uuid,
@@ -39,7 +41,7 @@ public class V2JobListingsDatabaseController : ControllerBase
         
         foreach (var advertisement in responseAdvertisements)
         {
-            await checkExpiration(advertisement, dbContext);
+            await checkExpiration(advertisement, _lettsokDbContext);
         }
 
         //return new V1Restult<IEnumerable<V1Advertisement>>(responseAdvertisements);
@@ -54,7 +56,7 @@ public class V2JobListingsDatabaseController : ControllerBase
     public async Task<V1Restult<V1Advertisement>> saveAdvertisements(V1Advertisement advertisementPost)
     {
         var advertisementsFromDb = await Get();
-        var dbContext = new LettsokDbContext();
+        //var dbContext = new LettsokDbContext();
 
         if (advertisementsFromDb.Count > 0)
         {
@@ -77,7 +79,7 @@ public class V2JobListingsDatabaseController : ControllerBase
                         Employer = advertisementPost.Employer,
                         EngagementType = advertisementPost.EngagementType
                     };
-                    dbContext.Add(advertisement);
+                    _lettsokDbContext.Add(advertisement);
                     break;
                 }
             }
@@ -95,10 +97,10 @@ public class V2JobListingsDatabaseController : ControllerBase
                 Employer = advertisementPost.Employer,
                 EngagementType = advertisementPost.EngagementType
             };
-            dbContext.Add(advertisement);
+            _lettsokDbContext.Add(advertisement);
         }
         
-        await dbContext.SaveChangesAsync();
+        await _lettsokDbContext.SaveChangesAsync();
 
         var result = new V1Restult<V1Advertisement>();
         result.Value = new V1Advertisement

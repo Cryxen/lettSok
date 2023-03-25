@@ -12,18 +12,20 @@ public class V1UserPreferencesDatabaseController : ControllerBase
 
 
     private readonly ILogger<V1UserPreferencesDatabaseController> _logger;
+    private readonly LettsokDbContext _lettsokDbContext;
 
-    public V1UserPreferencesDatabaseController(ILogger<V1UserPreferencesDatabaseController> logger)
+    public V1UserPreferencesDatabaseController(ILogger<V1UserPreferencesDatabaseController> logger, LettsokDbContext lettsokDbContext)
     {
         _logger = logger;
+        _lettsokDbContext = lettsokDbContext;
     }
     
     [HttpGet("")]
     public async Task<List<V1User>> Get()
     {
-        var dbContext = new LettsokDbContext();
+        //var dbContext = new LettsokDbContext();
 
-        var responseUsers = await dbContext.users
+        var responseUsers = await _lettsokDbContext.users
             .Select(user => new V1User
             {
                 Id = user.Id,
@@ -36,15 +38,15 @@ public class V1UserPreferencesDatabaseController : ControllerBase
     [HttpPost("saveUser")]
     public async Task<V1Result<V1User>> saveUser(V1User userPost)
     {
-        var dbContext = new LettsokDbContext();
+        //var dbContext = new LettsokDbContext();
         var User = new User()
         {
             Id = userPost.Id,
             Name = userPost.Name,
         };
-        dbContext.Add(User);
+        _lettsokDbContext.Add(User);
 
-        await dbContext.SaveChangesAsync();
+        await _lettsokDbContext.SaveChangesAsync();
 
         var result = new V1Result<V1User>();
         result.Value = new V1User

@@ -12,24 +12,23 @@ public class V3UserPreferencesDatabaseController : ControllerBase
 
 
     private readonly ILogger<V3UserPreferencesDatabaseController> _logger;
+    private readonly LettsokDbContext _lettsokDbContext;
 
-    public V3UserPreferencesDatabaseController(ILogger<V3UserPreferencesDatabaseController> logger)
+    public V3UserPreferencesDatabaseController(ILogger<V3UserPreferencesDatabaseController> logger, LettsokDbContext lettsokDbContext)
     {
         _logger = logger;
+        _lettsokDbContext = lettsokDbContext;
     }
     
     [HttpGet("getUsers")]
     public async Task<List<V3User>> Get()
     {
-        var dbContext = new LettsokDbContext();
 
-        var responseUsers = await dbContext.users
+        var responseUsers = await _lettsokDbContext.users
             .Select(user => new V3User
             {
                 Id = user.Id,
                 Name = user.Name,
-                //interestedAdvertisements = user.interestedAdvertisements,
-                //uninterestedAdvertisements = user.uninterestedAdvertisements
             }).ToListAsync();
 
         return responseUsers;
@@ -39,15 +38,14 @@ public class V3UserPreferencesDatabaseController : ControllerBase
     [HttpPost("saveUser")]
     public async Task<V3Result<V3User>> saveUser(V3User userPost)
     {
-        var dbContext = new LettsokDbContext();
         var User = new User()
         {
             Id = Guid.NewGuid(),
             Name = userPost.Name,
         };
-        dbContext.Add(User);
+        _lettsokDbContext.Add(User);
 
-        await dbContext.SaveChangesAsync();
+        await _lettsokDbContext.SaveChangesAsync();
 
         var result = new V3Result<V3User>();
         result.Value = new V3User
@@ -61,15 +59,14 @@ public class V3UserPreferencesDatabaseController : ControllerBase
     [HttpPost("saveInterest")]
     public async Task<V3Result<V3Interested>> saveInterest (V3Interested interestPost)
     {
-        var dbContext = new LettsokDbContext();
         var Interest = new InterestedAdvertisement()
         {
             AdvertisementUuid = interestPost.AdvertisementUuid,
             UserGuid = interestPost.UserGuid,
         };
-        dbContext.Add(Interest);
+        _lettsokDbContext.Add(Interest);
 
-        await dbContext.SaveChangesAsync();
+        await _lettsokDbContext.SaveChangesAsync();
 
         var result = new V3Result<V3Interested>();
         result.Value = new V3Interested
@@ -83,15 +80,14 @@ public class V3UserPreferencesDatabaseController : ControllerBase
     [HttpPost("saveUninterest")]
     public async Task<V3Result<V3Uninterested>> saveUninterest(V3Uninterested uninterestPost)
     {
-        var dbContext = new LettsokDbContext();
         var Interest = new UninterestedAdvertisement()
         {
             AdvertisementUuid = uninterestPost.AdvertisementUuid,
             UserGuid = uninterestPost.UserGuid,
         };
-        dbContext.Add(Interest);
+        _lettsokDbContext.Add(Interest);
 
-        await dbContext.SaveChangesAsync();
+        await _lettsokDbContext.SaveChangesAsync();
 
         var result = new V3Result<V3Uninterested>();
         result.Value = new V3Uninterested

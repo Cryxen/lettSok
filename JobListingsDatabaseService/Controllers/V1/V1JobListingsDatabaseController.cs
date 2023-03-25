@@ -11,18 +11,20 @@ namespace JobListingsDatabaseService.Controllers.V1;
 public class V1JobListingsDatabaseController : ControllerBase
 {
     private readonly ILogger<V1JobListingsDatabaseController> _logger;
+    private readonly LettsokDbContext _lettsokDbContext;
 
-    public V1JobListingsDatabaseController(ILogger<V1JobListingsDatabaseController> logger)
+    public V1JobListingsDatabaseController(ILogger<V1JobListingsDatabaseController> logger, LettsokDbContext lettsokDbContext)
     {
         _logger = logger;
+        _lettsokDbContext = lettsokDbContext;
     }
 
     [HttpGet("")]
     public async Task<V1Restult<IEnumerable<V1Advertisement>>> Get()
     {
-        var dbContext = new LettsokDbContext();
+        //var dbContext = new LettsokDbContext();
 
-        var responseAdvertisements = await dbContext.advertisements
+        var responseAdvertisements = await _lettsokDbContext.advertisements
             .Select(advertisement => new V1Advertisement
             {
                 Expires = (DateTime)advertisement.Expires,
@@ -45,7 +47,7 @@ public class V1JobListingsDatabaseController : ControllerBase
     public async Task<V1Restult<V1Advertisement>> saveAdvertisements(V1Advertisement advertisementPost)
     {
 
-        var dbContext = new LettsokDbContext();
+        //var dbContext = new LettsokDbContext();
         var advertisement = new Advertisement()
         {
             Uuid = advertisementPost.Uuid,
@@ -58,8 +60,8 @@ public class V1JobListingsDatabaseController : ControllerBase
             EngagementType = advertisementPost.EngagementType
         };
 
-        dbContext.Add(advertisement);
-        await dbContext.SaveChangesAsync();
+        _lettsokDbContext.Add(advertisement);
+        await _lettsokDbContext.SaveChangesAsync();
 
         var result = new V1Restult<V1Advertisement>();
         result.Value = new V1Advertisement

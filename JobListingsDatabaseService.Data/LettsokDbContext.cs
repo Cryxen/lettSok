@@ -14,15 +14,18 @@ namespace JobListingsDatabaseService.Data
 		public DbSet<Advertisement> advertisements { get; set; }
         public DbSet<User> users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public LettsokDbContext()
         {
-            //Using: https://dev.mysql.com/doc/connector-net/en/connector-net-entityframework-core.html
-            optionsBuilder.UseMySQL("server=localhost;Database=DotnetDatabase;user=dbuser;password=password");
 
-
-            base.OnConfiguring(optionsBuilder);
         }
 
+        public LettsokDbContext(DbContextOptions options)
+            : base(options)
+        {
+
+        }
+
+ 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
        
@@ -56,20 +59,7 @@ namespace JobListingsDatabaseService.Data
 
        
 
-            /*
-             * modelBuilder seems to be overwriting based on the class it has as input
-             * 
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.advertisements)
-                .WithMany(a => a.users)
-                .UsingEntity(j => j.ToTable("InterestedAdvertisement"));
-
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.advertisements)
-                .WithMany(a => a.users)
-                .UsingEntity(j => j.ToTable("UninterestedAdvertisement"));
-            */
-
+         
             
             // * Source: https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
              
@@ -97,9 +87,6 @@ namespace JobListingsDatabaseService.Data
                 .HasForeignKey(ia => ia.AdvertisementUuid);
             
 
-            /*
-             * From text book
-             */
         }
 
         
