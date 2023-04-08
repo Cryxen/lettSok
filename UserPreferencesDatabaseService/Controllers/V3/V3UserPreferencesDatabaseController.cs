@@ -1,6 +1,7 @@
 ﻿using JobListingsDatabaseService.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UserPreferencesDatabaseService.Data;
 using UserPreferencesDatabaseService.Model.V3;
 
 namespace UserPreferencesDatabaseService.Controllers.V3;
@@ -12,19 +13,19 @@ public class V3UserPreferencesDatabaseController : ControllerBase
 
 
     private readonly ILogger<V3UserPreferencesDatabaseController> _logger;
-    private readonly LettsokDbContext _lettsokDbContext;
+    private readonly UserPreferencesDbContext _UserPreferencesDbContext;
 
-    public V3UserPreferencesDatabaseController(ILogger<V3UserPreferencesDatabaseController> logger, LettsokDbContext lettsokDbContext)
+    public V3UserPreferencesDatabaseController(ILogger<V3UserPreferencesDatabaseController> logger, UserPreferencesDbContext UserPreferencesDbContext)
     {
         _logger = logger;
-        _lettsokDbContext = lettsokDbContext;
+        _UserPreferencesDbContext = UserPreferencesDbContext;
     }
     
     [HttpGet("getUsers")]
     public async Task<List<V3User>> Get()
     {
 
-        var responseUsers = await _lettsokDbContext.users
+        var responseUsers = await _UserPreferencesDbContext.users
             .Select(user => new V3User
             {
                 Id = user.Id,
@@ -43,9 +44,9 @@ public class V3UserPreferencesDatabaseController : ControllerBase
             Id = Guid.NewGuid(),
             Name = userPost.Name,
         };
-        _lettsokDbContext.Add(User);
+        _UserPreferencesDbContext.Add(User);
 
-        await _lettsokDbContext.SaveChangesAsync();
+        await _UserPreferencesDbContext.SaveChangesAsync();
 
         var result = new V3Result<V3User>();
         result.Value = new V3User
@@ -64,9 +65,9 @@ public class V3UserPreferencesDatabaseController : ControllerBase
             AdvertisementUuid = interestPost.AdvertisementUuid,
             UserGuid = interestPost.UserGuid,
         };
-        _lettsokDbContext.Add(Interest);
+        _UserPreferencesDbContext.Add(Interest);
 
-        await _lettsokDbContext.SaveChangesAsync();
+        await _UserPreferencesDbContext.SaveChangesAsync();
 
         var result = new V3Result<V3Interested>();
         result.Value = new V3Interested
@@ -85,9 +86,9 @@ public class V3UserPreferencesDatabaseController : ControllerBase
             AdvertisementUuid = uninterestPost.AdvertisementUuid,
             UserGuid = uninterestPost.UserGuid,
         };
-        _lettsokDbContext.Add(Interest);
+        _UserPreferencesDbContext.Add(Interest);
 
-        await _lettsokDbContext.SaveChangesAsync();
+        await _UserPreferencesDbContext.SaveChangesAsync();
 
         var result = new V3Result<V3Uninterested>();
         result.Value = new V3Uninterested

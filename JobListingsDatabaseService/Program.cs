@@ -15,7 +15,7 @@ internal class Program
         builder.Services.AddSwaggerGen();
 
 
-        builder.Services.AddDbContext<LettsokDbContext>(options =>
+        builder.Services.AddDbContext<JobListingsDbContext>(options =>
         {
             //Using: https://dev.mysql.com/doc/connector-net/en/connector-net-entityframework-core.html
             options.UseMySQL(builder.Configuration.GetConnectionString("LettsokDb"));
@@ -36,11 +36,15 @@ internal class Program
 
         app.MapControllers();
 
+        
         await using (var scope = app.Services.CreateAsyncScope())
         {
-            var dbContext = scope.ServiceProvider.GetService<LettsokDbContext>();
+            var dbContext = scope.ServiceProvider.GetService<JobListingsDbContext>();
             await dbContext.Database.MigrateAsync();
         }
+        
+
+       
 
         app.Run();
     }

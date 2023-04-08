@@ -1,5 +1,4 @@
 ﻿using System;
-using JobListingsDatabaseService.Model.V2;
 using UserPreferencesDatabaseService.Model.V3;
 
 namespace UserPreferencesDatabaseService.Model.V3

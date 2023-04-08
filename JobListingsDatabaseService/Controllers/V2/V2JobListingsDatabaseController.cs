@@ -11,9 +11,9 @@ namespace JobListingsDatabaseService.Controllers.V2;
 public class V2JobListingsDatabaseController : ControllerBase
 {
     private readonly ILogger<V2JobListingsDatabaseController> _logger;
-    private readonly LettsokDbContext _lettsokDbContext;
+    private readonly JobListingsDbContext _lettsokDbContext;
 
-    public V2JobListingsDatabaseController(ILogger<V2JobListingsDatabaseController> logger, LettsokDbContext lettsokDbContext)
+    public V2JobListingsDatabaseController(ILogger<V2JobListingsDatabaseController> logger, JobListingsDbContext lettsokDbContext)
     {
         _logger = logger;
         _lettsokDbContext = lettsokDbContext;
@@ -119,7 +119,7 @@ public class V2JobListingsDatabaseController : ControllerBase
     }
 
 
-    private async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement, LettsokDbContext dbContext)
+    private async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement, JobListingsDbContext dbContext)
     {
         DateTime date = DateTime.Today;
         if (DateTime.Compare(date, (DateTime)deleteAdvertisement.Expires) > 0)

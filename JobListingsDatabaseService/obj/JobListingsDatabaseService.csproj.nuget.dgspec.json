@@ -4,14 +4,14 @@
     "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/JobListingsDatabaseService.csproj": {}
   },
   "projects": {
-    "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/JobListingsDatabaseService.csproj": {
+    "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService.Data/JobListingsDatabaseService.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/JobListingsDatabaseService.csproj",
-        "projectName": "JobListingsDatabaseService",
-        "projectPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/JobListingsDatabaseService.csproj",
+        "projectUniqueName": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService.Data/JobListingsDatabaseService.Data.csproj",
+        "projectName": "JobListingsDatabaseService.Data",
+        "projectPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService.Data/JobListingsDatabaseService.Data.csproj",
         "packagesPath": "/Users/hakonstrom/.nuget/packages/",
-        "outputPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/obj/",
+        "outputPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService.Data/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/hakonstrom/.nuget/NuGet/NuGet.Config"
@@ -38,6 +38,83 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
+            "MySql.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/JobListingsDatabaseService.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/JobListingsDatabaseService.csproj",
+        "projectName": "JobListingsDatabaseService",
+        "projectPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/JobListingsDatabaseService.csproj",
+        "packagesPath": "/Users/hakonstrom/.nuget/packages/",
+        "outputPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/hakonstrom/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService.Data/JobListingsDatabaseService.Data.csproj": {
+                "projectPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService.Data/JobListingsDatabaseService.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.3, )"
@@ -46,9 +123,19 @@
               "target": "Package",
               "version": "[7.0.3, )"
             },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[7.0.3, )"
+            },
+            "MySql.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -74,7 +161,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.201/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
         }
       }
     }

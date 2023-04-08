@@ -3,6 +3,7 @@ using System;
 using JobListingsDatabaseService.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JobListingsDatabaseService.Data.Migrations
 {
     [DbContext(typeof(JobListingsDbContext))]
-    partial class LettsokDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230408104552_seperateUserFromAdvertisement")]
+    partial class seperateUserFromAdvertisement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

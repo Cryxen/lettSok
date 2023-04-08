@@ -11,9 +11,9 @@ namespace JobListingsDatabaseService.Controllers.V1;
 public class V1JobListingsDatabaseController : ControllerBase
 {
     private readonly ILogger<V1JobListingsDatabaseController> _logger;
-    private readonly LettsokDbContext _lettsokDbContext;
+    private readonly JobListingsDbContext _lettsokDbContext;
 
-    public V1JobListingsDatabaseController(ILogger<V1JobListingsDatabaseController> logger, LettsokDbContext lettsokDbContext)
+    public V1JobListingsDatabaseController(ILogger<V1JobListingsDatabaseController> logger, JobListingsDbContext lettsokDbContext)
     {
         _logger = logger;
         _lettsokDbContext = lettsokDbContext;

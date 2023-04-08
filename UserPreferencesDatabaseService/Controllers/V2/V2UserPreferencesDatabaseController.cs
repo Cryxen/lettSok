@@ -1,6 +1,7 @@
 ﻿using JobListingsDatabaseService.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UserPreferencesDatabaseService.Data;
 using UserPreferencesDatabaseService.Model.V2;
 
 namespace UserPreferencesDatabaseService.Controllers.V2;
@@ -12,12 +13,12 @@ public class V2UserPreferencesDatabaseController : ControllerBase
 
 
     private readonly ILogger<V2UserPreferencesDatabaseController> _logger;
-    private readonly LettsokDbContext _lettsokDbContext;
+    private readonly UserPreferencesDbContext _UserPreferencesDbContext;
 
-    public V2UserPreferencesDatabaseController(ILogger<V2UserPreferencesDatabaseController> logger, LettsokDbContext lettsokDbContext)
+    public V2UserPreferencesDatabaseController(ILogger<V2UserPreferencesDatabaseController> logger, UserPreferencesDbContext UserPreferencesDbContext)
     {
         _logger = logger;
-        _lettsokDbContext = lettsokDbContext;
+        _UserPreferencesDbContext = UserPreferencesDbContext;
     }
     
     [HttpGet("")]
@@ -25,7 +26,7 @@ public class V2UserPreferencesDatabaseController : ControllerBase
     {
         //var dbContext = new LettsokDbContext();
 
-        var responseUsers = await _lettsokDbContext.users
+        var responseUsers = await _UserPreferencesDbContext.users
             .Select(user => new V2User
             {
                 Id = user.Id,
@@ -47,9 +48,9 @@ public class V2UserPreferencesDatabaseController : ControllerBase
             Id = userPost.Id,
             Name = userPost.Name,
         };
-        _lettsokDbContext.Add(User);
+        _UserPreferencesDbContext.Add(User);
 
-        await _lettsokDbContext.SaveChangesAsync();
+        await _UserPreferencesDbContext.SaveChangesAsync();
 
         var result = new V2Result<V2User>();
         result.Value = new V2User

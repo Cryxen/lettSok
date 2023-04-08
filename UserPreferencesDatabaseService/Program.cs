@@ -1,5 +1,5 @@
-﻿using JobListingsDatabaseService.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using UserPreferencesDatabaseService.Data;
 
 internal class Program
 {
@@ -15,10 +15,11 @@ internal class Program
         builder.Services.AddSwaggerGen();
 
 
-        builder.Services.AddDbContext<LettsokDbContext>(options =>
+        builder.Services.AddDbContext<UserPreferencesDbContext>(options =>
         {
             //Using: https://dev.mysql.com/doc/connector-net/en/connector-net-entityframework-core.html
             options.UseMySQL(builder.Configuration.GetConnectionString("LettsokDb"));
+            
         });
 
         var app = builder.Build();
@@ -37,14 +38,13 @@ internal class Program
         app.UseAuthorization();
 
         app.MapControllers();
-        /*
+
         await using (var scope = app.Services.CreateAsyncScope())
         {
-            var dbContext = scope.ServiceProvider.GetService<LettsokDbContext>();
-            //await dbContext.Database.MigrateAsync(); TODO: Uncertain if this is a good idea.
+            var dbContext = scope.ServiceProvider.GetService<UserPreferencesDbContext>();
+            await dbContext.Database.MigrateAsync();
         }
-        */
-        
+
         app.Run();
     }
 }
