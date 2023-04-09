@@ -20,7 +20,11 @@ public class V3UserPreferencesDatabaseController : ControllerBase
         _logger = logger;
         _UserPreferencesDbContext = UserPreferencesDbContext;
     }
-    
+
+    /// <summary>
+    /// Gets all users in Database
+    /// </summary>
+    /// <returns>JSON list of users</returns>
     [HttpGet("getUsers")]
     public async Task<List<V3User>> Get()
     {
@@ -35,7 +39,11 @@ public class V3UserPreferencesDatabaseController : ControllerBase
         return responseUsers;
     }
 
-    
+    /// <summary>
+    /// Saves user in Database
+    /// </summary>
+    /// <param name="userPost">name of user</param>
+    /// <returns>Error codes</returns>
     [HttpPost("saveUser")]
     public async Task<V3Result<V3User>> saveUser(V3User userPost)
     {
@@ -56,7 +64,11 @@ public class V3UserPreferencesDatabaseController : ControllerBase
         return result;
     }
 
-
+    /// <summary>
+    /// Saves interested advertisement in a one-to-many relationship in database
+    /// </summary>
+    /// <param name="interestPost">Uuid of advertisement, and guid of user</param>
+    /// <returns>Error code</returns>
     [HttpPost("saveInterest")]
     public async Task<V3Result<V3Interested>> saveInterest (V3Interested interestPost)
     {
@@ -78,6 +90,11 @@ public class V3UserPreferencesDatabaseController : ControllerBase
         return result;
     }
 
+    /// <summary>
+    /// Saves interested advertisement in a one-to-many relationship in database
+    /// </summary>
+    /// <param name="uninterestPost">Uuid of advertisement, and guid of user</param>
+    /// <returns>Error code</returns>
     [HttpPost("saveUninterest")]
     public async Task<V3Result<V3Uninterested>> saveUninterest(V3Uninterested uninterestPost)
     {

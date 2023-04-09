@@ -27,6 +27,7 @@
     <None Remove="Model\V2\" />
     <None Remove="Model\V3\" />
     <None Remove="Controllers\V3\" />
+    <None Remove="Controllers\V4\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\V1\" />
@@ -36,6 +37,7 @@
     <Folder Include="Model\V2\" />
     <Folder Include="Model\V3\" />
     <Folder Include="Controllers\V3\" />
+    <Folder Include="Controllers\V4\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UserPreferencesDatabaseService.Data\UserPreferencesDatabaseService.Data.csproj">
