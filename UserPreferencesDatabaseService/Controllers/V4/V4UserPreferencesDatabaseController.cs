@@ -64,6 +64,10 @@ public class V4UserPreferencesDatabaseController : ControllerBase
         return result;
     }
 
+    /// <summary>
+    /// Gets users interested advertisements
+    /// </summary>
+    /// <returns>Gets users interested advertisements</returns>
     [HttpGet("getInterest")]
     public async Task<List<V3Interested>> getInterest()
     {
@@ -104,6 +108,10 @@ public class V4UserPreferencesDatabaseController : ControllerBase
         return result;
     }
 
+    /// <summary>
+    /// Gets advertisements users did not find interesting
+    /// </summary>
+    /// <returns>Gets advertisements users did not find interesting</returns>
     [HttpGet("getUnInterest")]
     public async Task<List<V3Uninterested>> getUninterest()
     {
