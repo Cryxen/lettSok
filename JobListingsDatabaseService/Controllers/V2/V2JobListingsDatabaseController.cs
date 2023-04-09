@@ -19,7 +19,11 @@ public class V2JobListingsDatabaseController : ControllerBase
         _lettsokDbContext = lettsokDbContext;
     }
 
-    [HttpGet("")]
+    /// <summary>
+    /// Retrieves advertisements from database
+    /// </summary>
+    /// <returns>List of advertisements</returns>
+    [HttpGet("getAdvertisements")]
     public async Task<List<V1Advertisement>> Get()
     {
         //var dbContext = new LettsokDbContext();
@@ -51,7 +55,11 @@ public class V2JobListingsDatabaseController : ControllerBase
       
     }
 
-
+    /// <summary>
+    /// Save advertisement to database
+    /// </summary>
+    /// <param name="advertisementPost">Reflects advertisement model</param>
+    /// <returns>Returns V1Result error codes</returns>
     [HttpPost("saveAdvertisement")]
     public async Task<V1Restult<V1Advertisement>> saveAdvertisements(V1Advertisement advertisementPost)
     {
