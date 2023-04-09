@@ -7,6 +7,7 @@ namespace UserPreferencesDatabaseService.Data
     public class UserPreferencesDbContext : DbContext
     {
         public DbSet<User> users { get; set; }
+        public DbSet<InterestedAdvertisement> interestedAdvertisements { get; set; }
 
         public UserPreferencesDbContext()
         {
@@ -30,23 +31,18 @@ namespace UserPreferencesDatabaseService.Data
                 mb.HasKey(User => User.Id);
             });
 
-            // * Source: https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
+            modelBuilder.Entity<InterestedAdvertisement>()
+                .HasOne<User>(u => u.User)
+                .WithMany(i => i.interestedAdvertisements)
+                .HasForeignKey(i => i.UserId);
+
 
             modelBuilder.Entity<UninterestedAdvertisement>()
-            .HasKey(ia => new { ia.UserGuid, ia.AdvertisementUuid });
-            modelBuilder.Entity<UninterestedAdvertisement>()
-                .HasOne(ia => ia.User)
-                .WithMany(u => u.uninterestedAdvertisements)
-                .HasForeignKey(ia => ia.UserGuid);
+                .HasOne<User>(u => u.User)
+                .WithMany(i => i.UninterestedAdvertisements)
+                .HasForeignKey(i => i.UserId);
 
-            modelBuilder.Entity<InterestedAdvertisement>()
-       .HasKey(ia => new { ia.UserGuid });
-            modelBuilder.Entity<InterestedAdvertisement>()
-                .HasOne(ia => ia.User)
-                .WithMany(u => u.interestedAdvertisements)
-                .HasForeignKey(ia => ia.UserGuid);
         }
-
 
     }
 

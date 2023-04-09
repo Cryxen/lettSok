@@ -63,7 +63,7 @@ public class V3UserPreferencesDatabaseController : ControllerBase
         var Interest = new InterestedAdvertisement()
         {
             AdvertisementUuid = interestPost.AdvertisementUuid,
-            UserGuid = interestPost.UserGuid,
+            UserId = interestPost.UserGuid,
         };
         _UserPreferencesDbContext.Add(Interest);
 
@@ -84,7 +84,7 @@ public class V3UserPreferencesDatabaseController : ControllerBase
         var Interest = new UninterestedAdvertisement()
         {
             AdvertisementUuid = uninterestPost.AdvertisementUuid,
-            UserGuid = uninterestPost.UserGuid,
+            UserId = uninterestPost.UserGuid,
         };
         _UserPreferencesDbContext.Add(Interest);
 

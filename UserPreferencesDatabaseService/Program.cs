@@ -42,7 +42,7 @@ internal class Program
         await using (var scope = app.Services.CreateAsyncScope())
         {
             var dbContext = scope.ServiceProvider.GetService<UserPreferencesDbContext>();
-            await dbContext.Database.MigrateAsync();
+            await dbContext.Database.EnsureCreatedAsync(); //Migrations doesn't work for some reason TODO: Find out why.
         }
 
         app.Run();

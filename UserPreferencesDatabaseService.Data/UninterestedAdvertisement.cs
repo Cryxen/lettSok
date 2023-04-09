@@ -3,9 +3,13 @@ namespace JobListingsDatabaseService.Data
 {
     public class UninterestedAdvertisement
     {
-        public User User { get; set; }
-        public Guid UserGuid { get; set; }
+        public int Id { get; set; }
+
+        public Guid UserId { get; set; }
+
         public string AdvertisementUuid { get; set; }
+
+        public User User { get; set; }
     }
 }
 

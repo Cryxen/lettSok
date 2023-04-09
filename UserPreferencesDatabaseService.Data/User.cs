@@ -7,22 +7,8 @@ public class User
 
     public string Name { get; set; }
 
-    //public int InterestedId { get; set; }
-
-    //public int UninterestedId { get; set; }
-
-
-    //public virtual ICollection<Advertisement> Uninterested { get; set; }
-
-    /*
- * Many to many:
- * https://www.entityframeworktutorial.net/code-first/configure-many-to-many-relationship-in-code-first.aspx?utm_content=cmp-true
- 
-    public virtual ICollection<Advertisement>? Advertisements { get; set; }
-*/
-    public ICollection<UninterestedAdvertisement>? uninterestedAdvertisements { get; set; }
-    public ICollection<InterestedAdvertisement>? interestedAdvertisements { get; set; }
-
+    public ICollection<InterestedAdvertisement> interestedAdvertisements { get; set; }
+    public ICollection<UninterestedAdvertisement> UninterestedAdvertisements { get; set; }
 
 }
 

@@ -11,8 +11,8 @@ using UserPreferencesDatabaseService.Data;
 namespace UserPreferencesDatabaseService.Data.Migrations
 {
     [DbContext(typeof(UserPreferencesDbContext))]
-    [Migration("20230408112104_InitUserPreferences")]
-    partial class InitUserPreferences
+    [Migration("20230409171710_oneToMany")]
+    partial class oneToMany
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,27 +24,40 @@ namespace UserPreferencesDatabaseService.Data.Migrations
 
             modelBuilder.Entity("JobListingsDatabaseService.Data.InterestedAdvertisement", b =>
                 {
-                    b.Property<Guid>("UserGuid")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<string>("AdvertisementUuid")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("UserGuid");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
 
-                    b.ToTable("InterestedAdvertisement");
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("interestedAdvertisements");
                 });
 
             modelBuilder.Entity("JobListingsDatabaseService.Data.UninterestedAdvertisement", b =>
                 {
-                    b.Property<Guid>("UserGuid")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<string>("AdvertisementUuid")
-                        .HasColumnType("varchar(255)");
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.HasKey("UserGuid", "AdvertisementUuid");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UninterestedAdvertisement");
                 });
@@ -68,7 +81,7 @@ namespace UserPreferencesDatabaseService.Data.Migrations
                 {
                     b.HasOne("JobListingsDatabaseService.Data.User", "User")
                         .WithMany("interestedAdvertisements")
-                        .HasForeignKey("UserGuid")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -78,8 +91,8 @@ namespace UserPreferencesDatabaseService.Data.Migrations
             modelBuilder.Entity("JobListingsDatabaseService.Data.UninterestedAdvertisement", b =>
                 {
                     b.HasOne("JobListingsDatabaseService.Data.User", "User")
-                        .WithMany("uninterestedAdvertisements")
-                        .HasForeignKey("UserGuid")
+                        .WithMany("UninterestedAdvertisements")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -88,9 +101,9 @@ namespace UserPreferencesDatabaseService.Data.Migrations
 
             modelBuilder.Entity("JobListingsDatabaseService.Data.User", b =>
                 {
-                    b.Navigation("interestedAdvertisements");
+                    b.Navigation("UninterestedAdvertisements");
 
-                    b.Navigation("uninterestedAdvertisements");
+                    b.Navigation("interestedAdvertisements");
                 });
 #pragma warning restore 612, 618
         }
