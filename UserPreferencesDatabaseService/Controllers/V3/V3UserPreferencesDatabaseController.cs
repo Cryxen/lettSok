@@ -20,11 +20,7 @@ public class V3UserPreferencesDatabaseController : ControllerBase
         _logger = logger;
         _UserPreferencesDbContext = UserPreferencesDbContext;
     }
-
-    /// <summary>
-    /// Lists all users from database by name
-    /// </summary>
-    /// <returns>Name of all users</returns>
+    
     [HttpGet("getUsers")]
     public async Task<List<V3User>> Get()
     {
@@ -39,11 +35,7 @@ public class V3UserPreferencesDatabaseController : ControllerBase
         return responseUsers;
     }
 
-    /// <summary>
-    /// Saves new user to Database
-    /// </summary>
-    /// <param name="userPost">Name of the user</param>
-    /// <returns>ErrorList from Result Model</returns>
+    
     [HttpPost("saveUser")]
     public async Task<V3Result<V3User>> saveUser(V3User userPost)
     {
