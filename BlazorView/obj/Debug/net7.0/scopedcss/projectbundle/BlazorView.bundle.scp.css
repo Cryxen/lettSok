@@ -1,0 +1,106 @@
+/* _content/BlazorView/Shared/MainLayout.razor.rz.scp.css */
+body[b-ivxfbxz1bn] {
+    height: 100%;
+}
+
+.page[b-ivxfbxz1bn] {
+    position: relative;
+    background-color: rgb(67, 150, 156);
+    height: 100%;
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 0.5fr 2fr 0.5fr;
+    grid-template-areas:
+        "header header nav"
+        "body body nav"
+        "footer footer footer";
+}
+
+
+.sidebar[b-ivxfbxz1bn] {
+    grid-area: nav;
+}
+
+
+.mainFooter[b-ivxfbxz1bn] {
+   grid-area: footer;
+   justify-self: end;
+}
+
+main[b-ivxfbxz1bn] {
+    grid-area: body;
+    justify-self: center;
+}
+
+
+/* _content/BlazorView/Shared/NavMenu.razor.rz.scp.css */
+.navbar-toggler[b-iiofiewy08] {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-row[b-iiofiewy08] {
+    height: 3.5rem;
+}
+
+.navbar-brand[b-iiofiewy08] {
+    font-size: 1.1rem;
+}
+
+.oi[b-iiofiewy08] {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+.nav-item[b-iiofiewy08] {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+    background-color: #56566f;
+}
+
+    .nav-item:first-of-type[b-iiofiewy08] {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type[b-iiofiewy08] {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item[b-iiofiewy08]  a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+.nav-item[b-iiofiewy08]  a.active {
+    background-color: rgba(255,255,255,0.25);
+    color: white;
+}
+
+.nav-item[b-iiofiewy08]  a:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+    .navbar-toggler[b-iiofiewy08] {
+        /*display: none;*/
+    }
+
+    .collapse[b-iiofiewy08] {
+        /* Never collapse the sidebar for wide screens */
+        /*display: block;*/
+    }
+    
+    .nav-scrollable[b-iiofiewy08] {
+        /* Allow sidebar to scroll for tall menus */
+        /*height: calc(100vh - 3.5rem);
+        overflow-y: auto;*/
+    }
+
+

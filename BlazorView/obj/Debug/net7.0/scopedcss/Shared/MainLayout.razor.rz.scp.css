@@ -1,0 +1,36 @@
+body[b-ivxfbxz1bn] {
+    height: 100%;
+}
+
+.page[b-ivxfbxz1bn] {
+    position: relative;
+    background-color: rgb(67, 150, 156);
+    height: 100%;
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 0.5fr 2fr 0.5fr;
+    grid-template-areas:
+        "header header nav"
+        "body body nav"
+        "footer footer footer";
+}
+
+
+.sidebar[b-ivxfbxz1bn] {
+    grid-area: nav;
+}
+
+
+.mainFooter[b-ivxfbxz1bn] {
+   grid-area: footer;
+   justify-self: end;
+}
+
+main[b-ivxfbxz1bn] {
+    grid-area: body;
+    justify-self: center;
+}
+
+

@@ -1,0 +1,36 @@
+﻿body {
+    height: 100%;
+}
+
+.page {
+    position: relative;
+    background-color: rgb(67, 150, 156);
+    height: 100%;
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 0.5fr 2fr 0.5fr;
+    grid-template-areas:
+        "header header nav"
+        "body body nav"
+        "footer footer footer";
+}
+
+
+.sidebar {
+    grid-area: nav;
+}
+
+
+.mainFooter {
+   grid-area: footer;
+   justify-self: end;
+}
+
+main {
+    grid-area: body;
+    justify-self: center;
+}
+
+
