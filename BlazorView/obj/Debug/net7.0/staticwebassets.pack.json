@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets/BlazorView.bundle.scp.css"
     },
     {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/.DS_Store",
+      "PackagePath": "staticwebassets/.DS_Store"
+    },
+    {
       "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/css/bootstrap/bootstrap.min.css",
       "PackagePath": "staticwebassets/css/bootstrap/bootstrap.min.css"
     },
@@ -55,6 +59,10 @@
     {
       "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/favicon.png",
       "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/LETT-5.png",
+      "PackagePath": "staticwebassets/img/LETT-5.png"
     },
     {
       "Id": "obj/Debug/net7.0/staticwebassets/msbuild.BlazorView.Microsoft.AspNetCore.StaticWebAssets.props",

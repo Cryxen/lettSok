@@ -4,10 +4,9 @@ body[b-ivxfbxz1bn] {
 
 .page[b-ivxfbxz1bn] {
     position: relative;
-    background-color: rgb(67, 150, 156);
+    background-color: #00989e;
     height: 100%;
     width: 100%;
-
     display: grid;
     grid-template-columns: auto auto auto;
     grid-template-rows: 0.5fr 2fr 0.5fr;
@@ -15,6 +14,10 @@ body[b-ivxfbxz1bn] {
         "header header nav"
         "body body nav"
         "footer footer footer";
+}
+
+#logo[b-ivxfbxz1bn] {
+    max-height:5%;
 }
 
 

@@ -1,0 +1,18 @@
+﻿@page "/fetchlistings"
+@using BlazorView.Data
+@inject FetchJobListingsFromDb JobListingsService
+
+<PageTitle>JobListings</PageTitle>
+<h3>Listings</h3>
+<p>@temp</p>
+
+@code {
+    private String? temp;
+
+    protected override async Task OnInitializedAsync()
+    {
+        temp = await JobListingsService.FetchJobListings();
+    }
+
+    }
+

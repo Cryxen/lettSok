@@ -1,3 +1,42 @@
+/* _content/BlazorView/Pages/index.razor.rz.scp.css */
+.contentWrapper[b-dwcektb1l1] {
+    display: flex;
+    flex-direction: column;
+    flex-wrap:wrap;
+    align-items: center;
+}
+
+.contentWrapper h1[b-dwcektb1l1] {
+    font-size: xx-large;
+}
+
+.contentWrapper picture[b-dwcektb1l1] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.contentWrapper img[b-dwcektb1l1] {
+    max-width: 60%;
+}
+
+.contentWrapper form[b-dwcektb1l1] {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+}
+.contentWrapper form input[b-dwcektb1l1] {
+
+    flex-grow: 2;
+    border: none;
+    border-radius: 25px 0% 0% 20px;
+}
+.contentWrapper form button[b-dwcektb1l1] {
+    border: none;
+    background-color: white;
+    border-radius: 0% 25px 25px 0%
+}
 /* _content/BlazorView/Shared/MainLayout.razor.rz.scp.css */
 body[b-ivxfbxz1bn] {
     height: 100%;
@@ -5,10 +44,9 @@ body[b-ivxfbxz1bn] {
 
 .page[b-ivxfbxz1bn] {
     position: relative;
-    background-color: rgb(67, 150, 156);
+    background-color: #00989e;
     height: 100%;
     width: 100%;
-
     display: grid;
     grid-template-columns: auto auto auto;
     grid-template-rows: 0.5fr 2fr 0.5fr;
@@ -16,6 +54,10 @@ body[b-ivxfbxz1bn] {
         "header header nav"
         "body body nav"
         "footer footer footer";
+}
+
+#logo[b-ivxfbxz1bn] {
+    max-height:5%;
 }
 
 

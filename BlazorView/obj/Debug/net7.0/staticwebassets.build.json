@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "lyjh79eyhIUZ/0+durCAAmZix4CVeF+zr6tXV8HyUmc=",
+  "Hash": "1fNnceEMdKvG+R2h0Iv2wuKT2LdwR2T1s+6/8hZ2oEs=",
   "Source": "BlazorView",
   "BasePath": "_content/BlazorView",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/obj/Debug/net7.0/scopedcss/projectbundle/BlazorView.bundle.scp.css"
+    },
+    {
+      "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/.DS_Store",
+      "SourceId": "BlazorView",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/",
+      "BasePath": "_content/BlazorView",
+      "RelativePath": ".DS_Store",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/.DS_Store"
     },
     {
       "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/css/bootstrap/bootstrap.min.css",
@@ -270,6 +287,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.png"
+    },
+    {
+      "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/LETT-5.png",
+      "SourceId": "BlazorView",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/",
+      "BasePath": "_content/BlazorView",
+      "RelativePath": "img/LETT-5.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/LETT-5.png"
     }
   ]
 }
