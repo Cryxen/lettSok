@@ -15,11 +15,14 @@ namespace BlazorView.Data
 
             return json;
         }
-
-        public async void PostUser(User user)
+        /// <summary>
+        /// TODO: Make handling of error codes
+        /// </summary>
+        /// <param name="user"></param>
+        public async void PostUser(User user) 
         {
             var body = JsonConvert.SerializeObject(user);
-            StringContent content = new StringContent(body);
+            StringContent content = new StringContent(body, encoding: System.Text.Encoding.UTF8, "application/json");
             using var response = await client.PostAsync("https://localhost:7293/V4UserPreferencesDatabase/saveUser", content);
 
         }
