@@ -8,11 +8,39 @@
     <picture>
         <img src="img/LETT-5.png" class="logo" />
     </picture>
+    <p>@counter</p>
+    <p>@showSearch</p>
+    <EditForm Model="@searchModel" class="searchForm">
+        <input type="text" placeholder="Søk her" @bind-value="searchValue"/>
+        <button @onclick="searchPress">Søk</button>
+    </EditForm>
 
-    <form>
-        <input type="text"/>
-        <button>Søk</button>
-    </form>
+    @if (showSearch)
+        {
+            <FetchListings />
+        }
 </div>
 
 
+@code{
+    int counter;
+    bool showSearch = false;
+
+    private class SearchModel
+    {
+        public SearchModel()
+        {
+           
+        }
+    }
+
+    private SearchModel searchModel = new();
+    string? searchValue;
+    private void searchPress()
+    {
+        counter++;
+        showSearch = false ? false : true;
+    }
+
+
+}

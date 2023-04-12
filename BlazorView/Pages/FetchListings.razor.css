@@ -1,0 +1,12 @@
+﻿.listing {
+    border-style: solid;
+    margin-bottom: 2%;
+}
+
+.listing h5 {
+    border-bottom-style: dashed;
+    font-weight:800;
+    font-size: x-large;
+    margin: 2%;
+    width:fit-content;
+}

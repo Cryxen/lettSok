@@ -1,5 +1,4 @@
-﻿@page "/fetchlistings"
-@using BlazorView.Data
+﻿@using BlazorView.Data
 @using System
 @using Newtonsoft.Json
 
@@ -9,7 +8,7 @@
 <h3>Listings</h3>
 @foreach (var item in advertisementList)
     {
-        <section>
+        <section class="listing">
     <h5>@item.Title</h5>
             <p>@((MarkupString)item.Description)</p>
         </section>

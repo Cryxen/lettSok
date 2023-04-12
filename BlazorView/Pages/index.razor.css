@@ -19,7 +19,7 @@
     max-width: 60%;
 }
 
-.contentWrapper form {
+::deep form {
     display: flex;
     flex-direction: row;
     align-items: center;
