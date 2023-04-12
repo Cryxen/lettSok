@@ -1,18 +1,37 @@
 ﻿@page "/fetchlistings"
 @using BlazorView.Data
+@using System
+@using Newtonsoft.Json
+
 @inject FetchJobListingsFromDb JobListingsService
 
 <PageTitle>JobListings</PageTitle>
 <h3>Listings</h3>
-<p>@temp</p>
+@foreach (var item in advertisementList)
+    {
+        <section>
+    <h5>@item.Title</h5>
+            <p>@((MarkupString)item.Description)</p>
+        </section>
+    }
 
 @code {
-    private String? temp;
+    IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
+    string advertisementsFromDb;
 
+
+    /// <summary>
+    /// Fetch job listings from database
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
-        temp = await JobListingsService.FetchJobListings();
+        advertisementsFromDb = await JobListingsService.FetchJobListings();
+        advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
     }
 
-    }
+
+    
+    
+}
 
