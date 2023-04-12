@@ -1,4 +1,6 @@
-﻿@page "/"
+﻿@using BlazorView.Pages.Components
+
+@page "/"
 
 <PageTitle>Index</PageTitle>
 
@@ -10,15 +12,18 @@
     </picture>
     <p>@counter</p>
     <p>@showSearch</p>
+    <p>@searchValue</p>
     <EditForm Model="@searchModel" class="searchForm">
-        <input type="text" placeholder="Søk her" @bind-value="searchValue"/>
+        <input type="text" placeholder="Søk her" @bind-value="searchValue" @bind-value:event="oninput" />
         <button @onclick="searchPress">Søk</button>
     </EditForm>
 
     @if (showSearch)
-        {
-            <FetchListings />
-        }
+    {
+        <section class="listings">
+            <FetchListings SearchValue="@searchValue.ToUpper()" />
+        </section>
+    }
 </div>
 
 
@@ -26,20 +31,28 @@
     int counter;
     bool showSearch = false;
 
+    /// <summary>
+    /// Used by EditForm
+    /// </summary>
     private class SearchModel
     {
         public SearchModel()
         {
-           
         }
     }
-
     private SearchModel searchModel = new();
-    string? searchValue;
+
+    // Value of search field
+    string? searchValue = "";
+
+    /// <summary>
+    /// Method being used when search button is pressed.
+    /// </summary>
     private void searchPress()
     {
         counter++;
-        showSearch = false ? false : true;
+        showSearch ^= true;
+
     }
 
 

@@ -13,10 +13,14 @@
     <Content Remove="wwwroot\img\" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Pages\Components\" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="wwwroot\img\LETT-4.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
+    <Folder Include="Pages\Components\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

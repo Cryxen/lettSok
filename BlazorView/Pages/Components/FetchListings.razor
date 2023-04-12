@@ -1,0 +1,52 @@
+﻿@using BlazorView.Data
+@using BlazorView.Pages.Components
+@using System
+@using Newtonsoft.Json
+
+@inject FetchJobListingsFromDb JobListingsService
+<!--If statement checking if user searches for an ad. -->
+
+<p>@searchValue</p>
+@if (searchValue != "")
+{
+    @foreach (var item in advertisementList)
+    {
+        <!--if statement looking for search string in: Title, description, employer, engagement type and municipal-->
+        @if (item.Title.ToUpper().Contains(searchValue) || item.Description.ToUpper().Contains(searchValue) ||
+               item.Employer.ToUpper().Contains(searchValue) || item.EngagementType.ToUpper().Contains(searchValue) ||
+               item.Municipal.ToUpper().Contains(searchValue))
+        {
+            <DisplayListing item="item" />
+        }
+    }
+}
+else
+{
+    @foreach (var item in advertisementList)
+    {
+        <DisplayListing item="item" />
+    }
+}
+
+
+
+
+@code {
+    IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
+    string advertisementsFromDb;
+
+    [Parameter]
+    public string? searchValue { get; set; }
+
+    /// <summary>
+    /// Fetch job listings from database
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnInitializedAsync()
+    {
+        advertisementsFromDb = await JobListingsService.FetchJobListings();
+        advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
+    }
+
+}
+

@@ -1,0 +1,12 @@
+﻿@using BlazorView.Data
+
+<section class="listing">
+    <h5>@item.Title</h5>
+    <p>@((MarkupString)item.Description)</p>
+</section>
+
+@code {
+    [Parameter]
+    public Advertisement? item { get; set; }
+}
+
