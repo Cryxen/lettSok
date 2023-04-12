@@ -15,6 +15,7 @@ public class Program
         builder.Services.AddServerSideBlazor();
         builder.Services.AddSingleton<WeatherForecastService>();
         builder.Services.AddSingleton<FetchJobListingsFromDb>();
+        builder.Services.AddSingleton<FetchUserFromDb>();
 
         var app = builder.Build();
 

@@ -1,0 +1,28 @@
+﻿@page "/userpreference"
+@using BlazorView.Data
+@using Newtonsoft.Json
+@using BlazorView.Pages.Components
+
+
+@inject FetchUserFromDb UserListingService
+
+<h3>Brukerpreferanser :</h3>
+<p>@usersFromDb</p>
+@foreach (var item in users)
+    {
+        <p>@item.Name</p>
+    }
+<PostNewUser />
+
+
+@code {
+    IEnumerable<User> users = new List<User>();
+    string usersFromDb;
+
+    protected override async Task OnInitializedAsync()
+    {
+        usersFromDb = await UserListingService.FetchUser();
+        users = JsonConvert.DeserializeObject<IEnumerable<User>>(usersFromDb);
+    }
+}
+
