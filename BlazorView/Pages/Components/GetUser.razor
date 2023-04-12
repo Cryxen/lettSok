@@ -6,28 +6,26 @@
 @inject FetchUserFromDb UserListingService
 
 <h3>Brukerpreferanser :</h3>
-<p>@usersFromDb</p>
-<p>@counter</p>
 @foreach (var item in users)
 {
     <p>@item.Name</p>
+    <p>@item.Id</p>
 }
+
 
 @code {
 
-    /*
+/*
 Fetch user from db
 */
     IEnumerable<User> users = new List<User>();
     string usersFromDb;
-    int counter;
 
     protected override async Task OnInitializedAsync()
     {
         usersFromDb = await UserListingService.FetchUser();
         users = JsonConvert.DeserializeObject<IEnumerable<User>>(usersFromDb);
     }
-
 
 }
 
