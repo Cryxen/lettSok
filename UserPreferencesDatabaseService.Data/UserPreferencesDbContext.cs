@@ -8,6 +8,7 @@ namespace UserPreferencesDatabaseService.Data
     {
         public DbSet<User> users { get; set; }
         public DbSet<InterestedAdvertisement> interestedAdvertisements { get; set; }
+        public DbSet<UninterestedAdvertisement> uninterestedAdvertisements { get; set; }
 
         public UserPreferencesDbContext()
         {

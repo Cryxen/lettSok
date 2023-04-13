@@ -116,7 +116,7 @@ public class V4UserPreferencesDatabaseController : ControllerBase
     public async Task<List<V3Uninterested>> getUninterest()
     {
 
-        var responseUninterests = await _UserPreferencesDbContext.interestedAdvertisements
+        var responseUninterests = await _UserPreferencesDbContext.uninterestedAdvertisements
             .Select(uninterest => new V3Uninterested
             {
                 UserGuid = uninterest.UserId,

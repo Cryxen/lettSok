@@ -43,6 +43,21 @@ namespace BlazorView.Data
             return json;
         }
 
+        public async void PostUninterest(Interest interest)
+        {
+
+            var body = JsonConvert.SerializeObject(interest);
+            StringContent content = new StringContent(body, encoding: System.Text.Encoding.UTF8, "application/json");
+            using var response = await client.PostAsync("https://localhost:7293/V3UserPreferencesDatabase/saveUninterest", content);
+        }
+
+        public async Task<string> FetchUninterest()
+        {
+            string json = await client.GetStringAsync("https://localhost:7293/V4UserPreferencesDatabase/getUninterest");
+
+            return json;
+        }
+
     }
 }
 

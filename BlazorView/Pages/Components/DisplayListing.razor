@@ -16,7 +16,13 @@
         {
             <button @onclick="saveLikes">Liker</button>
         }
-        <button>Liker ikke</button>
+        @if (loggedInUser.uninterests.Contains(item.Uuid))
+        {
+        <button>Markert ikke likt</button>
+        }
+        else {
+        <button @onclick="saveNotLikes">Liker ikke</button>
+        }
     </section>
     }
 
@@ -33,12 +39,29 @@
     private void saveLikes()
     {
         showListing = false;
+
+        //Interests
         Interest interest = new();
         interest.userGuid = loggedInUser.Id;
         interest.advertisementUuid = item.Uuid;
 
         userFromDb.PostInterest(interest);
         loggedInUser.interests.Add(item.Uuid);
+        Task.Delay(5);
+        showListing = true;
+    }
+
+    private void saveNotLikes()
+    {
+        showListing = false;
+
+        //Interests
+        Interest interest = new();
+        interest.userGuid = loggedInUser.Id;
+        interest.advertisementUuid = item.Uuid;
+
+        userFromDb.PostUninterest(interest);
+        loggedInUser.uninterests.Add(item.Uuid);
         Task.Delay(5);
         showListing = true;
     }

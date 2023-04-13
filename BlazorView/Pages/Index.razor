@@ -62,12 +62,19 @@
         showSearch ^= true;
     }
 
+    //Interests
     string? interestsFromDb;
     IEnumerable<Interest> interests = new List<Interest>();
     List<string> commonInterests = new List<string>();
 
+    //Uninterests
+    string? uninterestsFromDb;
+    IEnumerable<Interest> uninterests = new List<Interest>();
+    List<string> commonUninterests = new List<string>();
+
     protected override async Task OnInitializedAsync()
     {
+        // Interests
         interestsFromDb = await UserListingService.FetchInterest();
         interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(interestsFromDb);
 
@@ -79,6 +86,19 @@
             }
         }
         loggedInUser.interests = commonInterests;
+
+        // Uninterests
+        uninterestsFromDb = await UserListingService.FetchUninterest();
+        uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(uninterestsFromDb);
+
+        foreach (var item in uninterests)
+        {
+            if (item.userGuid == loggedInUser.Id)
+            {
+                commonUninterests.Add(item.advertisementUuid);
+            }
+        }
+        loggedInUser.uninterests = commonUninterests;
     }
 
 
