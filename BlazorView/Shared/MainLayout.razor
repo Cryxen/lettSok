@@ -1,5 +1,8 @@
 ﻿@inherits LayoutComponentBase
+
 @using BlazorView.Data
+
+
 <CascadingValue Value="@loggedInUser">
     <PageTitle>BlazorView</PageTitle>
     <div class="page">
@@ -21,5 +24,6 @@
     @code{
         private LoggedInUserService loggedInUser = new LoggedInUserService();
 
-    }
+
+}
 

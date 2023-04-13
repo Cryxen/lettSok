@@ -7,6 +7,8 @@ namespace BlazorView.Data
 
         public string Name { get; set; }
 
+        public List<string> interests { get; set; }
+
         public LoggedInUserService()
         {
             Name = "Standard Bruker";

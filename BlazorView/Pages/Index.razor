@@ -1,6 +1,8 @@
 ﻿@using BlazorView.Pages.Components
 @using BlazorView.Data
-@inject LoggedInUserService loggedInUser
+@using Newtonsoft.Json
+
+@inject FetchUserFromDb UserListingService
 
 @page "/"
 
@@ -19,7 +21,8 @@
         <input type="text" placeholder="Søk her" @bind-value="searchValue" @bind-value:event="oninput" />
         <button @onclick="searchPress">Søk</button>
     </EditForm>
-
+    <p>@loggedInUser.Name</p>
+   
     @if (showSearch)
     {
         <section class="listings">
@@ -30,6 +33,9 @@
 
 
 @code{
+    [CascadingParameter]
+    public LoggedInUserService? loggedInUser { get; set; }
+
     int counter;
     bool showSearch = false;
 
@@ -54,6 +60,25 @@
     {
         counter++;
         showSearch ^= true;
+    }
+
+    string? interestsFromDb;
+    IEnumerable<Interest> interests = new List<Interest>();
+    List<string> commonInterests = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        interestsFromDb = await UserListingService.FetchInterest();
+        interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(interestsFromDb);
+
+        foreach (var item in interests)
+        {
+            if (item.userGuid == loggedInUser.Id)
+            {
+                commonInterests.Add(item.advertisementUuid);
+            }
+        }
+        loggedInUser.interests = commonInterests;
     }
 
 

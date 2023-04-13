@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 namespace BlazorView.Data
 {
 	public class FetchUserFromDb
+
+
 	{
 		
 
@@ -24,6 +26,21 @@ namespace BlazorView.Data
             var body = JsonConvert.SerializeObject(user);
             StringContent content = new StringContent(body, encoding: System.Text.Encoding.UTF8, "application/json");
             using var response = await client.PostAsync("https://localhost:7293/V4UserPreferencesDatabase/saveUser", content);
+        }
+
+        public async void PostInterest(Interest interest)
+        {
+            
+            var body = JsonConvert.SerializeObject(interest);
+            StringContent content = new StringContent(body, encoding: System.Text.Encoding.UTF8, "application/json");
+            using var response = await client.PostAsync("https://localhost:7293/V3UserPreferencesDatabase/saveInterest", content);
+        }
+
+        public async Task<string> FetchInterest()
+        {
+            string json = await client.GetStringAsync("https://localhost:7293/V4UserPreferencesDatabase/getInterest");
+
+            return json;
         }
 
     }

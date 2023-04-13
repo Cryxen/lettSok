@@ -1,12 +1,47 @@
 ﻿@using BlazorView.Data
+@inject FetchUserFromDb userFromDb
 
-<section class="listing">
-    <h5>@item.Title</h5>
-    <p>@((MarkupString)item.Description)</p>
-</section>
+
+@if (showListing)
+    {
+    <section class="listing">
+        <h5>@item.Title</h5>
+        <p>@((MarkupString)item.Description)</p>
+        @if (loggedInUser.interests.Contains(item.Uuid))
+        {
+            <button>Likt</button>
+
+        }
+        else
+        {
+            <button @onclick="saveLikes">Liker</button>
+        }
+        <button>Liker ikke</button>
+    </section>
+    }
+
 
 @code {
+    bool showListing = true;
+
     [Parameter]
     public Advertisement? item { get; set; }
+
+    [CascadingParameter]
+    public LoggedInUserService? loggedInUser { get; set; }
+
+    private void saveLikes()
+    {
+        showListing = false;
+        Interest interest = new();
+        interest.userGuid = loggedInUser.Id;
+        interest.advertisementUuid = item.Uuid;
+
+        userFromDb.PostInterest(interest);
+        loggedInUser.interests.Add(item.Uuid);
+        Task.Delay(5);
+        showListing = true;
+    }
+
 }
 
