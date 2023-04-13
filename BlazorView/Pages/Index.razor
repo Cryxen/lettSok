@@ -1,4 +1,6 @@
 ﻿@using BlazorView.Pages.Components
+@using BlazorView.Data
+@inject LoggedInUserService loggedInUser
 
 @page "/"
 
@@ -52,7 +54,6 @@
     {
         counter++;
         showSearch ^= true;
-
     }
 
 

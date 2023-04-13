@@ -1,6 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using BlazorView.Data
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a href="userpreference">Bruker</a>
+        <a href="userpreference">@loggedInUser.Name</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -32,9 +34,13 @@
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
+    [CascadingParameter]
+    public LoggedInUserService? loggedInUser { get; set; }
+
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
 }
 

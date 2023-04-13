@@ -24,7 +24,6 @@ namespace BlazorView.Data
             var body = JsonConvert.SerializeObject(user);
             StringContent content = new StringContent(body, encoding: System.Text.Encoding.UTF8, "application/json");
             using var response = await client.PostAsync("https://localhost:7293/V4UserPreferencesDatabase/saveUser", content);
-
         }
 
     }

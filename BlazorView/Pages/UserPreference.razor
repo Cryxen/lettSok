@@ -3,8 +3,9 @@
 @using Newtonsoft.Json
 @using BlazorView.Pages.Components
 
-
 @inject FetchUserFromDb UserListingService
+
+
 
 @if (showUsers)
 {
@@ -19,6 +20,9 @@
 </EditForm>
 
 @code {
+
+    [CascadingParameter]
+    public LoggedInUserService? loggedInUser { get; set; }
 
     private class FormModel
     {

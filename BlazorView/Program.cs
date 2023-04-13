@@ -16,6 +16,7 @@ public class Program
         builder.Services.AddSingleton<WeatherForecastService>();
         builder.Services.AddSingleton<FetchJobListingsFromDb>();
         builder.Services.AddSingleton<FetchUserFromDb>();
+        builder.Services.AddSingleton<LoggedInUserService>();
 
         var app = builder.Build();
 
