@@ -89,7 +89,7 @@
         interest.advertisementUuid = item.Uuid;
 
         userFromDb.DeleteInterest(interest);
-        loggedInUser.uninterests.Remove(item.Uuid);
+        loggedInUser.interests.Remove(item.Uuid);
         Task.Delay(5);
         showListing = true;
     }
