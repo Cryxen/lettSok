@@ -45,9 +45,9 @@ namespace BlazorView.Data
             return json;
         }
 
-        public async Task DeleteInterest(Interest interest)
+        public async void DeleteInterest(Interest interest)
         {
-            string uri = $"https://localhost:7293/V5UserPreferencesDatabase/deleteUninterest?UserGuid={interest.userGuid}&AdvertisementUuid={interest.advertisementUuid}";
+            string uri = $"https://localhost:7293/V5UserPreferencesDatabase/deleteInterest?UserGuid={interest.userGuid}&AdvertisementUuid={interest.advertisementUuid}";
             using var response = await client.DeleteAsync(uri);
         }
 
@@ -66,7 +66,7 @@ namespace BlazorView.Data
             return json;
         }
 
-        public async Task DeleteUninterest(Interest interest)
+        public async void DeleteUninterest(Interest interest)
         {
             string uri = $"https://localhost:7293/V5UserPreferencesDatabase/deleteUninterest?UserGuid={interest.userGuid}&AdvertisementUuid={interest.advertisementUuid}";
             using var response = await client.DeleteAsync(uri);

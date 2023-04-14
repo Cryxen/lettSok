@@ -66,31 +66,29 @@
         showListing = true;
     }
 
-    private async void deleteNotLikes()
+    private void deleteNotLikes()
     {
         showListing = false;
 
-        //Interests
         Interest interest = new();
         interest.userGuid = loggedInUser.Id;
         interest.advertisementUuid = item.Uuid;
 
-        await userFromDb.DeleteUninterest(interest);
-        loggedInUser.uninterests.Add(item.Uuid);
+        userFromDb.DeleteUninterest(interest);
+        loggedInUser.uninterests.Remove(item.Uuid);
         Task.Delay(5);
         showListing = true;
     }
 
-    private async void deleteLikes()
+    private void deleteLikes()
     {
         showListing = false;
 
-        //Interests
         Interest interest = new();
         interest.userGuid = loggedInUser.Id;
         interest.advertisementUuid = item.Uuid;
 
-        await userFromDb.DeleteInterest(interest);
+        userFromDb.DeleteInterest(interest);
         loggedInUser.uninterests.Remove(item.Uuid);
         Task.Delay(5);
         showListing = true;
