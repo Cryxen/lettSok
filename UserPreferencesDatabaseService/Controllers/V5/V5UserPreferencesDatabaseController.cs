@@ -110,18 +110,18 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     }
 
     /// <summary>
-    /// Deletes interest
+    /// Deletes interest from database
     /// TODO: Add a return method to see that everything went ok.
     /// </summary>
     /// <param name="v3Interested"></param>
     /// <returns></returns>
     [HttpDelete("deleteInterest")]
-    public async Task DeleteInterest(V3Interested v3Interested)
+    public async Task DeleteInterest(Guid UserGuid, string AdvertisementUuid)
     {
         List<V3Interested>interests = await getInterest();
         foreach (var item in interests)
         {
-            if (item.AdvertisementUuid == v3Interested.AdvertisementUuid && item.UserGuid == v3Interested.UserGuid)
+            if (item.AdvertisementUuid == AdvertisementUuid && item.UserGuid == UserGuid)
             {
                 _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.interestedAdvertisements.Single(i => i.Id == item.Id ));
             }
@@ -175,13 +175,19 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         return result;
     }
 
+    /// <summary>
+    /// Deletes uninterest from database
+    /// TODO: Concider making return
+    /// </summary>
+    /// <param name="v3Uninterested"></param>
+    /// <returns></returns>
     [HttpDelete("deleteUninterest")]
-    public async Task deleteUninterest(V3Uninterested v3Uninterested)
+    public async Task deleteUninterest(Guid UserGuid, string AdvertisementUuid)
     {
         List<V3Uninterested> uninterests = await getUninterest();
         foreach (var item in uninterests)
         {
-            if (item.AdvertisementUuid == v3Uninterested.AdvertisementUuid && item.UserGuid == v3Uninterested.UserGuid)
+            if (item.AdvertisementUuid == AdvertisementUuid && item.UserGuid == UserGuid)
             {
                 _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.uninterestedAdvertisements.Single(i => i.Id == item.Id));
             }

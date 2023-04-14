@@ -61,6 +61,10 @@
       "PackagePath": "staticwebassets/favicon.png"
     },
     {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/.DS_Store",
+      "PackagePath": "staticwebassets/img/.DS_Store"
+    },
+    {
       "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/LETT-5.png",
       "PackagePath": "staticwebassets/img/LETT-5.png"
     },

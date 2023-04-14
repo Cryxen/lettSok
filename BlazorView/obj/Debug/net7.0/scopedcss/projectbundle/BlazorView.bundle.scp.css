@@ -1,3 +1,16 @@
+/* _content/BlazorView/Pages/Components/DisplayListing.razor.rz.scp.css */
+.listing[b-2gdzlh0gqm] {
+    border-style: solid;
+    margin-bottom: 2%;
+}
+
+.listing h5[b-2gdzlh0gqm] {
+    border-bottom-style: dashed;
+    font-weight:800;
+    font-size: x-large;
+    margin: 2%;
+    width:fit-content;
+}
 /* _content/BlazorView/Pages/index.razor.rz.scp.css */
 .contentWrapper[b-dwcektb1l1] {
     display: flex;
@@ -20,7 +33,7 @@
     max-width: 60%;
 }
 
-.contentWrapper form[b-dwcektb1l1] {
+[b-dwcektb1l1] form {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -36,6 +49,10 @@
     border: none;
     background-color: white;
     border-radius: 0% 25px 25px 0%
+}
+
+.listings[b-dwcektb1l1] {
+    margin-top: 2%;
 }
 /* _content/BlazorView/Shared/MainLayout.razor.rz.scp.css */
 body[b-ivxfbxz1bn] {

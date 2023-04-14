@@ -31,3 +31,6 @@
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/obj/Debug/net7.0/BlazorView.genruntimeconfig.cache
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/obj/Debug/net7.0/ref/BlazorView.dll
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/obj/Debug/net7.0/scopedcss/Pages/index.razor.rz.scp.css
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/bin/Debug/net7.0/Newtonsoft.Json.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/obj/Debug/net7.0/BlazorView.csproj.CopyComplete
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/obj/Debug/net7.0/scopedcss/Pages/Components/DisplayListing.razor.rz.scp.css

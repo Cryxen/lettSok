@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "1fNnceEMdKvG+R2h0Iv2wuKT2LdwR2T1s+6/8hZ2oEs=",
+  "Hash": "f31gwo9LRba01/mun7urRyoJZLOu9nc54zFWkFKP1TI=",
   "Source": "BlazorView",
   "BasePath": "_content/BlazorView",
   "Mode": "Default",
@@ -287,6 +287,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.png"
+    },
+    {
+      "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/.DS_Store",
+      "SourceId": "BlazorView",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/",
+      "BasePath": "_content/BlazorView",
+      "RelativePath": "img/.DS_Store",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/.DS_Store"
     },
     {
       "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/LETT-5.png",

@@ -9,7 +9,7 @@
         <p>@((MarkupString)item.Description)</p>
         @if (loggedInUser.interests.Contains(item.Uuid))
         {
-            <button>Likt</button>
+            <button @onclick="deleteLikes">Likt</button>
 
         }
         else
@@ -18,7 +18,7 @@
         }
         @if (loggedInUser.uninterests.Contains(item.Uuid))
         {
-        <button>Markert ikke likt</button>
+        <button @onclick="deleteNotLikes">Markert ikke likt</button>
         }
         else {
         <button @onclick="saveNotLikes">Liker ikke</button>
@@ -62,6 +62,36 @@
 
         userFromDb.PostUninterest(interest);
         loggedInUser.uninterests.Add(item.Uuid);
+        Task.Delay(5);
+        showListing = true;
+    }
+
+    private async void deleteNotLikes()
+    {
+        showListing = false;
+
+        //Interests
+        Interest interest = new();
+        interest.userGuid = loggedInUser.Id;
+        interest.advertisementUuid = item.Uuid;
+
+        await userFromDb.DeleteUninterest(interest);
+        loggedInUser.uninterests.Add(item.Uuid);
+        Task.Delay(5);
+        showListing = true;
+    }
+
+    private async void deleteLikes()
+    {
+        showListing = false;
+
+        //Interests
+        Interest interest = new();
+        interest.userGuid = loggedInUser.Id;
+        interest.advertisementUuid = item.Uuid;
+
+        await userFromDb.DeleteInterest(interest);
+        loggedInUser.uninterests.Remove(item.Uuid);
         Task.Delay(5);
         showListing = true;
     }

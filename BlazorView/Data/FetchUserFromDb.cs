@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace BlazorView.Data
 {
@@ -43,6 +45,12 @@ namespace BlazorView.Data
             return json;
         }
 
+        public async Task DeleteInterest(Interest interest)
+        {
+            string uri = $"https://localhost:7293/V5UserPreferencesDatabase/deleteUninterest?UserGuid={interest.userGuid}&AdvertisementUuid={interest.advertisementUuid}";
+            using var response = await client.DeleteAsync(uri);
+        }
+
         public async void PostUninterest(Interest interest)
         {
 
@@ -58,6 +66,11 @@ namespace BlazorView.Data
             return json;
         }
 
+        public async Task DeleteUninterest(Interest interest)
+        {
+            string uri = $"https://localhost:7293/V5UserPreferencesDatabase/deleteUninterest?UserGuid={interest.userGuid}&AdvertisementUuid={interest.advertisementUuid}";
+            using var response = await client.DeleteAsync(uri);
+        }
     }
 }
 
