@@ -72,6 +72,10 @@
     IEnumerable<Interest> uninterests = new List<Interest>();
     List<string> commonUninterests = new List<string>();
 
+    //Users
+    IEnumerable<User> users = new List<User>();
+    string usersFromDb;
+
     protected override async Task OnInitializedAsync()
     {
         // Interests
@@ -99,6 +103,16 @@
             }
         }
         loggedInUser.uninterests = commonUninterests;
+
+
+        usersFromDb = await UserListingService.FetchUser();
+        users = JsonConvert.DeserializeObject<IEnumerable<User>>(usersFromDb);
+        if (loggedInUser.Name == null)
+        {
+            loggedInUser.Name = users.First().Name;
+            loggedInUser.Id = users.First().Id;
+        }
+
     }
 
 

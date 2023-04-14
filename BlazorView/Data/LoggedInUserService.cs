@@ -1,5 +1,6 @@
 ﻿using System;
 namespace BlazorView.Data
+
 {
 	public class LoggedInUserService
 	{
@@ -9,13 +10,6 @@ namespace BlazorView.Data
 
         public List<string> interests { get; set; }
         public List<string> uninterests { get; set; }
-
-
-        public LoggedInUserService()
-        {
-            Name = "Standard Bruker";
-        }
-     
     }
 }
 
