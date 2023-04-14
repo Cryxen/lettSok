@@ -78,6 +78,15 @@
 
     protected override async Task OnInitializedAsync()
     {
+        usersFromDb = await UserListingService.FetchUser();
+        users = JsonConvert.DeserializeObject<IEnumerable<User>>(usersFromDb);
+        if (loggedInUser.Name == null)
+        {
+            loggedInUser.Name = users.First().Name;
+            loggedInUser.Id = users.First().Id;
+        }
+
+
         // Interests
         interestsFromDb = await UserListingService.FetchInterest();
         interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(interestsFromDb);
@@ -105,13 +114,7 @@
         loggedInUser.uninterests = commonUninterests;
 
 
-        usersFromDb = await UserListingService.FetchUser();
-        users = JsonConvert.DeserializeObject<IEnumerable<User>>(usersFromDb);
-        if (loggedInUser.Name == null)
-        {
-            loggedInUser.Name = users.First().Name;
-            loggedInUser.Id = users.First().Id;
-        }
+
 
     }
 

@@ -1,0 +1,27 @@
+﻿@using BlazorView.Data
+@using Newtonsoft.Json
+@inject FetchJobListingsFromDb JobListingsService
+
+
+<h3>Stillinger som er markert som ikke likt:</h3>
+
+    @code {
+
+        IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
+        string advertisementsFromDb;
+
+        [CascadingParameter]
+        public bool showNotLikedListings { get; set; }
+
+        /// <summary>
+        /// Fetch job listings from database
+        /// </summary>
+        /// <returns></returns>
+        protected override async Task OnInitializedAsync()
+        {
+            advertisementsFromDb = await JobListingsService.FetchJobListings();
+            advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
+
+        }
+    }
+
