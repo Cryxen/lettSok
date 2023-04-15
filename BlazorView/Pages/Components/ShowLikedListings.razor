@@ -13,6 +13,10 @@
         <button @onclick="() => RemoveFromInterests(item)">Fjern fra likt kategori</button>
     }
 }
+@if (loggedInUser.interests.Count() == 0)
+{
+        <p>Ingen stillinger er markert som likt</p>
+}
 
 @code {
     IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
