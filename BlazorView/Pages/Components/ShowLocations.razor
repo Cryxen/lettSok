@@ -3,24 +3,35 @@
 @inject FetchLocationsFromDb LocationService
 
 <h3>Kommuner:</h3>
+@if (showPreferred)
+    {
+        <p>@showPreferred</p>
 <EditForm Model="locationModel">
     <select @bind="selectedLocation">
         <option value="">Velg kommune</option>
         @foreach (var item in locations)
             {
+            @if (!prefferedLocations.Any(i => i.LocationId == item.Id))
+                {
                 <option value="@item.Id">@item.Municipality</option>
+                }
             }
     </select>
     <button @onclick="selectLocation">Velg kommune</button>
 
 </EditForm>
-<p>Lokasjon:</p>
-@foreach (var item in prefferedLocations)
+<p>Lokasjoner lagt til:</p>
+@foreach (var item in locations)
     {
-        <p> Location id: @item.LocationId</p>
-    }
+    @if (prefferedLocations.Any(i => i.LocationId == item.Id))
+        {
+        <p>@item.Municipality</p>
 
+        }
+    }
+    }
 @code {
+    bool showPreferred;
 
     [CascadingParameter]
     public LoggedInUserService? loggedInUser { get; set; }
@@ -43,6 +54,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        showPreferred = true;
+
         // Fetch list of municipalities in Norway from db
         locationsFromDb = await LocationService.FetchLocations();
         locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsFromDb);
@@ -52,13 +65,20 @@
         prefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(preferredLocationsFromDb);
     }
 
-    private void selectLocation()
+    private async void selectLocation()
     {
+        showPreferred = false;
+        await Task.Delay(10);
+
         PreferredLocation preferredLocation = new();
         preferredLocation.UserId = loggedInUser.Id;
         preferredLocation.LocationId = selectedLocation;
 
         LocationService.PostPreferredLocation(preferredLocation);
-}
+
+        showPreferred = true;
+
+
+    }
 }
 
