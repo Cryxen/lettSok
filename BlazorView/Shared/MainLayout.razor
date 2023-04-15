@@ -1,7 +1,9 @@
 ﻿@inherits LayoutComponentBase
 
 @using BlazorView.Data
+@using Newtonsoft.Json
 
+@inject FetchUserFromDb UserListingService
 
 <CascadingValue Value="@loggedInUser">
     <PageTitle>BlazorView</PageTitle>
@@ -19,11 +21,63 @@
             <MainFooter />
         </div>
     </div>
-    </CascadingValue>
+</CascadingValue>
 
-    @code{
-        private LoggedInUserService loggedInUser = new LoggedInUserService();
+@code{
+    private LoggedInUserService loggedInUser = new LoggedInUserService();
+
+    //Interests
+    string? interestsFromDb;
+    IEnumerable<Interest> interests = new List<Interest>();
+    List<string> commonInterests = new List<string>();
+
+    //Uninterests
+    string? uninterestsFromDb;
+    IEnumerable<Interest> uninterests = new List<Interest>();
+    List<string> commonUninterests = new List<string>();
+
+    //Users
+    IEnumerable<User> users = new List<User>();
+    string usersFromDb;
 
 
+    protected override async Task OnInitializedAsync()
+    {
+
+        usersFromDb = await UserListingService.FetchUser();
+        users = JsonConvert.DeserializeObject<IEnumerable<User>>(usersFromDb);
+        if (loggedInUser.Name == null)
+        {
+            loggedInUser.Name = users.First().Name;
+            loggedInUser.Id = users.First().Id;
+        }
+
+        // Interests
+        interestsFromDb = await UserListingService.FetchInterest();
+        interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(interestsFromDb);
+
+        foreach (var item in interests)
+        {
+            if (item.userGuid == loggedInUser.Id)
+            {
+                commonInterests.Add(item.advertisementUuid);
+            }
+        }
+        loggedInUser.interests = commonInterests;
+
+        // Uninterests
+        uninterestsFromDb = await UserListingService.FetchUninterest();
+        uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(uninterestsFromDb);
+
+        foreach (var item in uninterests)
+        {
+            if (item.userGuid == loggedInUser.Id)
+            {
+                commonUninterests.Add(item.advertisementUuid);
+            }
+        }
+        loggedInUser.uninterests = commonUninterests;
+
+    }
 }
 

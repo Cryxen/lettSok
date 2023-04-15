@@ -1,17 +1,29 @@
 ﻿@using BlazorView.Data
 @using Newtonsoft.Json
 @inject FetchJobListingsFromDb JobListingsService
+@inject FetchUserFromDb UserListingService
 
 
 <h3>Stillinger som er markert som ikke likt:</h3>
-
+@foreach (var item in advertisementList)
+    {
+        if (loggedInUser.uninterests.Contains(item.Uuid))
+        {
+            <p>@item.Title</p>
+        }
+    }
     @code {
 
         IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
         string advertisementsFromDb;
 
         [CascadingParameter]
-        public bool showNotLikedListings { get; set; }
+        public LoggedInUserService? loggedInUser { get; set; }
+
+        //Uninterests
+        string? uninterestsFromDb;
+        IEnumerable<Interest> uninterests = new List<Interest>();
+        List<string> commonUninterests = new List<string>();
 
         /// <summary>
         /// Fetch job listings from database
@@ -21,6 +33,19 @@
         {
             advertisementsFromDb = await JobListingsService.FetchJobListings();
             advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
+
+            // Fetch uninterests TODO: Try to make this global at some point
+            uninterestsFromDb = await UserListingService.FetchUninterest();
+            uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(uninterestsFromDb);
+
+            foreach (var item in uninterests)
+            {
+                if (item.userGuid == loggedInUser.Id)
+                {
+                    commonUninterests.Add(item.advertisementUuid);
+                }
+            }
+            loggedInUser.uninterests = commonUninterests;
 
         }
     }

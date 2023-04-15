@@ -12,12 +12,16 @@
     <GetUser />
 }
 
+<ShowNotLikedListings />
+
 
 <h3>Legg til ny bruker</h3>
 <EditForm Model="formModel">
     <input type="text" @bind-value="name" @bind-value:event="oninput" />
     <button @onclick="submitUser">Legg til bruker</button>
 </EditForm>
+
+
 
 @code {
 
