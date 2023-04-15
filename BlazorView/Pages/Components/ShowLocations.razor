@@ -1,0 +1,22 @@
+﻿@using BlazorView.Data
+@using Newtonsoft.Json
+@inject FetchLocationsFromDb LocationService
+
+<h3>Kommuner:</h3>
+@foreach (var item in locations)
+    {
+        <p>@item.Municipality - @item.Id </p>
+    }
+
+@code {
+
+    string? locationsFromDb;
+    IEnumerable<Location> locations = new List<Location>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        locationsFromDb = await LocationService.FetchLocations();
+        locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsFromDb);
+    }
+}
+

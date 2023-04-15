@@ -36,6 +36,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9TaG93TGlrZWRMaXN0aW5ncy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/Pages/Components/ShowLocations.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9TaG93TG9jYXRpb25zLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/Pages/Components/ShowNotLikedListings.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29tcG9uZW50cy9TaG93Tm90TGlrZWRMaXN0aW5ncy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

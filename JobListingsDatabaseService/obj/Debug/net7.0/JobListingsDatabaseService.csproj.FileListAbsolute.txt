@@ -89,3 +89,4 @@
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/runtimes/win/lib/netcoreapp3.0/System.Windows.Extensions.dll
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/JobListingsDatabaseService.Data.dll
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/JobListingsDatabaseService.Data.pdb
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/Newtonsoft.Json.dll
