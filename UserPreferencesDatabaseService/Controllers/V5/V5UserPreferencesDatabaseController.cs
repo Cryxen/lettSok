@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using UserPreferencesDatabaseService.Data;
 using UserPreferencesDatabaseService.Model.V3;
 using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
@@ -11,6 +12,7 @@ namespace UserPreferencesDatabaseService.Controllers.V5;
 public class V5UserPreferencesDatabaseController : ControllerBase
 {
 
+    private static HttpClient client = new HttpClient();
 
     private readonly ILogger<V5UserPreferencesDatabaseController> _logger;
     private readonly UserPreferencesDbContext _UserPreferencesDbContext;
@@ -208,9 +210,11 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         return responseLocations;
     }
 
+
     [HttpPost("saveLocation")]
     public async Task<V3Result<V3Location>> saveLocation(V3Location v3Location)
     {
+
         var location = new Data.Location()
         {
             Municipality = v3Location.Municipality,
@@ -261,5 +265,26 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         return result;
     }
 
+    /// <summary>
+    /// Fetches municipalities from https://ws.geonorge.no/kommuneinfo/v1/#/default/get_kommuner
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task getMunipalitiesFromPublicAPI()
+    {
+        IEnumerable<V3Location> locations = new List<V3Location>();
+
+        var jsonUrl = "https://ws.geonorge.no/kommuneinfo/v1/kommuner";
+        string? json = await client.GetStringAsync("https://ws.geonorge.no/kommuneinfo/v1/kommuner");
+
+        locations = JsonConvert.DeserializeObject<IEnumerable<V3Location>>(json.Replace("kommunenavn", "Municipality"));
+
+        foreach (var item in locations)
+        {
+            await saveLocation(item);
+        }
+
+    }
+    
 }
 

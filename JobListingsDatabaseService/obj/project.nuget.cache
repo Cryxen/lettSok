@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "mZvEiSanbeRWKyJA6otXnjh4VVPa2aWm8bRWyJ7fTiAqcmKgqhJwUzyY1hiSjbsG4eaL6C77OrEvEUlK01kj7Q==",
+  "dgSpecHash": "ZX2TYrg+mEmwHqlYVheW9xi70DDbWeOlqpleAaKtLMPKS8uX0xwMEwsvD4dvRws20Yk0nIe8XQBUO43RNPP+oA==",
   "success": true,
   "projectFilePath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/JobListingsDatabaseService.csproj",
   "expectedPackageFiles": [
@@ -50,6 +50,7 @@
     "/Users/hakonstrom/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
     "/Users/hakonstrom/.nuget/packages/mysql.data/8.0.32/mysql.data.8.0.32.nupkg.sha512",
     "/Users/hakonstrom/.nuget/packages/mysql.entityframeworkcore/7.0.0/mysql.entityframeworkcore.7.0.0.nupkg.sha512",
+    "/Users/hakonstrom/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
     "/Users/hakonstrom/.nuget/packages/portable.bouncycastle/1.9.0/portable.bouncycastle.1.9.0.nupkg.sha512",
     "/Users/hakonstrom/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "/Users/hakonstrom/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
