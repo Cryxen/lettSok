@@ -205,6 +205,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     .Select(location => new V3Location
     {
         Municipality = location.Municipality,
+        Id = location.Id
 
     }).ToListAsync();
 
