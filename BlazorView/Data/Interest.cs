@@ -5,6 +5,6 @@ namespace BlazorView.Data
 	{
 		public Guid userGuid { get; set; }
 		public string advertisementUuid { get; set; }
-	}
+    }
 }
 

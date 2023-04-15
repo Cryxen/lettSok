@@ -9,7 +9,7 @@
     {
         if (loggedInUser.uninterests.Contains(item.Uuid))
         {
-            <p>@item.Title</p>
+            <p>@item.Title</p> <button @onclick="() => RemoveFromUninterests(item)">Fjern fra ikke likt kategori</button>
         }
     }
     @code {
@@ -46,7 +46,16 @@
                 }
             }
             loggedInUser.uninterests = commonUninterests;
-
         }
+
+        private void RemoveFromUninterests(Advertisement advertisement)
+{
+            Interest interest = new();
+            interest.userGuid = loggedInUser.Id;
+            interest.advertisementUuid = advertisement.Uuid;
+
+            UserListingService.DeleteUninterest(interest);
+            loggedInUser.uninterests.Remove(advertisement.Uuid);
+}
     }
 
