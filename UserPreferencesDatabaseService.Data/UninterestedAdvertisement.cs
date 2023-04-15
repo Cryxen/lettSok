@@ -1,5 +1,5 @@
 ﻿using System;
-namespace JobListingsDatabaseService.Data
+namespace UserPreferencesDatabaseService.Data
 {
     public class UninterestedAdvertisement
     {

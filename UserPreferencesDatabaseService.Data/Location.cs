@@ -1,16 +1,14 @@
 ﻿using System;
-using JobListingsDatabaseService.Data;
 
 namespace UserPreferencesDatabaseService.Data
 {
-	public class SearchLocation
+	public class Location
 	{
         public int Id { get; set; }
 
-        public string Location { get; set; }
+        public string Municipality { get; set; }
 
-        public List<User> Users { get; } = new();
-
+        public ICollection<SearchLocation> searchLocations { get; set; }
     }
 }
 

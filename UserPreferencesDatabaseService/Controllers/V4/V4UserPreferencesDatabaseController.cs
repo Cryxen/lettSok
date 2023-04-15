@@ -1,5 +1,4 @@
-﻿using JobListingsDatabaseService.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UserPreferencesDatabaseService.Data;
 using UserPreferencesDatabaseService.Model.V3;

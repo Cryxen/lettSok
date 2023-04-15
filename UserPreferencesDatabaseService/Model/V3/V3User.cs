@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.Json.Serialization;
-using JobListingsDatabaseService.Data;
 
 namespace UserPreferencesDatabaseService.Model.V3
 {

@@ -1,5 +1,4 @@
 ﻿using System;
-using JobListingsDatabaseService.Data;
 
 namespace UserPreferencesDatabaseService.Model.V2
 {

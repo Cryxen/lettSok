@@ -1,8 +1,8 @@
-﻿using JobListingsDatabaseService.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UserPreferencesDatabaseService.Data;
 using UserPreferencesDatabaseService.Model.V3;
+using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 namespace UserPreferencesDatabaseService.Controllers.V5;
 
@@ -194,39 +194,69 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         }
         await _UserPreferencesDbContext.SaveChangesAsync();
     }
-
+    
     [HttpGet("getLocations")]
-    public async Task<List<V3SearchLocation>> getLocations()
+    public async Task<List<V3Location>> getLocations()
     {
-        var responseLocations = await _UserPreferencesDbContext.searchLocations
-    .Select(location => new V3SearchLocation
+        var responseLocations = await _UserPreferencesDbContext.locations
+    .Select(location => new V3Location
     {
-        UserGuid = location.UserId,
-        Location = location.Location,
-        Id = location.Id
+        Municipality = location.Municipality,
 
     }).ToListAsync();
 
         return responseLocations;
     }
 
-    [HttpPost("saveSearchLocations")]
-    public async Task<V3Result<V3SearchLocation>> saveSearchLocations(V3SearchLocation v3SearchLocation)
+    [HttpPost("saveLocation")]
+    public async Task<V3Result<V3Location>> saveLocation(V3Location v3Location)
     {
-        var location = new SearchLocation()
+        var location = new Data.Location()
         {
-            Location = v3SearchLocation.Location,
-            UserId = v3SearchLocation.UserGuid,
+            Municipality = v3Location.Municipality,
         };
         _UserPreferencesDbContext.Add(location);
+
+        await _UserPreferencesDbContext.SaveChangesAsync();
+
+        var result = new V3Result<V3Location>();
+        result.Value = new V3Location
+        {
+            Municipality = v3Location.Municipality,
+        };
+        return result;
+    }
+
+    [HttpGet("getSearchLocations")]
+    public async Task<List<V3SearchLocation>> getSearchLocations()
+    {
+        var responseLocations = await _UserPreferencesDbContext.searchLocations
+        .Select(searchLocation => new V3SearchLocation
+        {
+            UserId = searchLocation.UserId,
+            LocationId = searchLocation.LocationId
+        }).ToListAsync();
+
+        return responseLocations;
+    }
+
+    [HttpPost("saveSearchLocation")]
+    public async Task<V3Result<V3SearchLocation>> saveSearchLocation (V3SearchLocation v3SearchLocation)
+    {
+        var searchLocation = new SearchLocation()
+        {
+            UserId = v3SearchLocation.UserId,
+            LocationId = v3SearchLocation.LocationId
+        };
+        _UserPreferencesDbContext.Add(searchLocation);
 
         await _UserPreferencesDbContext.SaveChangesAsync();
 
         var result = new V3Result<V3SearchLocation>();
         result.Value = new V3SearchLocation
         {
-            Location = v3SearchLocation.Location,
-            UserGuid = v3SearchLocation.UserGuid,
+            UserId = v3SearchLocation.UserId,
+            LocationId = v3SearchLocation.LocationId
         };
         return result;
     }

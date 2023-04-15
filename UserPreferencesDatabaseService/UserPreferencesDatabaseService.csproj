@@ -31,6 +31,8 @@
     <None Remove="Controllers\V3\" />
     <None Remove="Controllers\V4\" />
     <None Remove="Controllers\V5\" />
+    <None Remove="Model\V3\V3Location" />
+    <None Remove="Model\V3\V3Location.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\V1\" />

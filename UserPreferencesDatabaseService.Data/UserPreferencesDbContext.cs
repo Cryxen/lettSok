@@ -1,5 +1,4 @@
-﻿using JobListingsDatabaseService.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace UserPreferencesDatabaseService.Data
 {
@@ -9,6 +8,7 @@ namespace UserPreferencesDatabaseService.Data
         public DbSet<User> users { get; set; }
         public DbSet<InterestedAdvertisement> interestedAdvertisements { get; set; }
         public DbSet<UninterestedAdvertisement> uninterestedAdvertisements { get; set; }
+        public DbSet<Location> locations { get; set; }
         public DbSet<SearchLocation> searchLocations { get; set; }
 
         public UserPreferencesDbContext()
@@ -45,9 +45,15 @@ namespace UserPreferencesDatabaseService.Data
                 .HasForeignKey(i => i.UserId);
 
             modelBuilder.Entity<SearchLocation>()
-                .HasOne<User>(u => u.User)
-                .WithMany(s => s.SearchLocations)
-                .HasForeignKey(i => i.UserId);
+            .HasKey(bc => new { bc.LocationId, bc.UserId });
+            modelBuilder.Entity<SearchLocation>()
+                .HasOne(bc => bc.location)
+                .WithMany(b => b.searchLocations)
+                .HasForeignKey(bc => bc.LocationId);
+            modelBuilder.Entity<SearchLocation>()
+                .HasOne(bc => bc.user)
+                .WithMany(c => c.searchLocations)
+                .HasForeignKey(bc => bc.UserId);
         }
 
     }
