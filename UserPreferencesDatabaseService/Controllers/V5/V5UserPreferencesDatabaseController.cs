@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using UserPreferencesDatabaseService.Data;
@@ -211,25 +212,6 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     }
 
 
-    [HttpPost("saveLocation")]
-    public async Task<V3Result<V3Location>> saveLocation(V3Location v3Location)
-    {
-
-        var location = new Data.Location()
-        {
-            Municipality = v3Location.Municipality,
-        };
-        _UserPreferencesDbContext.Add(location);
-
-        await _UserPreferencesDbContext.SaveChangesAsync();
-
-        var result = new V3Result<V3Location>();
-        result.Value = new V3Location
-        {
-            Municipality = v3Location.Municipality,
-        };
-        return result;
-    }
 
     [HttpGet("getSearchLocations")]
     public async Task<List<V3SearchLocation>> getSearchLocations()
@@ -269,7 +251,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// Fetches municipalities from https://ws.geonorge.no/kommuneinfo/v1/#/default/get_kommuner
     /// </summary>
     /// <returns></returns>
-    [HttpGet]
+    [HttpGet("updateLocationsFromGeoNorge")]
     public async Task getMunipalitiesFromPublicAPI()
     {
         IEnumerable<V3Location> locations = new List<V3Location>();
@@ -279,12 +261,34 @@ public class V5UserPreferencesDatabaseController : ControllerBase
 
         locations = JsonConvert.DeserializeObject<IEnumerable<V3Location>>(json.Replace("kommunenavn", "Municipality"));
 
+        _UserPreferencesDbContext.RemoveRange(_UserPreferencesDbContext.locations);
+
         foreach (var item in locations)
         {
             await saveLocation(item);
         }
 
     }
-    
+
+
+    private async Task<V3Result<V3Location>> saveLocation(V3Location v3Location)
+    {
+
+        var location = new Data.Location()
+        {
+            Municipality = v3Location.Municipality,
+        };
+        _UserPreferencesDbContext.Add(location);
+
+        await _UserPreferencesDbContext.SaveChangesAsync();
+
+        var result = new V3Result<V3Location>();
+        result.Value = new V3Location
+        {
+            Municipality = v3Location.Municipality,
+        };
+        return result;
+    }
+
 }
 
