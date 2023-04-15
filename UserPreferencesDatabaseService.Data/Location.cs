@@ -7,11 +7,10 @@ namespace UserPreferencesDatabaseService.Data
 	{
         public int Id { get; set; }
 
-        public Guid UserId { get; set; }
-
         public string Location { get; set; }
 
-        public User User { get; set; }
+        public List<User> Users { get; } = new();
+
     }
 }
 
