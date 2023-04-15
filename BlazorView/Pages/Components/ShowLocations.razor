@@ -14,27 +14,51 @@
     <button @onclick="selectLocation">Velg kommune</button>
 
 </EditForm>
-
+<p>Lokasjon:</p>
+@foreach (var item in prefferedLocations)
+    {
+        <p> Location id: @item.LocationId</p>
+    }
 
 @code {
+
+    [CascadingParameter]
+    public LoggedInUserService? loggedInUser { get; set; }
+
     private class LocationModel
     {
 
     }
     LocationModel locationModel = new();
     int selectedLocation;
+
+    // List of municipalities in Norway
     string? locationsFromDb;
     IEnumerable<Location> locations = new List<Location>();
 
+
+    // List of municipalities marked as favorable
+    string? preferredLocationsFromDb;
+    IEnumerable<PreferredLocation> prefferedLocations = new List<PreferredLocation>();
+
     protected override async Task OnInitializedAsync()
     {
+        // Fetch list of municipalities in Norway from db
         locationsFromDb = await LocationService.FetchLocations();
         locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsFromDb);
+
+        // Fetch list of preferred municipalities in Norway from db
+        preferredLocationsFromDb = await LocationService.FetchPreferredLocations();
+        prefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(preferredLocationsFromDb);
     }
 
     private void selectLocation()
-{
+    {
+        PreferredLocation preferredLocation = new();
+        preferredLocation.UserId = loggedInUser.Id;
+        preferredLocation.LocationId = selectedLocation;
 
+        LocationService.PostPreferredLocation(preferredLocation);
 }
 }
 
