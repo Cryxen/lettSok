@@ -46,6 +46,16 @@
 
         usersFromDb = await UserListingService.FetchUser();
         users = JsonConvert.DeserializeObject<IEnumerable<User>>(usersFromDb);
+
+        if (users.Count() == 0)
+        {
+            User newUser = new();
+            newUser.Name = "Bruker";
+            UserListingService.PostUser(newUser);
+
+            loggedInUser.Name = newUser.Name;
+        }
+
         if (loggedInUser.Name == null)
         {
             loggedInUser.Name = users.First().Name;

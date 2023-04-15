@@ -1,4 +1,6 @@
-﻿namespace JobListingsDatabaseService.Data;
+﻿using UserPreferencesDatabaseService.Data;
+
+namespace JobListingsDatabaseService.Data;
 public class User
 {
   
@@ -9,6 +11,8 @@ public class User
 
     public ICollection<InterestedAdvertisement> interestedAdvertisements { get; set; }
     public ICollection<UninterestedAdvertisement> UninterestedAdvertisements { get; set; }
+    public ICollection<SearchLocation> SearchLocations { get; set; }
+
 
 }
 

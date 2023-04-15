@@ -12,7 +12,7 @@
             <p>@item.Title</p> <button @onclick="() => RemoveFromUninterests(item)">Fjern fra ikke likt kategori</button>
         }
     }
-@if (loggedInUser.uninterests.Count() == 0)
+@if (loggedInUser.uninterests == null || loggedInUser.uninterests.Count() == 0)
     {
         <p> Ingen stillinger er markert som ikke likt.</p>
     }

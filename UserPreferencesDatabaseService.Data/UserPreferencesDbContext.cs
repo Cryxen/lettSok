@@ -43,6 +43,10 @@ namespace UserPreferencesDatabaseService.Data
                 .WithMany(i => i.UninterestedAdvertisements)
                 .HasForeignKey(i => i.UserId);
 
+            modelBuilder.Entity<SearchLocation>()
+                .HasOne<User>(u => u.User)
+                .WithMany(s => s.SearchLocations)
+                .HasForeignKey(i => i.UserId);
         }
 
     }
