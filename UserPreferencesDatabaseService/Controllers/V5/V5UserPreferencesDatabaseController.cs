@@ -194,5 +194,42 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         }
         await _UserPreferencesDbContext.SaveChangesAsync();
     }
+
+    [HttpGet("getLocations")]
+    public async Task<List<V3SearchLocation>> getLocations()
+    {
+        var responseLocations = await _UserPreferencesDbContext.searchLocations
+    .Select(location => new V3SearchLocation
+    {
+        UserGuid = location.UserId,
+        Location = location.Location,
+        Id = location.Id
+
+    }).ToListAsync();
+
+        return responseLocations;
+    }
+
+    [HttpPost("saveSearchLocations")]
+    public async Task<V3Result<V3SearchLocation>> saveSearchLocations(V3SearchLocation v3SearchLocation)
+    {
+        var location = new SearchLocation()
+        {
+            Location = v3SearchLocation.Location,
+            UserId = v3SearchLocation.UserGuid,
+        };
+        _UserPreferencesDbContext.Add(location);
+
+        await _UserPreferencesDbContext.SaveChangesAsync();
+
+        var result = new V3Result<V3SearchLocation>();
+        result.Value = new V3SearchLocation
+        {
+            Location = v3SearchLocation.Location,
+            UserGuid = v3SearchLocation.UserGuid,
+        };
+        return result;
+    }
+
 }
 
