@@ -3,13 +3,26 @@
 @inject FetchLocationsFromDb LocationService
 
 <h3>Kommuner:</h3>
-@foreach (var item in locations)
-    {
-        <p>@item.Municipality - @item.Id </p>
-    }
+<EditForm Model="locationModel">
+    <select @bind="selectedLocation">
+        <option value="">Velg kommune</option>
+        @foreach (var item in locations)
+            {
+                <option value="@item.Id">@item.Municipality</option>
+            }
+    </select>
+    <button @onclick="selectLocation">Velg kommune</button>
+
+</EditForm>
+
 
 @code {
+    private class LocationModel
+    {
 
+    }
+    LocationModel locationModel = new();
+    int selectedLocation;
     string? locationsFromDb;
     IEnumerable<Location> locations = new List<Location>();
 
@@ -18,5 +31,10 @@
         locationsFromDb = await LocationService.FetchLocations();
         locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsFromDb);
     }
+
+    private void selectLocation()
+{
+
+}
 }
 
