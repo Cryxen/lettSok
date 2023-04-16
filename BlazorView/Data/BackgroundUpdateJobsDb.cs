@@ -85,6 +85,14 @@ namespace BlazorView.Data
             locationsFromDb = await LocationService.FetchLocations();
             locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsFromDb);
 
+            // If there's no locations in list, repopulate location
+            if (locations.Count() == 0)
+            {
+                locationsFromDb = await LocationService.FetchLocationsFromInternet();
+            }
+            locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsFromDb);
+
+
             // Fetch list of preferred municipalities in Norway from db
             preferredLocationsFromDb = await LocationService.FetchPreferredLocations();
             preferredSearchLocations = JsonConvert.DeserializeObject<List<PreferredLocation>>(preferredLocationsFromDb);

@@ -33,6 +33,12 @@ namespace BlazorView.Data
             string uri = $"https://localhost:7293/V5UserPreferencesDatabase/deleteSearchLocation?UserId={preferredLocation.UserId}&locationId={preferredLocation.LocationId}";
             using var response = await client.DeleteAsync(uri);
         }
+
+        public async Task<String> FetchLocationsFromInternet()
+        {
+            string json = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/updateLocationsFromGeoNorge");
+            return await FetchLocations();
+        }
     }
 }
 
