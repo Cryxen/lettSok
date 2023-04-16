@@ -18,6 +18,7 @@ public class Program
         builder.Services.AddSingleton<FetchUserFromDb>();
         builder.Services.AddSingleton<LoggedInUserService>();
         builder.Services.AddSingleton<FetchLocationsFromDb>();
+        builder.Services.AddSingleton<FetchJobListingsFromInternet>();
 
         var app = builder.Build();
 
