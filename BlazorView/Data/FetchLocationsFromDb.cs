@@ -28,6 +28,11 @@ namespace BlazorView.Data
             using var response = await client.PostAsync("https://localhost:7293/V5UserPreferencesDatabase/saveSearchLocation", content);
         }
 
+        public async void DeletePreferredLocation(PreferredLocation preferredLocation)
+        {
+            string uri = $"https://localhost:7293/V5UserPreferencesDatabase/deleteSearchLocation?UserId={preferredLocation.UserId}&locationId={preferredLocation.LocationId}";
+            using var response = await client.DeleteAsync(uri);
+        }
     }
 }
 

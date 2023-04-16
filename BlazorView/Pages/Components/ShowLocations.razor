@@ -24,7 +24,8 @@
             {
                 @if (loggedInUserPrefferedLocations.Any(i => i.LocationId == item.Id))
                 {
-                    <p>@item.Municipality</p> 
+                    <p>@item.Municipality</p>
+                    <button @onclick="() => DeletePreferredLocation(item)" >Slett</button>
 
                 }
             }
@@ -50,6 +51,7 @@
     string? preferredLocationsFromDb;
     IEnumerable<PreferredLocation> prefferedLocations = new List<PreferredLocation>();
     List<PreferredLocation> loggedInUserPrefferedLocations = new List<PreferredLocation>();
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -82,8 +84,15 @@
         prefferedLocations.Append(preferredLocation);
 
         await showLocations.InvokeAsync();
-
-
     }
+
+    private async void DeletePreferredLocation(Location location)
+{
+        PreferredLocation preferredLocation = new();
+        preferredLocation.LocationId = location.Id;
+        preferredLocation.UserId = LoggedInUserService.Id;
+        LocationService.DeletePreferredLocation(preferredLocation);
+        await showLocations.InvokeAsync();
+}
 }
 
