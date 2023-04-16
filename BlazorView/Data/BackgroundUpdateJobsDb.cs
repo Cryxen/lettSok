@@ -1,11 +1,19 @@
 ﻿using System;
+using Newtonsoft.Json;
+using BlazorView.Data;
+using System.Linq;
+
 namespace BlazorView.Data
 {
 	public class BackgroundUpdateJobsDb : BackgroundService
 	{
         private readonly ILogger<BackgroundUpdateJobsDb> _logger;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly TimeSpan _period = TimeSpan.FromMinutes(15);
+        private readonly TimeSpan _period = TimeSpan.FromMinutes(5);
+
+        List<Location> PrefferedLocations = new List<Location>();
+        FetchJobListingsFromInternet fetchJobListingsFromInternet = new();
+        LoggedInUserService loggedInUser = new();
 
         public BackgroundUpdateJobsDb(ILogger<BackgroundUpdateJobsDb> logger, IServiceScopeFactory serviceScopeFactory)
         {
@@ -13,18 +21,85 @@ namespace BlazorView.Data
             _serviceScopeFactory = serviceScopeFactory;
         }
 
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             using PeriodicTimer timer = new PeriodicTimer(_period);
-            FetchJobListingsFromInternet fetchJobListingsFromInternet = new();
 
+
+            var cancel = new CancellationTokenSource();
+            await Task.Delay(10000, cancel.Token);
+
+            _logger.LogInformation("Initializing Background Task");
+            _logger.LogInformation("Executing Background Task: FetchJobListingsAndSaveToDb " + DateTime.Now);
+
+            PrefferedLocations = await fetchFavoredLocations();
+
+            if (PrefferedLocations.Any())
+            {
+                fetchJobListingsFromFavoredLocation();
+            }
+            else
+            {
+                _logger.LogInformation("Executing Background Task: FetchJobListingsAndSaveToDb " + DateTime.Now);
+                await fetchJobListingsFromInternet.FetchJobListingsAndSaveToDb();
+            }
+
+            // Source of code: https://www.milanjovanovic.tech/blog/running-background-tasks-in-asp-net-core
             while (!stoppingToken.IsCancellationRequested &&
                    await timer.WaitForNextTickAsync(stoppingToken))
             {
                 _logger.LogInformation("Executing Background Task: FetchJobListingsAndSaveToDb " + DateTime.Now);
                 await fetchJobListingsFromInternet.FetchJobListingsAndSaveToDb();
             }
+        }
 
+
+        // List of municipalities in Norway
+        string? locationsFromDb;
+        IEnumerable<Location> locations = new List<Location>();
+
+        // List of municipalities marked as favorable
+        string? preferredLocationsFromDb;
+        List<PreferredLocation> prefferedLocationsFromDb = new List<PreferredLocation>();
+
+
+
+        FetchLocationsFromDb LocationService = new();
+
+        private async Task<List<Location>> fetchFavoredLocations()
+        {
+
+            List<Location> PrefferedLocations = new List<Location>();
+
+            // Fetch list of municipalities in Norway from db
+            locationsFromDb = await LocationService.FetchLocations();
+            locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsFromDb);
+
+            // Fetch list of preferred municipalities in Norway from db
+            preferredLocationsFromDb = await LocationService.FetchPreferredLocations();
+            prefferedLocationsFromDb = JsonConvert.DeserializeObject<List<PreferredLocation>>(preferredLocationsFromDb);
+
+            foreach (var item in locations)
+            {
+                if (prefferedLocationsFromDb.Any(i => i.LocationId == item.Id))
+                {
+                    PrefferedLocations.Add(item);
+                }
+            }
+            return PrefferedLocations;
+        }
+
+        private async void fetchJobListingsFromFavoredLocation()
+        {
+            using PeriodicTimer timer = new PeriodicTimer(_period);
+
+            foreach (var item in PrefferedLocations)
+            {
+                _logger.LogInformation("Fetching job listings based on location: " + item.Municipality);
+                await fetchJobListingsFromInternet.FetchJobListingsFromLocationAndSaveToDb(item.Municipality);
+                await Task.Delay(120000);
+            }
         }
     }
 }
