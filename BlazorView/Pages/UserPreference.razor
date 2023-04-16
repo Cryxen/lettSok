@@ -8,7 +8,7 @@
 <h3>
     Pålogget bruker: @loggedInUser.Name
 </h3>
-
+<p>@showLocations</p>
 @if (showUsers)
 {
     <GetUser />
@@ -17,8 +17,12 @@
 <ShowNotLikedListings />
 
 <ShowLikedListings />
+@if (showLocations)
+{
+    <ShowLocations showLocations="@locationSelected" />
+}
 
-<ShowLocations />
+
 
 <h3>Legg til ny bruker</h3>
 <EditForm Model="formModel">
@@ -32,6 +36,8 @@
 
     [CascadingParameter]
     public LoggedInUserService? loggedInUser { get; set; }
+
+    private bool showLocations = true;
 
     private class FormModel
     {
@@ -58,6 +64,13 @@
         await Task.Delay(5);
         showUsers = true;
 
+    }
+
+    private async Task locationSelected()
+    {
+        showLocations = false;
+        await Task.Delay(5);
+        showLocations = true;
     }
 }
 
