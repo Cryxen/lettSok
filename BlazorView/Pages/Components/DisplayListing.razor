@@ -1,12 +1,12 @@
 ﻿@using BlazorView.Data
 @inject FetchUserFromDb userFromDb
 
-@if (showListing && !loggedInUser.uninterests.Contains(item.Uuid))
+@if (showListing && !LoggedInUserService.uninterests.Contains(item.Uuid))
     {    
     <section class="listing">
         <h5>@item.Title</h5>
         <p>@((MarkupString)item.Description)</p>
-        @if (loggedInUser.interests.Contains(item.Uuid))
+        @if (LoggedInUserService.interests.Contains(item.Uuid))
         {
             <button @onclick="deleteLikes">Likt</button>
 
@@ -15,7 +15,7 @@
         {
             <button @onclick="saveLikes">Liker</button>
         }
-        @if (loggedInUser.uninterests.Contains(item.Uuid))
+        @if (LoggedInUserService.uninterests.Contains(item.Uuid))
         {
         <button @onclick="deleteNotLikes">Markert ikke likt</button>
         }
@@ -32,8 +32,7 @@
     [Parameter]
     public Advertisement? item { get; set; }
 
-    [CascadingParameter]
-    public LoggedInUserService? loggedInUser { get; set; }
+
 
     private void saveLikes()
     {
@@ -41,11 +40,11 @@
 
         //Interests
         Interest interest = new();
-        interest.userGuid = loggedInUser.Id;
+        interest.userGuid = LoggedInUserService.Id;
         interest.advertisementUuid = item.Uuid;
 
         userFromDb.PostInterest(interest);
-        loggedInUser.interests.Add(item.Uuid);
+        LoggedInUserService.interests.Add(item.Uuid);
         Task.Delay(5);
         showListing = true;
     }
@@ -56,11 +55,11 @@
 
         //Interests
         Interest interest = new();
-        interest.userGuid = loggedInUser.Id;
+        interest.userGuid = LoggedInUserService.Id;
         interest.advertisementUuid = item.Uuid;
 
         userFromDb.PostUninterest(interest);
-        loggedInUser.uninterests.Add(item.Uuid);
+        LoggedInUserService.uninterests.Add(item.Uuid);
         Task.Delay(5);
         showListing = true;
     }
@@ -70,11 +69,11 @@
         showListing = false;
 
         Interest interest = new();
-        interest.userGuid = loggedInUser.Id;
+        interest.userGuid = LoggedInUserService.Id;
         interest.advertisementUuid = item.Uuid;
 
         userFromDb.DeleteUninterest(interest);
-        loggedInUser.uninterests.Remove(item.Uuid);
+        LoggedInUserService.uninterests.Remove(item.Uuid);
         Task.Delay(5);
         showListing = true;
     }
@@ -84,11 +83,11 @@
         showListing = false;
 
         Interest interest = new();
-        interest.userGuid = loggedInUser.Id;
+        interest.userGuid = LoggedInUserService.Id;
         interest.advertisementUuid = item.Uuid;
 
         userFromDb.DeleteInterest(interest);
-        loggedInUser.interests.Remove(item.Uuid);
+        LoggedInUserService.interests.Remove(item.Uuid);
         Task.Delay(5);
         showListing = true;
     }

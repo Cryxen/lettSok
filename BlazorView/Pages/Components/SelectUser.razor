@@ -34,8 +34,7 @@
     [Parameter]
     public IEnumerable<User>? users { get; set; }
 
-    [CascadingParameter]
-    public LoggedInUserService? loggedInUser { get; set; }
+
 
     private void selectUser()
     {
@@ -43,8 +42,8 @@
         {
             findSelectedUser();
 
-            loggedInUser.Name = user.Name;
-            loggedInUser.Id = user.Id;
+            LoggedInUserService.Name = user.Name;
+            LoggedInUserService.Id = user.Id;
 
             navigationManager.NavigateTo("/");
         }

@@ -9,11 +9,10 @@ namespace BlazorView.Data
 	{
         private readonly ILogger<BackgroundUpdateJobsDb> _logger;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly TimeSpan _period = TimeSpan.FromMinutes(5);
+        private readonly TimeSpan _period = TimeSpan.FromMinutes(10);
 
         List<Location> PrefferedLocations = new List<Location>();
         FetchJobListingsFromInternet fetchJobListingsFromInternet = new();
-        LoggedInUserService loggedInUser = new();
 
         public BackgroundUpdateJobsDb(ILogger<BackgroundUpdateJobsDb> logger, IServiceScopeFactory serviceScopeFactory)
         {
@@ -61,7 +60,7 @@ namespace BlazorView.Data
 
         // List of municipalities marked as favorable
         string? preferredLocationsFromDb;
-        List<PreferredLocation> prefferedLocationsFromDb = new List<PreferredLocation>();
+        List<PreferredLocation> preferredSearchLocations = new List<PreferredLocation>();
 
 
 
@@ -71,6 +70,7 @@ namespace BlazorView.Data
         {
 
             List<Location> PrefferedLocations = new List<Location>();
+            List<PreferredLocation> loggedInUserPreferredLocation = new List<PreferredLocation>();
 
             // Fetch list of municipalities in Norway from db
             locationsFromDb = await LocationService.FetchLocations();
@@ -78,11 +78,19 @@ namespace BlazorView.Data
 
             // Fetch list of preferred municipalities in Norway from db
             preferredLocationsFromDb = await LocationService.FetchPreferredLocations();
-            prefferedLocationsFromDb = JsonConvert.DeserializeObject<List<PreferredLocation>>(preferredLocationsFromDb);
+            preferredSearchLocations = JsonConvert.DeserializeObject<List<PreferredLocation>>(preferredLocationsFromDb);
+
+            foreach (var item in preferredSearchLocations)
+            {
+                if (item.UserId == LoggedInUserService.Id)
+                {
+                    loggedInUserPreferredLocation.Add(item);
+                }
+            }
 
             foreach (var item in locations)
             {
-                if (prefferedLocationsFromDb.Any(i => i.LocationId == item.Id))
+                if (loggedInUserPreferredLocation.Any(i => i.LocationId == item.Id))
                 {
                     PrefferedLocations.Add(item);
                 }

@@ -20,7 +20,7 @@
         <input type="text" placeholder="Søk her" @bind-value="searchValue" @bind-value:event="oninput" />
         <button @onclick="searchPress">Søk</button>
     </EditForm>
-    <p>@loggedInUser.Name</p>
+    <p>@LoggedInUserService.Name</p>
    
     @if (showSearch)
     {
@@ -32,8 +32,7 @@
 
 
 @code{
-    [CascadingParameter]
-    public LoggedInUserService? loggedInUser { get; set; }
+
 
     int counter;
     bool showSearch = false;

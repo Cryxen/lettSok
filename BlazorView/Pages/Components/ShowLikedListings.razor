@@ -7,13 +7,13 @@
 <h3>Stillinger som er markert som likt:</h3>
 @foreach (var item in advertisementList)
 {
-    if (loggedInUser.interests.Contains(item.Uuid))
+    if (LoggedInUserService.interests.Contains(item.Uuid))
     {
         <p>@item.Title</p>
         <button @onclick="() => RemoveFromInterests(item)">Fjern fra likt kategori</button>
     }
 }
-@if (loggedInUser.interests == null || loggedInUser.interests.Count() == 0)
+@if (LoggedInUserService.interests == null || LoggedInUserService.interests.Count() == 0)
 {
         <p>Ingen stillinger er markert som likt</p>
 }
@@ -22,8 +22,7 @@
     IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
     string advertisementsFromDb;
 
-    [CascadingParameter]
-    public LoggedInUserService? loggedInUser { get; set; }
+
 
     //Interests
     string? interestsFromDb;
@@ -45,22 +44,22 @@
 
         foreach (var item in interests)
         {
-            if (item.userGuid == loggedInUser.Id)
+            if (item.userGuid == LoggedInUserService.Id)
             {
                 commonInterests.Add(item.advertisementUuid);
             }
         }
-        loggedInUser.interests = commonInterests;
+        LoggedInUserService.interests = commonInterests;
     }
 
     private void RemoveFromInterests(Advertisement advertisement)
     {
         Interest interest = new();
-        interest.userGuid = loggedInUser.Id;
+        interest.userGuid = LoggedInUserService.Id;
         interest.advertisementUuid = advertisement.Uuid;
 
         UserListingService.DeleteInterest(interest);
-        loggedInUser.interests.Remove(advertisement.Uuid);
+        LoggedInUserService.interests.Remove(advertisement.Uuid);
     }
 }
 

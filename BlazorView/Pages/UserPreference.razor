@@ -6,7 +6,7 @@
 @inject FetchUserFromDb UserListingService
 
 <h3>
-    Pålogget bruker: @loggedInUser.Name
+    Pålogget bruker: @LoggedInUserService.Name
 </h3>
 <p>@showLocations</p>
 @if (showUsers)
@@ -34,8 +34,7 @@
 
 @code {
 
-    [CascadingParameter]
-    public LoggedInUserService? loggedInUser { get; set; }
+
 
     private bool showLocations = true;
 

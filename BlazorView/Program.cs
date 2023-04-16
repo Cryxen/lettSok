@@ -16,7 +16,6 @@ public class Program
         builder.Services.AddSingleton<WeatherForecastService>();
         builder.Services.AddSingleton<FetchJobListingsFromDb>();
         builder.Services.AddSingleton<FetchUserFromDb>();
-        builder.Services.AddSingleton<LoggedInUserService>();
         builder.Services.AddSingleton<FetchLocationsFromDb>();
         builder.Services.AddSingleton<FetchJobListingsFromInternet>();
         builder.Services.AddHostedService<BackgroundUpdateJobsDb>();
