@@ -221,7 +221,8 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         .Select(searchLocation => new V3SearchLocation
         {
             UserId = searchLocation.UserId,
-            LocationId = searchLocation.LocationId
+            LocationId = searchLocation.LocationId,
+            Id = searchLocation.Id
         }).ToListAsync();
 
         return responseLocations;
@@ -291,5 +292,18 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         return result;
     }
 
+    [HttpDelete("deleteSearchLocation")]
+    public async Task deleteSearchLocation(Guid UserId, int locationId)
+    {
+        List<V3SearchLocation> searchLocations = await getSearchLocations();
+        foreach (var item in searchLocations)
+        {
+            if (item.UserId == UserId && item.LocationId == locationId)
+            {
+                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.searchLocations.Single(i => i.Id == item.Id));
+            }
+        }
+        await _UserPreferencesDbContext.SaveChangesAsync();
+    }
 }
 

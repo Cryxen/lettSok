@@ -5,7 +5,7 @@ namespace UserPreferencesDatabaseService.Model.V3
 	{
         public Guid UserId { get; set; }
         public int LocationId { get; set; }
-
+        public int Id { get; set; }
     }
 }
 

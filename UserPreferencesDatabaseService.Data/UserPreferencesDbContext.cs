@@ -45,7 +45,7 @@ namespace UserPreferencesDatabaseService.Data
                 .HasForeignKey(i => i.UserId);
 
             modelBuilder.Entity<SearchLocation>()
-            .HasKey(bc => new { bc.LocationId, bc.UserId });
+            .HasKey(bc => new { bc.Id });
             modelBuilder.Entity<SearchLocation>()
                 .HasOne(bc => bc.location)
                 .WithMany(b => b.searchLocations)

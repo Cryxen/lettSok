@@ -8,6 +8,7 @@ namespace UserPreferencesDatabaseService.Data
 		public Location location { get; set; }
 		public Guid UserId { get; set; }
 		public User user { get; set; }
+		public int Id { get; set; }
 
 	}
 }
