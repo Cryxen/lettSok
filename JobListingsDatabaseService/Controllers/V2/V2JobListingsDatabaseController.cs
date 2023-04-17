@@ -66,7 +66,6 @@ public class V2JobListingsDatabaseController : ControllerBase
     public async Task<V1Restult<V2Advertisement>> saveAdvertisements(V2Advertisement advertisementPost)
     {
         var advertisementsFromDb = await Get();
-        //var dbContext = new LettsokDbContext();
 
         if (advertisementsFromDb.Count > 0)
         {
