@@ -1,5 +1,7 @@
 ﻿using JobListingsDatabaseService.Data;
 using JobListingsDatabaseService.Model.V1;
+using JobListingsDatabaseService.Model.V2;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -61,7 +63,7 @@ public class V2JobListingsDatabaseController : ControllerBase
     /// <param name="advertisementPost">Reflects advertisement model</param>
     /// <returns>Returns V1Result error codes</returns>
     [HttpPost("saveAdvertisement")]
-    public async Task<V1Restult<V1Advertisement>> saveAdvertisements(V1Advertisement advertisementPost)
+    public async Task<V1Restult<V2Advertisement>> saveAdvertisements(V2Advertisement advertisementPost)
     {
         var advertisementsFromDb = await Get();
         //var dbContext = new LettsokDbContext();
@@ -84,7 +86,7 @@ public class V2JobListingsDatabaseController : ControllerBase
                         Title = advertisementPost.Title,
                         Description = advertisementPost.Description,
                         JobTitle = advertisementPost.JobTitle,
-                        Employer = advertisementPost.Employer,
+                        Employer = advertisementPost.Employer.name,
                         EngagementType = advertisementPost.EngagementType
                     };
                     _lettsokDbContext.Add(advertisement);
@@ -102,7 +104,7 @@ public class V2JobListingsDatabaseController : ControllerBase
                 Title = advertisementPost.Title,
                 Description = advertisementPost.Description,
                 JobTitle = advertisementPost.JobTitle,
-                Employer = advertisementPost.Employer,
+                Employer = advertisementPost.Employer.name,
                 EngagementType = advertisementPost.EngagementType
             };
             _lettsokDbContext.Add(advertisement);
@@ -110,8 +112,8 @@ public class V2JobListingsDatabaseController : ControllerBase
         
         await _lettsokDbContext.SaveChangesAsync();
 
-        var result = new V1Restult<V1Advertisement>();
-        result.Value = new V1Advertisement
+        var result = new V1Restult<V2Advertisement>();
+        result.Value = new V2Advertisement
         {
             Uuid = advertisementPost.Uuid,
             Expires = advertisementPost.Expires,

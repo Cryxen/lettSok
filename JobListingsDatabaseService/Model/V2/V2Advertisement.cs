@@ -33,7 +33,7 @@ namespace JobListingsDatabaseService.Model.V2;
 			get;
 			set;
 		}
-		public string? Employer
+		public V2Employer? Employer
 		{
 			get;
 			set;
@@ -44,11 +44,7 @@ namespace JobListingsDatabaseService.Model.V2;
 			set;
 		}
 	
-        /*
-         * Virtual er funnet fra:
-         *	https://learn.microsoft.com/en-us/ef/ef6/modeling/code-first/workflows/new-database  
-         */
-       // public virtual List<V1Advertisement>? V1Advertisements { get; set; }
+
 
     }
 	

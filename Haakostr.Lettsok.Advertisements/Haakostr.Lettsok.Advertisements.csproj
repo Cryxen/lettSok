@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +23,7 @@
     <None Remove="Model\V1\" />
     <None Remove="Controllers\V3\" />
     <None Remove="Controllers\V4\" />
+    <None Remove="Model\V2\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
@@ -30,5 +32,6 @@
     <Folder Include="Model\V1\" />
     <Folder Include="Controllers\V3\" />
     <Folder Include="Controllers\V4\" />
+    <Folder Include="Model\V2\" />
   </ItemGroup>
 </Project>

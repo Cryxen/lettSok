@@ -8,7 +8,7 @@ namespace Haakostr.Lettsok.Advertisements.Model.V2
 			get;
 			set;
 		}
-		public string? Expires
+		public DateTime? Expires
 		{
 			get;
 			set;
@@ -33,7 +33,7 @@ namespace Haakostr.Lettsok.Advertisements.Model.V2
 			get;
 			set;
 		}
-		public string? Employer
+		public V2Employer? Employer
 		{
 			get;
 			set;

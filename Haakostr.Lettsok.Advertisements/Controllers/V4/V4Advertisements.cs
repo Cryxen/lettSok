@@ -2,9 +2,13 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Haakostr.Lettsok.Advertisements.Model;
 using Haakostr.Lettsok.Advertisements.Model.V1;
+using Haakostr.Lettsok.Advertisements.Model.V2;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Haakostr.Lettsok.Advertisements.Controllers.V4;
 
@@ -51,10 +55,24 @@ public class V4Advertisements : ControllerBase
         string? json = await client.GetStringAsync(setHttpClientToPublicAPISettings());
 
         // parse string to json
-        var advertisements = ParseJson(json);
+        //var advertisements = ParseJson(json);
+        JObject jsonObject = JObject.Parse(json);
+        JsonArray jSONArray = new JsonArray();
+        IList<JToken> results = jsonObject["content"].Children().ToList();
+        int counter = 1;
+        List<V2Advertisement> v2Advertisements = new List<V2Advertisement>();
+        foreach (var item in results)
+        {
+            Console.WriteLine("Item nummer: " + counter);
+            Console.WriteLine(item);
+            counter++;
+            V2Advertisement v2Advertisement = item.ToObject<V2Advertisement>();
+            v2Advertisements.Add(v2Advertisement);
+        }
+
 
         // Save to database
-        await postAdvertisementsToDatabase(advertisements);
+       await postAdvertisementsToDatabase((List<V2Advertisement>)v2Advertisements);
 
         return Ok(advertisements);
     }
@@ -75,7 +93,7 @@ public class V4Advertisements : ControllerBase
         var advertisements = ParseJson(json);
 
         // Save to database
-        await postAdvertisementsToDatabase(advertisements);
+       // await postAdvertisementsToDatabase(advertisements);
 
         return Ok(advertisements);
     }
@@ -118,7 +136,7 @@ public class V4Advertisements : ControllerBase
     /// </summary>
     /// <param name="advertisements">List of Model advertisement</param>
     /// <returns></returns>
-    private async Task<Uri?> postAdvertisementsToDatabase(List<V1Advertisement> advertisements)
+    private async Task<Uri?> postAdvertisementsToDatabase(List<V2Advertisement> advertisements)
     {
     //From: https://learn.microsoft.com/en-us/aspnet/web-api/overview/advanced/calling-a-web-api-from-a-net-client
         //client.BaseAddress = new Uri("http://localhost:5201/");
@@ -128,7 +146,7 @@ public class V4Advertisements : ControllerBase
 
         foreach (var advertisement in advertisements)
         {
-            HttpResponseMessage  response = await client.PostAsJsonAsync("http://localhost:5201/api/V2/Advertisements/saveAdvertisement", advertisement);
+            HttpResponseMessage  response = await client.PostAsJsonAsync("https://localhost:7223/api/V2/Advertisements/saveAdvertisement", advertisement);
         }
         return null;
 
