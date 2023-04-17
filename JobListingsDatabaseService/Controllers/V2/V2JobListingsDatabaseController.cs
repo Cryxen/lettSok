@@ -81,7 +81,7 @@ public class V2JobListingsDatabaseController : ControllerBase
                     {
                         Uuid = advertisementPost.Uuid,
                         Expires = advertisementPost.Expires,
-                        Municipal = advertisementPost.Municipal,
+                        Municipal = advertisementPost.workLocations[0].municipal,
                         Title = advertisementPost.Title,
                         Description = advertisementPost.Description,
                         JobTitle = advertisementPost.JobTitle,
@@ -99,7 +99,7 @@ public class V2JobListingsDatabaseController : ControllerBase
             {
                 Uuid = advertisementPost.Uuid,
                 Expires = advertisementPost.Expires,
-                Municipal = advertisementPost.Municipal,
+                Municipal = advertisementPost.workLocations[0].municipal,
                 Title = advertisementPost.Title,
                 Description = advertisementPost.Description,
                 JobTitle = advertisementPost.JobTitle,
@@ -116,7 +116,7 @@ public class V2JobListingsDatabaseController : ControllerBase
         {
             Uuid = advertisementPost.Uuid,
             Expires = advertisementPost.Expires,
-            Municipal = advertisementPost.Municipal,
+            workLocations = advertisementPost.workLocations,
             Title = advertisementPost.Title,
             Description = advertisementPost.Description,
             JobTitle = advertisementPost.JobTitle,

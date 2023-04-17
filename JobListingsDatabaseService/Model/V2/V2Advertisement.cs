@@ -13,7 +13,7 @@ namespace JobListingsDatabaseService.Model.V2;
 			get;
 			set;
 		}
-		public string? Municipal
+		public List<V2WorkLocation>? workLocations
 		{
 			get;
 			set;

@@ -13,7 +13,7 @@ namespace Haakostr.Lettsok.Advertisements.Model.V2
 			get;
 			set;
 		}
-		public string? Municipal
+		public List<V2WorkLocations>? WorkLocations
 		{
 			get;
 			set;

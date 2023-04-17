@@ -12,12 +12,16 @@
     @foreach (var item in advertisementList)
     {
         <!--if statement looking for search string in: Title, description, employer, engagement type and municipal-->
-        @if (item.Title.ToUpper().Contains(searchValue) || item.Description.ToUpper().Contains(searchValue) ||
-               item.Employer.ToUpper().Contains(searchValue) || item.EngagementType.ToUpper().Contains(searchValue) ||
-               item.Municipal.ToUpper().Contains(searchValue))
+        @if (item.Title != null && item.Description != null && item.Employer != null && item.EngagementType != null && item.Municipal != null)
         {
-            <DisplayListing item="item" />
+           @if (item.Title.ToUpper().Contains(searchValue) || item.Description.ToUpper().Contains(searchValue) ||
+              item.Employer.ToUpper().Contains(searchValue) || item.EngagementType.ToUpper().Contains(searchValue) ||
+              item.Municipal.ToUpper().Contains(searchValue))
+            {
+                <DisplayListing item="item" />
+            }
         }
+
     }
 }
 else
