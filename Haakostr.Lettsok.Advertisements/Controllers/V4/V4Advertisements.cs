@@ -59,13 +59,10 @@ public class V4Advertisements : ControllerBase
         JObject jsonObject = JObject.Parse(json);
         JsonArray jSONArray = new JsonArray();
         IList<JToken> results = jsonObject["content"].Children().ToList();
-        int counter = 1;
         List<V2Advertisement> v2Advertisements = new List<V2Advertisement>();
+
         foreach (var item in results)
         {
-            Console.WriteLine("Item nummer: " + counter);
-            Console.WriteLine(item);
-            counter++;
             V2Advertisement v2Advertisement = item.ToObject<V2Advertisement>();
             v2Advertisements.Add(v2Advertisement);
         }
@@ -90,10 +87,22 @@ public class V4Advertisements : ControllerBase
         string? json = await client.GetStringAsync(setHttpClientToPublicAPISettings() + "?municipal=" + location.ToUpper());
 
         // parse string to json
-        var advertisements = ParseJson(json);
+        //var advertisements = ParseJson(json);
+
+        JObject jsonObject = JObject.Parse(json);
+        JsonArray jSONArray = new JsonArray();
+        IList<JToken> results = jsonObject["content"].Children().ToList();
+        List<V2Advertisement> v2Advertisements = new List<V2Advertisement>();
+
+        foreach (var item in results)
+        {
+            V2Advertisement v2Advertisement = item.ToObject<V2Advertisement>();
+            v2Advertisements.Add(v2Advertisement);
+        }
+
 
         // Save to database
-       // await postAdvertisementsToDatabase(advertisements);
+        await postAdvertisementsToDatabase((List<V2Advertisement>)v2Advertisements);
 
         return Ok(advertisements);
     }
