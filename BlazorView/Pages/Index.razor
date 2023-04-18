@@ -7,25 +7,20 @@
 @page "/"
 
 <PageTitle>Index</PageTitle>
-
 <div class="contentWrapper">
     <h1>ANGSTFRI JOBBSØKING</h1>
     <picture>
         <img src="img/LETT-5.png" class="logo" />
     </picture>
-    <p>@counter</p>
-    <p>@showSearch</p>
-    <p>@searchValue</p>
     <EditForm Model="@searchModel" class="searchForm">
         <input type="text" placeholder="Søk her" @bind-value="searchValue" @bind-value:event="oninput" />
         <button @onclick="searchPress">Søk</button>
     </EditForm>
-    <p>@LoggedInUserService.Name</p>
    
     @if (showSearch)
     {
         <section class="listings">
-            <FetchListings SearchValue="@searchValue.ToUpper()" />
+            <FetchListings SearchValue="@searchValue.ToUpper()"  advertisementToShow="@showFullListing" />
         </section>
     }
 </div>
@@ -34,8 +29,10 @@
 @code{
 
 
-    int counter;
+    int counter = 0;
     bool showSearch = false;
+    Advertisement? advertisementToShow;
+
 
     /// <summary>
     /// Used by EditForm
@@ -56,7 +53,6 @@
     /// </summary>
     private void searchPress()
     {
-        counter++;
         showSearch ^= true;
     }
 
@@ -74,5 +70,9 @@
     IEnumerable<User> users = new List<User>();
     string usersFromDb;
 
-   
+   private async Task showFullListing(Advertisement advertisement)
+{
+        counter++;
+        advertisementToShow = advertisement;
+}
 }

@@ -4,6 +4,7 @@
 @if (showListing && !LoggedInUserService.uninterests.Contains(item.Uuid))
     {    
     <section class="listing">
+        <button @onclick="showFullListing">Test</button>
         <h5>@item.Title</h5>
         <p>@((MarkupString)item.Description)</p>
         @if (LoggedInUserService.interests.Contains(item.Uuid))
@@ -32,7 +33,8 @@
     [Parameter]
     public Advertisement? item { get; set; }
 
-
+    [Parameter]
+    public EventCallback<Advertisement> advertisementToShow { get; set; }
 
     private void saveLikes()
     {
@@ -92,5 +94,9 @@
         showListing = true;
     }
 
+    private async void showFullListing()
+{
+        await advertisementToShow.InvokeAsync(item);
+}
 }
 

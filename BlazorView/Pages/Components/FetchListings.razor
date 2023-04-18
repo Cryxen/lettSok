@@ -28,7 +28,7 @@ else
 {
     @foreach (var item in advertisementList)
     {
-        <DisplayListing item="item" />
+        <DisplayListing item="item" advertisementToShow="@advertisementToShow"/>
     }
 }
 
@@ -41,6 +41,9 @@ else
 
     [Parameter]
     public string? searchValue { get; set; }
+
+    [Parameter]
+    public EventCallback<Advertisement> advertisementToShow { get; set; }
 
     /// <summary>
     /// Fetch job listings from database
