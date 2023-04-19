@@ -68,7 +68,7 @@
     padding: 8px 0;
     z-index: 1;
     position: absolute;
-    margin:auto
+    opacity: 0.95;
 }
 /* _content/BlazorView/Shared/MainLayout.razor.rz.scp.css */
 body[b-ivxfbxz1bn] {

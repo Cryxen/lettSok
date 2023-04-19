@@ -37,6 +37,8 @@
     [Parameter]
     public EventCallback<Advertisement> advertisementToShow { get; set; }
 
+    [Parameter]
+    public bool showFullAdvertisement { get; set; }
     private void saveLikes()
     {
         showListing = false;
@@ -96,8 +98,9 @@
     }
 
     private async void showFullListing()
-{
+    {
+        showFullAdvertisement = true;
         await advertisementToShow.InvokeAsync(item);
-}
+    }
 }
 

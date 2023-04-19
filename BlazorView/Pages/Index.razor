@@ -10,7 +10,7 @@
 <div class="contentWrapper">
     <p>@fullListingStyle</p>
         
-            <DisplayFullListing advertisementToShow="@advertisementToShow" fullListingStyle="@fullListingStyle" />
+            <DisplayFullListing advertisementToShow="@advertisementToShow" fullListingStyle="@fullListingStyle" showFullAdvertisement="@showFullAdvertisement"/>
         
     <h1>ANGSTFRI JOBBSØKING</h1>
     <picture>
@@ -35,7 +35,6 @@
 
     int counter = 0;
     bool showSearch = false;
-    bool fullListingSelected = false;
     Advertisement? advertisementToShow;
     string fullListingStyle;
 
@@ -79,6 +78,12 @@
     {
         advertisementToShow = advertisement;
         fullListingStyle = "visibility: visible;";
+    }
+
+    private async Task showFullAdvertisement()
+    {
+        fullListingStyle = "visibility: hidden;";
+
     }
 
 }

@@ -3,10 +3,12 @@
 <div class="fullAdvertisementWrapper" style="@fullListingStyle">
     @if (advertisementToShow != null)
     {
-        <p>@advertisementToShow.Title</p>
+        <h3>@advertisementToShow.Title</h3>
         <p>@((MarkupString)advertisementToShow.Description)</p>
+        <button @onclick="closeFullListing">Lukk</button>
+        <a href="https://arbeidsplassen.nav.no/stillinger/stilling/@advertisementToShow.Uuid" target="_blank">Se stillingen på NAV</a>
     }
-        <button @onclick ="closeFullListing">Lukk</button>
+
 </div>
 
 @code {
@@ -16,10 +18,12 @@
     [Parameter]
     public string fullListingStyle { get; set; }
 
+    [Parameter]
+    public EventCallback<bool> showFullAdvertisement { get; set; }
+
     private void closeFullListing()
     {
-        fullListingStyle = "visibility: hidden;";
-
+        showFullAdvertisement.InvokeAsync();
     }
 }
 
