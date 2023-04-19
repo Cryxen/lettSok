@@ -40,3 +40,16 @@
 .listings {
     margin-top: 2%;
 }
+
+::deep .fullAdvertisementWrapper {
+    background-color: #03787d;
+    visibility: hidden;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    border-style: dashed;
+    padding: 8px 0;
+    z-index: 1;
+    position: absolute;
+    margin:auto
+}

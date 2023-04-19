@@ -1,16 +1,19 @@
+/* _content/BlazorView/Pages/Components/DisplayFullListing.razor.rz.scp.css */
 /* _content/BlazorView/Pages/Components/DisplayListing.razor.rz.scp.css */
 .listing[b-2gdzlh0gqm] {
     border-style: solid;
     margin-bottom: 2%;
 }
 
-.listing h5[b-2gdzlh0gqm] {
-    border-bottom-style: dashed;
-    font-weight:800;
-    font-size: x-large;
-    margin: 2%;
-    width:fit-content;
-}
+    .listing .listingTitle[b-2gdzlh0gqm] {
+        font-weight: 800;
+        font-size: x-large;
+        margin: 2%;
+        width: fit-content;
+        background-color: #00989e;
+        text-decoration: none;
+        border: none;
+    }
 /* _content/BlazorView/Pages/index.razor.rz.scp.css */
 .contentWrapper[b-dwcektb1l1] {
     display: flex;
@@ -53,6 +56,19 @@
 
 .listings[b-dwcektb1l1] {
     margin-top: 2%;
+}
+
+[b-dwcektb1l1] .fullAdvertisementWrapper {
+    background-color: #03787d;
+    visibility: hidden;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    border-style: dashed;
+    padding: 8px 0;
+    z-index: 1;
+    position: absolute;
+    margin:auto
 }
 /* _content/BlazorView/Shared/MainLayout.razor.rz.scp.css */
 body[b-ivxfbxz1bn] {

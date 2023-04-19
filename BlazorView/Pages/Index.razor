@@ -8,6 +8,10 @@
 
 <PageTitle>Index</PageTitle>
 <div class="contentWrapper">
+    <p>@fullListingStyle</p>
+        
+            <DisplayFullListing advertisementToShow="@advertisementToShow" fullListingStyle="@fullListingStyle" />
+        
     <h1>ANGSTFRI JOBBSØKING</h1>
     <picture>
         <img src="img/LETT-5.png" class="logo" />
@@ -16,11 +20,11 @@
         <input type="text" placeholder="Søk her" @bind-value="searchValue" @bind-value:event="oninput" />
         <button @onclick="searchPress">Søk</button>
     </EditForm>
-   
+
     @if (showSearch)
     {
         <section class="listings">
-            <FetchListings SearchValue="@searchValue.ToUpper()"  advertisementToShow="@showFullListing" />
+            <FetchListings SearchValue="@searchValue.ToUpper()" advertisementToShow="@showFullListing" />
         </section>
     }
 </div>
@@ -31,8 +35,9 @@
 
     int counter = 0;
     bool showSearch = false;
+    bool fullListingSelected = false;
     Advertisement? advertisementToShow;
-
+    string fullListingStyle;
 
     /// <summary>
     /// Used by EditForm
@@ -70,9 +75,10 @@
     IEnumerable<User> users = new List<User>();
     string usersFromDb;
 
-   private async Task showFullListing(Advertisement advertisement)
-{
-        counter++;
+    private async Task showFullListing(Advertisement advertisement)
+    {
         advertisementToShow = advertisement;
-}
+        fullListingStyle = "visibility: visible;";
+    }
+
 }

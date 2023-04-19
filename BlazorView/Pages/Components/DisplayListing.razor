@@ -4,9 +4,10 @@
 @if (showListing && !LoggedInUserService.uninterests.Contains(item.Uuid))
     {    
     <section class="listing">
-        <button @onclick="showFullListing">Test</button>
-        <h5>@item.Title</h5>
-        <p>@((MarkupString)item.Description)</p>
+        <button @onclick="showFullListing" type="button" class="listingTitle">
+            @item.Title
+        </button>
+        
         @if (LoggedInUserService.interests.Contains(item.Uuid))
         {
             <button @onclick="deleteLikes">Likt</button>

@@ -1,0 +1,25 @@
+﻿@using BlazorView.Data
+
+<div class="fullAdvertisementWrapper" style="@fullListingStyle">
+    @if (advertisementToShow != null)
+    {
+        <p>@advertisementToShow.Title</p>
+        <p>@((MarkupString)advertisementToShow.Description)</p>
+    }
+        <button @onclick ="closeFullListing">Lukk</button>
+</div>
+
+@code {
+    [Parameter]
+    public Advertisement advertisementToShow { get; set; }
+
+    [Parameter]
+    public string fullListingStyle { get; set; }
+
+    private void closeFullListing()
+    {
+        fullListingStyle = "visibility: hidden;";
+
+    }
+}
+
