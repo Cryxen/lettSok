@@ -1,0 +1,161 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/Advertisements.Test/Advertisements.Test.csproj": {}
+  },
+  "projects": {
+    "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/Advertisements.Test/Advertisements.Test.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/Advertisements.Test/Advertisements.Test.csproj",
+        "projectName": "Advertisements.Test",
+        "projectPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/Advertisements.Test/Advertisements.Test.csproj",
+        "packagesPath": "/Users/hakonstrom/.nuget/packages/",
+        "outputPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/Advertisements.Test/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/hakonstrom/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/Haakostr.Lettsok.Advertisements/Advertisements.csproj": {
+                "projectPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/Haakostr.Lettsok.Advertisements/Advertisements.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.5.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.18.4, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.2, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.4.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/Haakostr.Lettsok.Advertisements/Advertisements.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/Haakostr.Lettsok.Advertisements/Advertisements.csproj",
+        "projectName": "Advertisements",
+        "projectPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/Haakostr.Lettsok.Advertisements/Advertisements.csproj",
+        "packagesPath": "/Users/hakonstrom/.nuget/packages/",
+        "outputPath": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/Haakostr.Lettsok.Advertisements/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/hakonstrom/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[7.0.3, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

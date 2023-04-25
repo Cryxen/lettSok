@@ -32,6 +32,21 @@ public class V4Advertisements : ControllerBase, IAdvertisements
         return jsonUrl;
     }
 
+    /// <summary>
+    /// Parse json string to IList<JToken>
+    /// </summary>
+    /// <param name="json">Json string</param>
+    /// <returns>Parsed list of objects</returns>
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public IList<JToken> parseJson(string json)
+    {
+        JObject jsonObject = JObject.Parse(json);
+        JsonArray jSONArray = new JsonArray();
+        IList<JToken> results = jsonObject["content"].Children().ToList();
+
+        return results;
+    }
+
 
     public List<V1Advertisement> advertisements { get; private set; }
 
@@ -53,13 +68,12 @@ public class V4Advertisements : ControllerBase, IAdvertisements
     [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("GetJobs")]
     public virtual async Task<List<V2Advertisement>> GetJobs()
-    {   
+    {
         // Retrieve JSON from API.
         string? json = await client.GetStringAsync(setHttpClientToPublicAPISettings());
 
-        JObject jsonObject = JObject.Parse(json);
-        JsonArray jSONArray = new JsonArray();
-        IList<JToken> results = jsonObject["content"].Children().ToList();
+        var results = parseJson(json);
+
         List<V2Advertisement> v2Advertisements = new List<V2Advertisement>();
 
         foreach (var item in results)
@@ -119,7 +133,7 @@ public class V4Advertisements : ControllerBase, IAdvertisements
     /// </summary>
     /// <param name="advertisements">List of Model advertisement</param>
     /// <returns></returns>
-    public virtual async Task<Uri?> postAdvertisementsToDatabase(List<V2Advertisement> advertisements)
+    private async Task<Uri?> postAdvertisementsToDatabase(List<V2Advertisement> advertisements)
     {
     //From: https://learn.microsoft.com/en-us/aspnet/web-api/overview/advanced/calling-a-web-api-from-a-net-client
         //client.BaseAddress = new Uri("http://localhost:5201/");

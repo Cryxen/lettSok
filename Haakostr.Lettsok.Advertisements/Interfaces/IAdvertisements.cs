@@ -12,7 +12,6 @@ namespace Advertisements.Interfaces
 
         Task<List<V2Advertisement>> GetJobs();
         Task<ActionResult<List<V1Advertisement>>> GetJobsByLocation(string location);
-        Task<Uri?> postAdvertisementsToDatabase(List<V2Advertisement> advertisementList);
 	}
 }
 

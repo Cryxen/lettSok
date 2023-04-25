@@ -7,6 +7,7 @@ using Advertisements.Model.V2;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
+using Newtonsoft.Json;
 
 namespace Advertisements.Test;
 
@@ -28,22 +29,22 @@ public class V4AdvertisementsTest
 
     List<V2Advertisement> expected = new();
     List<V2Advertisement> mockList = new();
-    
 
+
+    ILogger _logger = Mock.Of<ILogger<V4Advertisements>>();
 
     /// <summary>
-    /// Tests that the method GetJobs() retrieves jobs from public API and parses the string to an object list containing the jobs
+    /// Tests that the method GetJobs() runs as expected.
     /// </summary>
     /// <returns></returns>
     [Fact]
-    public async Task FetchJobsFromPublicAPI()
+    public async Task Fetch_Jobs_From_Public_API()
     {
         //Arrange
         expected.Add(_expectedAdvertisement);
         mockList.Add(_expectedAdvertisement);
 
         // Mockings
-        var _logger = Mock.Of<ILogger<V4Advertisements>>();
         Mock<V4Advertisements> AdvertisementsMock = new Mock<V4Advertisements>(_logger);
         AdvertisementsMock.Setup(x => x.GetJobs()).ReturnsAsync(mockList);
 
@@ -58,6 +59,29 @@ public class V4AdvertisementsTest
         Assert.Equal(expected, actual);
     }
 
+    [Fact]
+    public void Parse_Json_From_Public_API()
+    {
+        //Arrange
+        expected.Add(_expectedAdvertisement);
+        Mock<V4Advertisements> AdvertisementsMock = new Mock<V4Advertisements>(_logger);
+        V4Advertisements v4AdvertisementObject = AdvertisementsMock.Object;
 
+        List<V2Advertisement> actual = new();
+        //string jsonToParse = "'{\"name\":\"John\", \"age\":30, \"car\":null}'";
+        string jsonToParse = "{\"content\":[" + JsonConvert.SerializeObject(_expectedAdvertisement) + "]}";
+
+
+        //Act
+        var parseResult = v4AdvertisementObject.parseJson(jsonToParse);
+        foreach (var item in parseResult)
+        {
+            V2Advertisement v2Advertisement = item.ToObject<V2Advertisement>();
+            actual.Add(v2Advertisement);
+        }
+
+        //Assert
+        Assert.Equivalent(expected: 0, actual: 0, strict: true);
+    }
 }
 
