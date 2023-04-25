@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Haakostr.Lettsok.Advertisements.Controllers.V1;
+namespace Advertisements.Controllers.V1;
 
 [ApiController]
 [Route("api/v1/Advertisements")]

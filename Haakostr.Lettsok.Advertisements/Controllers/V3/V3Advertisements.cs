@@ -2,11 +2,10 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Haakostr.Lettsok.Advertisements.Model;
-using Haakostr.Lettsok.Advertisements.Model.V1;
+using Advertisements.Model.V1;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Haakostr.Lettsok.Advertisements.Controllers.V3;
+namespace Advertisements.Controllers.V3;
 
 [ApiController]
 [Route("api/v3/Advertisements")]

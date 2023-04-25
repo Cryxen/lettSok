@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
-using Haakostr.Lettsok.Advertisements.Model;
-using Haakostr.Lettsok.Advertisements.Model.V1;
+using Advertisements.Model.V1;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Haakostr.Lettsok.Advertisements.Controllers.V2;
+namespace Advertisements.Controllers.V2;
 
 [ApiController]
 [Route("api/v2/Advertisements")]

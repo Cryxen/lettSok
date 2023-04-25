@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1705.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Haakostr.Lettsok.Advertisements", "Haakostr.Lettsok.Advertisements\Haakostr.Lettsok.Advertisements.csproj", "{81419DAB-B925-437A-88C0-138D8093E342}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advertisements", "Haakostr.Lettsok.Advertisements\Advertisements.csproj", "{81419DAB-B925-437A-88C0-138D8093E342}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobListingsDatabaseService", "JobListingsDatabaseService\JobListingsDatabaseService.csproj", "{EF330A52-4582-4559-B423-95E22AD6DD61}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPreferencesDatabaseService.Data", "UserPreferencesDatabaseService.Data\UserPreferencesDatabaseService.Data.csproj", "{480FF919-2DC7-4160-8E8E-72493F6A0C07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorView", "BlazorView\BlazorView.csproj", "{EFF94FBD-4A1C-4C6A-8625-91AD3B0CD515}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advertisements.Test", "Advertisements.Test\Advertisements.Test.csproj", "{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{EFF94FBD-4A1C-4C6A-8625-91AD3B0CD515}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFF94FBD-4A1C-4C6A-8625-91AD3B0CD515}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFF94FBD-4A1C-4C6A-8625-91AD3B0CD515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

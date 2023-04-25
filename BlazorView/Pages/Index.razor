@@ -51,6 +51,7 @@
 
     // Value of search field
     string? searchValue = "";
+    string? tempSearch = "";
 
     /// <summary>
     /// Method being used when search button is pressed.
@@ -78,11 +79,14 @@
     {
         advertisementToShow = advertisement;
         fullListingStyle = "visibility: visible;";
+        tempSearch = searchValue;
+        tempSearch = "";
     }
 
     private async Task showFullAdvertisement()
     {
         fullListingStyle = "visibility: hidden;";
+        searchValue = tempSearch;
 
     }
 

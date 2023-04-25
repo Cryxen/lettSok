@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Haakostr.Lettsok.Advertisements.Model.V1
+namespace Advertisements.Model.V1
 {
 	public class V1Advertisement
 	{

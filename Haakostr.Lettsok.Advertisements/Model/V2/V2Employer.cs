@@ -1,6 +1,6 @@
 ﻿
 using System;
-namespace Haakostr.Lettsok.Advertisements.Model.V2
+namespace Advertisements.Model.V2
 {
 	public class V2Employer
     {

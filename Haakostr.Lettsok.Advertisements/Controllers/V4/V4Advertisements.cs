@@ -3,19 +3,20 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using Haakostr.Lettsok.Advertisements.Model;
-using Haakostr.Lettsok.Advertisements.Model.V1;
-using Haakostr.Lettsok.Advertisements.Model.V2;
+using Advertisements.Interfaces;
+using Advertisements.Model.V1;
+using Advertisements.Model.V2;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Haakostr.Lettsok.Advertisements.Controllers.V4;
+namespace Advertisements.Controllers.V4;
 
 [ApiController]
 [Route("api/v4/Advertisements")]
-public class V4Advertisements : ControllerBase
+public class V4Advertisements : ControllerBase, IAdvertisements 
 {
+
     // For connection to JobListingsDatabaseService
     private static HttpClient client = new HttpClient();
     
@@ -40,6 +41,8 @@ public class V4Advertisements : ControllerBase
     {
         _logger = logger;
     }
+    
+
 
     /// <summary>
     /// Get all jobs from public API without Parameters
@@ -49,13 +52,11 @@ public class V4Advertisements : ControllerBase
     /// <returns>OK if successfull</returns>
     [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("GetJobs")]
-    public async Task<ActionResult<List<V1Advertisement>>> GetJobs()
+    public virtual async Task<List<V2Advertisement>> GetJobs()
     {   
         // Retrieve JSON from API.
         string? json = await client.GetStringAsync(setHttpClientToPublicAPISettings());
 
-        // parse string to json
-        //var advertisements = ParseJson(json);
         JObject jsonObject = JObject.Parse(json);
         JsonArray jSONArray = new JsonArray();
         IList<JToken> results = jsonObject["content"].Children().ToList();
@@ -69,9 +70,15 @@ public class V4Advertisements : ControllerBase
 
 
         // Save to database
-       await postAdvertisementsToDatabase((List<V2Advertisement>)v2Advertisements);
-
-        return Ok(advertisements);
+        try
+        {
+            await postAdvertisementsToDatabase((List<V2Advertisement>)v2Advertisements);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Saving to JobListings to db did not work " + e);
+        }
+        return v2Advertisements;
     }
 
     /// <summary>
@@ -85,9 +92,6 @@ public class V4Advertisements : ControllerBase
     {
         // Retrieve JSON from API.
         string? json = await client.GetStringAsync(setHttpClientToPublicAPISettings() + "?municipal=" + location.ToUpper());
-
-        // parse string to json
-        //var advertisements = ParseJson(json);
 
         JObject jsonObject = JObject.Parse(json);
         JsonArray jSONArray = new JsonArray();
@@ -115,7 +119,7 @@ public class V4Advertisements : ControllerBase
     /// </summary>
     /// <param name="advertisements">List of Model advertisement</param>
     /// <returns></returns>
-    private async Task<Uri?> postAdvertisementsToDatabase(List<V2Advertisement> advertisements)
+    public virtual async Task<Uri?> postAdvertisementsToDatabase(List<V2Advertisement> advertisements)
     {
     //From: https://learn.microsoft.com/en-us/aspnet/web-api/overview/advanced/calling-a-web-api-from-a-net-client
         //client.BaseAddress = new Uri("http://localhost:5201/");
