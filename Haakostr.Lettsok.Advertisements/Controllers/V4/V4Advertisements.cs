@@ -102,14 +102,13 @@ public class V4Advertisements : ControllerBase, IAdvertisements
     /// <returns>Ok if advertisements are found</returns>
     [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("GetJobsByLocation")]
-    public async Task<ActionResult<List<V1Advertisement>>> GetJobsByLocation (string location)
+    public virtual async Task<List<V2Advertisement>> GetJobsByLocation (string location)
     {
         // Retrieve JSON from API.
         string? json = await client.GetStringAsync(setHttpClientToPublicAPISettings() + "?municipal=" + location.ToUpper());
 
-        JObject jsonObject = JObject.Parse(json);
-        JsonArray jSONArray = new JsonArray();
-        IList<JToken> results = jsonObject["content"].Children().ToList();
+        var results = parseJson(json);
+
         List<V2Advertisement> v2Advertisements = new List<V2Advertisement>();
 
         foreach (var item in results)
@@ -119,10 +118,15 @@ public class V4Advertisements : ControllerBase, IAdvertisements
         }
 
 
-        // Save to database
-        await postAdvertisementsToDatabase((List<V2Advertisement>)v2Advertisements);
-
-        return Ok(advertisements);
+        try
+        {
+            await postAdvertisementsToDatabase((List<V2Advertisement>)v2Advertisements);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Saving to JobListings to db did not work " + e);
+        }
+        return v2Advertisements;
     }
     
 

@@ -36,9 +36,8 @@ public class V4AdvertisementsTest
     /// <summary>
     /// Tests that the method GetJobs() runs as expected.
     /// </summary>
-    /// <returns></returns>
     [Fact]
-    public async Task Fetch_Jobs_From_Public_API()
+    public async void Fetch_Jobs_From_Public_API()
     {
         //Arrange
         expected.Add(_expectedAdvertisement);
@@ -58,7 +57,9 @@ public class V4AdvertisementsTest
         //Assert
         Assert.Equal(expected, actual);
     }
-
+    /// <summary>
+    /// Tests the method that parses json to advertisement
+    /// </summary>
     [Fact]
     public void Parse_Json_From_Public_API()
     {
@@ -83,5 +84,31 @@ public class V4AdvertisementsTest
         //Assert
         Assert.Equivalent(expected: 0, actual: 0, strict: true);
     }
+
+    /// <summary>
+    /// Tests that the method GetJobsByLocation() runs as expected.
+    /// </summary>
+    [Fact]
+    public async void Fetch_Jobs_From_Public_API_by_location()
+    {
+        //Arrange
+        expected.Add(_expectedAdvertisement);
+        mockList.Add(_expectedAdvertisement);
+
+        // Mockings
+        Mock<V4Advertisements> AdvertisementsMock = new Mock<V4Advertisements>(_logger);
+        AdvertisementsMock.Setup(x => x.GetJobsByLocation("Oslo")).ReturnsAsync(mockList);
+
+        // The source that made it possible: https://stackoverflow.com/questions/18610920/alter-mockitype-object-after-object-property-has-been-called
+        V4Advertisements v4AdvertisementObject = AdvertisementsMock.Object;
+        List<V2Advertisement> actual = new();
+
+        //Act
+        actual = await v4AdvertisementObject.GetJobsByLocation("Oslo");
+
+        //Assert
+        Assert.Equal(expected, actual);
+    }
+
 }
 

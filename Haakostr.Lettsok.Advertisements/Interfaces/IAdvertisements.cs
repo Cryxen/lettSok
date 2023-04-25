@@ -11,7 +11,7 @@ namespace Advertisements.Interfaces
 
 
         Task<List<V2Advertisement>> GetJobs();
-        Task<ActionResult<List<V1Advertisement>>> GetJobsByLocation(string location);
+        Task<List<V2Advertisement>> GetJobsByLocation(string location);
 	}
 }
 
