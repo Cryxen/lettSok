@@ -10,11 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+
 namespace Advertisements.Controllers.V4;
 
 [ApiController]
 [Route("api/v4/Advertisements")]
-public class V4Advertisements : ControllerBase, IAdvertisements 
+public class V4Advertisements : ControllerBase, IAdvertisements
 {
 
     // For connection to JobListingsDatabaseService
@@ -30,6 +31,30 @@ public class V4Advertisements : ControllerBase, IAdvertisements
         var jsonUrl = "https://arbeidsplassen.nav.no/public-feed/api/v1/ads";
 
         return jsonUrl;
+    }
+
+    /// <summary>
+    /// Retrieves listings from public API
+    /// </summary>
+    /// <returns>Json String</returns>
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public async Task<string> RetrieveFromPublicAPI(string location="No Location")
+    {
+        var response = await client.GetAsync(setHttpClientToPublicAPISettings());
+
+        if (location == "No Location")
+        {
+            response = await client.GetAsync(setHttpClientToPublicAPISettings());
+        }
+        else
+        {
+            response = await client.GetAsync(setHttpClientToPublicAPISettings() + "?municipal=" + location.ToUpper());
+        }
+        response.EnsureSuccessStatusCode();
+
+        string json = await response.Content.ReadAsStringAsync();
+
+        return json;
     }
 
     /// <summary>
@@ -70,7 +95,8 @@ public class V4Advertisements : ControllerBase, IAdvertisements
     public virtual async Task<List<V2Advertisement>> GetJobs()
     {
         // Retrieve JSON from API.
-        string? json = await client.GetStringAsync(setHttpClientToPublicAPISettings());
+
+        var json = await RetrieveFromPublicAPI();
 
         var results = parseJson(json);
 
@@ -105,7 +131,7 @@ public class V4Advertisements : ControllerBase, IAdvertisements
     public virtual async Task<List<V2Advertisement>> GetJobsByLocation (string location)
     {
         // Retrieve JSON from API.
-        string? json = await client.GetStringAsync(setHttpClientToPublicAPISettings() + "?municipal=" + location.ToUpper());
+        var json = await RetrieveFromPublicAPI(location);
 
         var results = parseJson(json);
 

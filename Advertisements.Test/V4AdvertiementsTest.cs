@@ -3,7 +3,8 @@ using Advertisements.Controllers.V4;
 using Advertisements.Interfaces;
 using Advertisements.Model.V1;
 using Advertisements.Model.V2;
-
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
@@ -13,9 +14,8 @@ namespace Advertisements.Test;
 
 // https://learn.microsoft.com/en-us/aspnet/web-api/overview/testing-and-debugging/unit-testing-controllers-in-web-api
 
-public class V4AdvertisementsTest 
+public class V4AdvertisementsTest  
 {
-
     // Set up advertisements lists to be used for checking
     private V2Advertisement _expectedAdvertisement = new V2Advertisement
     {
@@ -110,5 +110,32 @@ public class V4AdvertisementsTest
         Assert.Equal(expected, actual);
     }
 
+    [Fact]
+    public async Task Fetch_Listings_With_No_Location_From_Public_API()
+    {
+        //Arrange
+        Mock<V4Advertisements> AdvertisementsMock = new Mock<V4Advertisements>(_logger);
+        V4Advertisements v4AdvertisementObject = AdvertisementsMock.Object;
+
+        //Act
+        var actual = await v4AdvertisementObject.RetrieveFromPublicAPI();
+
+        //Assert
+        Assert.NotNull(actual);
+    }
+
+    [Fact]
+    public async Task Fetch_Listings_With_Location_From_Public_API()
+    {
+        //Arrange
+        Mock<V4Advertisements> AdvertisementsMock = new Mock<V4Advertisements>(_logger);
+        V4Advertisements v4AdvertisementObject = AdvertisementsMock.Object;
+
+        //Act
+        var actual = await v4AdvertisementObject.RetrieveFromPublicAPI("Oslo");
+
+        //Assert
+        Assert.NotNull(actual);
+    }
 }
 
