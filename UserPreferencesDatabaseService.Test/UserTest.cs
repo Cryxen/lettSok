@@ -48,4 +48,35 @@ public class UserTest : IClassFixture<DatabaseFixtureTest>
         //Cleanup
         Fixture.Cleanup();
     }
+
+    [Fact]
+    public async void Save_User_To_Database()
+    {
+        //Arrange
+        using var context = Fixture.CreateContext();
+        var controller = new V5UserPreferencesDatabaseController(_logger, context);
+        bool userFound = false;
+        V3User user = new()
+        {
+            Id = Guid.NewGuid(),
+            Name = "Ola Nordmann"
+        };
+
+        //Act
+        var saveUser = await controller.saveUser(user);
+        var userList = await controller.Get();
+
+        foreach (var item in userList)
+        {
+            if(item.Name == user.Name)
+                userFound = true;
+        }
+
+        //Assert
+        Assert.True(userFound);
+        Assert.Equal(3, userList.Count);
+
+        //Cleanup
+        Fixture.Cleanup();
+    }
 }
