@@ -19,7 +19,7 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
     public DatabaseFixtureTest Fixture { get; }
 
     [Fact]
-    public async void getAdvertisement()
+    public async void Get_Advertisements_From_Database()
     {
         // Arrange
         using var context = Fixture.CreateContext();
@@ -52,5 +52,6 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
         // Assert length of database
         Assert.Equal(2, advertisements.Count);
     }
+
 
 }
