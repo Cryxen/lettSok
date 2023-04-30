@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection.Metadata;
-using JobListingsDatabaseService.Data;
 using Microsoft.EntityFrameworkCore;
+using UserPreferencesDatabaseService.Data;
 
 namespace JobListingsDatabaseService.Test
 {
@@ -10,37 +10,25 @@ namespace JobListingsDatabaseService.Test
 	{
         private const string ConnectionString = "server=localhost;Database=DotnetDatabase;user=dbuser;password=password";
 
-        private static readonly object _lock = new();
         private static bool _databaseInitialized;
 
-        Advertisement advertisement1 = new()
+
+
+        User user1 = new()
         {
-            Uuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
-            Title = "Utvikling i moderasjon",
-            Description = "Vil du jobbe med utvikling i moderasjon? Søk denne jobben fordi beskrivelsen sier det er gøy!",
-            Employer = "Samfunnet",
-            EngagementType = "Livsstil",
-            JobTitle = "Hobby-Utvikler",
-            Municipal = "Oslo",
-            Expires = DateTime.Today
+            Name = "Test bruker 1",
+            Id = Guid.NewGuid()
+        };
+        User user2 = new()
+        {
+            Name = "Test bruker 1",
+            Id = Guid.NewGuid()
         };
 
-        Advertisement advertisement2 = new()
-        {
-            Uuid = "02ceec90-06ab-4222-8f80-9664a58f2a21",
-            Title = "Alltid utvikling",
-            Description = "Vil du jobbe med utvikling? Søk denne jobben fordi beskrivelsen sier det er gøy, og du vil aldri gjøre noe annet!",
-            Employer = "Samfunnet",
-            EngagementType = "Hele livet",
-            JobTitle = "Utvikler",
-            Municipal = "Oslo",
-            Expires = DateTime.Today
-        };
-
-        public JobListingsDbContext CreateContext()
-            => new JobListingsDbContext(
-                new DbContextOptionsBuilder<JobListingsDbContext>()
-                    .UseMySQL("server=localhost;Database=AdvertisementsFixtureTest;user=dbuser;password=password") // TODO: Finn ut hvordan denne kan peke til .json
+        public UserPreferencesDbContext CreateContext()
+            => new UserPreferencesDbContext(
+                new DbContextOptionsBuilder<UserPreferencesDbContext>()
+                    .UseMySQL("server=localhost;Database=UserPreferencesDatabaseFixtureTest;user=dbuser;password=password") // TODO: Finn ut hvordan denne kan peke til .json
                     .Options);
 
         public DatabaseFixtureTest()
@@ -56,10 +44,10 @@ namespace JobListingsDatabaseService.Test
         {
             using var context = CreateContext();
 
-            context.advertisements.RemoveRange(context.advertisements);
+            context.users.RemoveRange(context.users);
             context.AddRange(
-                advertisement1,
-                advertisement2
+                    user1,
+                    user2
                 );
             context.SaveChanges();
         }

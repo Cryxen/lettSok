@@ -50,6 +50,21 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
             await checkExpiration(advertisement);
         }
 
+        responseAdvertisements = await _lettsokDbContext.advertisements
+        .Select(advertisement => new V1Advertisement
+        {
+            Uuid = advertisement.Uuid,
+            Expires = advertisement.Expires,
+            Municipal = advertisement.Municipal,
+            Title = advertisement.Title,
+            Description = advertisement.Description,
+            JobTitle = advertisement.JobTitle,
+            Employer = advertisement.Employer,
+            EngagementType = advertisement.EngagementType
+
+        })
+        .ToListAsync();
+
         //return new V1Restult<IEnumerable<V1Advertisement>>(responseAdvertisements);
         return responseAdvertisements;
            
@@ -128,7 +143,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     }
 
 
-    private async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement)
+    public async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement)
     {
         DateTime date = DateTime.Today;
         if (DateTime.Compare(date, (DateTime)deleteAdvertisement.Expires) > 0)
@@ -137,7 +152,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
             {
                 Uuid = deleteAdvertisement.Uuid
             };
-
+            _lettsokDbContext.ChangeTracker.Clear();
             _lettsokDbContext.Remove(advertisement);
             await _lettsokDbContext.SaveChangesAsync();
         }
