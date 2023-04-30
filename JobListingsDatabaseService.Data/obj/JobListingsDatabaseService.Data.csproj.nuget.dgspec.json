@@ -52,6 +52,10 @@
               "target": "Package",
               "version": "[7.0.3, )"
             },
+            "Moq.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.0.2, )"
+            },
             "MySql.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.0, )"

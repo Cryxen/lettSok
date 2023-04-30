@@ -1,4 +1,5 @@
 ﻿using JobListingsDatabaseService.Data;
+using JobListingsDatabaseService.Interfaces;
 using JobListingsDatabaseService.Model.V1;
 using JobListingsDatabaseService.Model.V2;
 
@@ -10,7 +11,7 @@ namespace JobListingsDatabaseService.Controllers.V2;
 
 [ApiController]
 [Route("api/V2/Advertisements")]
-public class V2JobListingsDatabaseController : ControllerBase
+public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatabaseController
 {
     private readonly ILogger<V2JobListingsDatabaseController> _logger;
     private readonly JobListingsDbContext _lettsokDbContext;
@@ -26,9 +27,8 @@ public class V2JobListingsDatabaseController : ControllerBase
     /// </summary>
     /// <returns>List of advertisements</returns>
     [HttpGet("getAdvertisements")]
-    public async Task<List<V1Advertisement>> Get()
+    public virtual async Task<List<V1Advertisement>> Get()
     {
-        //var dbContext = new LettsokDbContext();
 
         var responseAdvertisements = await _lettsokDbContext.advertisements
             .Select(advertisement => new V1Advertisement
@@ -47,7 +47,7 @@ public class V2JobListingsDatabaseController : ControllerBase
         
         foreach (var advertisement in responseAdvertisements)
         {
-            await checkExpiration(advertisement, _lettsokDbContext);
+            await checkExpiration(advertisement);
         }
 
         //return new V1Restult<IEnumerable<V1Advertisement>>(responseAdvertisements);
@@ -128,7 +128,7 @@ public class V2JobListingsDatabaseController : ControllerBase
     }
 
 
-    private async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement, JobListingsDbContext dbContext)
+    private async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement)
     {
         DateTime date = DateTime.Today;
         if (DateTime.Compare(date, (DateTime)deleteAdvertisement.Expires) > 0)
@@ -138,8 +138,8 @@ public class V2JobListingsDatabaseController : ControllerBase
                 Uuid = deleteAdvertisement.Uuid
             };
 
-            dbContext.Remove(advertisement);
-            await dbContext.SaveChangesAsync();
+            _lettsokDbContext.Remove(advertisement);
+            await _lettsokDbContext.SaveChangesAsync();
         }
         return deleteAdvertisement;
     }

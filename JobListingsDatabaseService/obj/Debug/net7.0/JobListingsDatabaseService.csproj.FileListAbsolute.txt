@@ -90,3 +90,6 @@
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/JobListingsDatabaseService.Data.dll
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/JobListingsDatabaseService.Data.pdb
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/Newtonsoft.Json.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/Castle.Core.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/Moq.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/Moq.EntityFrameworkCore.dll

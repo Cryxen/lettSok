@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorView", "BlazorView\Bl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advertisements.Test", "Advertisements.Test\Advertisements.Test.csproj", "{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobListingsDatabaseService.Test", "JobListingsDatabaseService.Test\JobListingsDatabaseService.Test.csproj", "{9A6C5774-7845-4DBA-AFFB-2B7378FB1C9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A6C5774-7845-4DBA-AFFB-2B7378FB1C9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A6C5774-7845-4DBA-AFFB-2B7378FB1C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A6C5774-7845-4DBA-AFFB-2B7378FB1C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A6C5774-7845-4DBA-AFFB-2B7378FB1C9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
