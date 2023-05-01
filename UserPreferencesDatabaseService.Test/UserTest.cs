@@ -6,7 +6,8 @@ using UserPreferencesDatabaseService.Model.V3;
 
 namespace UserPreferencesDatabaseService.Test;
 
-public class UserTest : IClassFixture<DatabaseFixtureTest>
+[Collection("UserPreferenceCollection")]
+public class UserTest : IDisposable
 {
     private readonly ILogger<V5UserPreferencesDatabaseController>? _logger;
 
@@ -45,8 +46,6 @@ public class UserTest : IClassFixture<DatabaseFixtureTest>
         Assert.Equal(expected.ElementAt(0).Name, actual.ElementAt(0).Name);
         Assert.Equal(2, actual.Count);
 
-        //Cleanup
-        Fixture.Cleanup();
     }
 
     [Fact]
@@ -76,7 +75,9 @@ public class UserTest : IClassFixture<DatabaseFixtureTest>
         Assert.True(userFound);
         Assert.Equal(3, userList.Count);
 
-        //Cleanup
-        Fixture.Cleanup();
     }
+
+    public void Dispose()
+        => Fixture.Cleanup();
+    
 }

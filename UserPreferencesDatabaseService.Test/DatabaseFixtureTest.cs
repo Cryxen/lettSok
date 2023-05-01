@@ -6,7 +6,7 @@ using UserPreferencesDatabaseService.Data;
 namespace JobListingsDatabaseService.Test
 {
     // Using fixture https://learn.microsoft.com/en-us/ef/core/testing/testing-with-the-database
-    public class DatabaseFixtureTest
+    public class DatabaseFixtureTest 
 	{
         private const string ConnectionString = "server=localhost;Database=DotnetDatabase;user=dbuser;password=password";
 
@@ -17,12 +17,18 @@ namespace JobListingsDatabaseService.Test
         User user1 = new()
         {
             Name = "Test bruker 1",
-            Id = Guid.NewGuid()
+            Id = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8") // Making a static GUID to be used as foreign key in db.
         };
         User user2 = new()
         {
             Name = "Test bruker 1",
             Id = Guid.NewGuid()
+        };
+
+        InterestedAdvertisement interest = new()
+        {
+            AdvertisementUuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
+            UserId = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8")
         };
 
         public UserPreferencesDbContext CreateContext()
@@ -33,6 +39,8 @@ namespace JobListingsDatabaseService.Test
 
         public DatabaseFixtureTest()
         {
+            Guid _id = Guid.NewGuid();
+
             using var context = CreateContext();
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
@@ -45,14 +53,23 @@ namespace JobListingsDatabaseService.Test
             using var context = CreateContext();
 
             context.users.RemoveRange(context.users);
+            context.interestedAdvertisements.RemoveRange(context.interestedAdvertisements);
             context.AddRange(
                     user1,
-                    user2
+                    user2,
+                    interest
                 );
             context.SaveChanges();
         }
 
 
+    }
+
+    [CollectionDefinition("UserPreferenceCollection")]
+    public class TransactionalTestsCollection : ICollectionFixture<DatabaseFixtureTest>
+    {
+        // TO BE EMPTY. Used to apply Collection definition
+        // See https://xunit.net/docs/shared-context for more info.
     }
 }
 
