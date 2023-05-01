@@ -6,44 +6,45 @@ using UserPreferencesDatabaseService.Model.V3;
 
 namespace UserPreferencesDatabaseService.Test
 {
-	[Collection("UserPreferenceCollection")]
-	public class InterestTest : IDisposable
-    {
+    [Collection("UserPreferenceCollection")]
+    public class UninterestTest : IDisposable
+	{
         private readonly ILogger<V5UserPreferencesDatabaseController>? _logger;
 
-        public InterestTest(DatabaseFixtureTest fixture)
+        public UninterestTest(DatabaseFixtureTest fixture)
         => Fixture = fixture;
 
         public DatabaseFixtureTest Fixture { get; }
 
-
         [Fact]
-        public async void Get_Interests_In_Database()
+        public async void Get_Uninterests_In_Database()
         {
             //Arrange
             using var context = Fixture.CreateContext();
             var controller = new V5UserPreferencesDatabaseController(_logger, context);
 
+            //Act
 
 
-            V3Interested interest = new()
+            V3Uninterested uninterest = new()
             {
                 AdvertisementUuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
                 UserGuid = Guid.NewGuid()
             };
 
-            List<V3Interested> expected = new();
-            expected.Add(interest);
+            List<V3Uninterested> expected = new();
+            expected.Add(uninterest);
 
             //Act
-            var actual = await controller.getInterest();
+            var actual = await controller.getUninterest();
 
             //Assert
             Assert.Equal(expected.ElementAt(0).AdvertisementUuid, actual.ElementAt(0).AdvertisementUuid);
+            //Assert
         }
 
         [Fact]
-        public async void Post_New_Interested_Advertisement()
+        public async void Post_New_Uninterested_Advertisement()
         {
             //Arrange
             using var context = Fixture.CreateContext();
@@ -52,7 +53,7 @@ namespace UserPreferencesDatabaseService.Test
             //Get a userID
             var users = await controller.Get();
 
-            V3Interested expected = new()
+            V3Uninterested expected = new()
             {
                 AdvertisementUuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
                 UserGuid = users.ElementAt(1).Id
@@ -61,9 +62,9 @@ namespace UserPreferencesDatabaseService.Test
             int index = 0;
 
             //Act
-            var result = await controller.saveInterest(expected);
+            var result = await controller.saveUninterest(expected);
 
-            var actual = await controller.getInterest();
+            var actual = await controller.getUninterest();
 
             foreach (var item in actual)
             {
@@ -81,7 +82,7 @@ namespace UserPreferencesDatabaseService.Test
         }
 
         [Fact]
-        public async void Delete_Interest_From_Database()
+        public async void Delete_Uninterest_From_Database()
         {
             //Arrange
             using var context = Fixture.CreateContext();
@@ -89,26 +90,26 @@ namespace UserPreferencesDatabaseService.Test
 
             bool actual = false;
 
-                //Get a userID and save interest to be deleted
+            //Get a userID and save interest to be deleted
             var users = await controller.Get();
 
-            V3Interested InterestToBeSaved = new()
+            V3Uninterested UninterestToBeSaved = new()
             {
                 AdvertisementUuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
                 UserGuid = users.ElementAt(1).Id
             };
 
-            var saveInterest = await controller.saveInterest(InterestToBeSaved);
+            var saveUninterest = await controller.saveUninterest(UninterestToBeSaved);
 
             //Act
-            await controller.DeleteInterest(InterestToBeSaved.UserGuid, InterestToBeSaved.AdvertisementUuid);
+            await controller.deleteUninterest(UninterestToBeSaved.UserGuid, UninterestToBeSaved.AdvertisementUuid);
 
             //Get Interested advertisements to see if the advertisement has been deleted
-            var result = await controller.getInterest();
+            var result = await controller.getUninterest();
 
             foreach (var item in result)
             {
-                if (item.UserGuid == InterestToBeSaved.UserGuid && item.AdvertisementUuid == InterestToBeSaved.AdvertisementUuid)
+                if (item.UserGuid == UninterestToBeSaved.UserGuid && item.AdvertisementUuid == UninterestToBeSaved.AdvertisementUuid)
                 {
                     actual = true;
                 }
@@ -119,7 +120,7 @@ namespace UserPreferencesDatabaseService.Test
         }
 
         public void Dispose()
-            => Fixture.Cleanup();
+        => Fixture.Cleanup();
     }
 }
 

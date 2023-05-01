@@ -31,6 +31,13 @@ namespace JobListingsDatabaseService.Test
             UserId = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8")
         };
 
+        UninterestedAdvertisement uninterest = new()
+        {
+            AdvertisementUuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
+            UserId = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8")
+        };
+
+
         public UserPreferencesDbContext CreateContext()
             => new UserPreferencesDbContext(
                 new DbContextOptionsBuilder<UserPreferencesDbContext>()
@@ -54,10 +61,12 @@ namespace JobListingsDatabaseService.Test
 
             context.users.RemoveRange(context.users);
             context.interestedAdvertisements.RemoveRange(context.interestedAdvertisements);
+            context.uninterestedAdvertisements.RemoveRange(context.uninterestedAdvertisements);
             context.AddRange(
                     user1,
                     user2,
-                    interest
+                    interest,
+                    uninterest
                 );
             context.SaveChanges();
         }

@@ -143,7 +143,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     }
 
 
-    public async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement)
+    private async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement)
     {
         DateTime date = DateTime.Today;
         if (DateTime.Compare(date, (DateTime)deleteAdvertisement.Expires) > 0)
