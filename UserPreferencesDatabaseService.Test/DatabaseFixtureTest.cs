@@ -37,6 +37,17 @@ namespace JobListingsDatabaseService.Test
             UserId = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8")
         };
 
+        Location location = new()
+        {
+            Id = 1,
+            Municipality = "Oslo"
+        };
+
+        SearchLocation searchLocation = new()
+        {
+            LocationId = 1,
+            UserId = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8")
+        };
 
         public UserPreferencesDbContext CreateContext()
             => new UserPreferencesDbContext(
@@ -62,11 +73,15 @@ namespace JobListingsDatabaseService.Test
             context.users.RemoveRange(context.users);
             context.interestedAdvertisements.RemoveRange(context.interestedAdvertisements);
             context.uninterestedAdvertisements.RemoveRange(context.uninterestedAdvertisements);
+            context.searchLocations.RemoveRange(context.searchLocations);
+            context.locations.RemoveRange(context.locations);
             context.AddRange(
                     user1,
                     user2,
                     interest,
-                    uninterest
+                    uninterest,
+                    location,
+                    searchLocation
                 );
             context.SaveChanges();
         }
