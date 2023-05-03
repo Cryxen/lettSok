@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
 using AdvertisementWorker.Model;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace AdvertisementWorker;
@@ -16,6 +17,11 @@ public class Worker : BackgroundService
     }
 
     private static HttpClient client = new HttpClient();
+    string prefferedLocationsJson;
+    string locationsJson;
+    List<Location> locationList = new();
+                    List<Advertisement> Advertisements = new List<Advertisement>();
+
 
     // Public API settings
     private static string setHttpClientToPublicAPISettings()
@@ -34,31 +40,90 @@ public class Worker : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             // Find out if any prefered saved locations have been saved:
+            try
+            {
+                // Empty location list
+                locationList.Clear();
+
+
+                // Get all locations
+                locationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getLocations", stoppingToken);
+                var locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsJson);
+
+
+                // Get preffered Locations
+                prefferedLocationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getSearchLocations", stoppingToken);
+                var prefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(prefferedLocationsJson);
+
+                // Match locations with prefferedLocations. Make a list
+                foreach (var location in locations)
+                {
+                    foreach (var prefferedLocation in prefferedLocations)
+                    {
+                        if (location.Id == prefferedLocation.LocationId)
+                        {
+                            locationList.Add(location);
+                        }
+                    }
+                }
+            }
+            catch 
+            {
+                _logger.LogError("Fetching Preferred Locations from database did not work ");
+            }
 
             // If search locations have been saved
+            if (locationList.Count > 0)
+            {
+                foreach (var location in locationList)
+                {
+                    var jsonMunicipality = await RetrieveFromPublicAPI(location.Municipality);
+                    _logger.LogInformation("Retrieving jobs for {municipality}", location.Municipality);
+
+                    var resultMunicipality = parseJson(jsonMunicipality);
+                    List<Advertisement> AdvertisementsMunicipality = new List<Advertisement>();
+
+                    foreach (var item in resultMunicipality)
+                    {
+                        Advertisement advertisementItem = item.ToObject<Advertisement>();
+                        AdvertisementsMunicipality.Add(advertisementItem);
+                    }
+
+                    try
+                    {
+                        await postAdvertisementsToDatabase((List<Advertisement>)AdvertisementsMunicipality);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError("Saving to JobListings to db did not work " + e);
+                    }
+                    await Task.Delay(60000, stoppingToken);
+                }
+            }
 
             // Search locations -> Iterate through list and fetch jobs based on search location
 
             // No search locations -> Pull from all jobs
-
-            var json = await RetrieveFromPublicAPI();
-            var results = parseJson(json);
-            List<Advertisement> Advertisements = new List<Advertisement>();
-            foreach (var item in results)
+            else
             {
-                Advertisement advertisementItem = item.ToObject<Advertisement>();
-                Advertisements.Add(advertisementItem);
-            }
+                var json = await RetrieveFromPublicAPI();
+                var results = parseJson(json);
+                List<Advertisement> Advertisements = new List<Advertisement>();
+                foreach (var item in results)
+                {
+                    Advertisement advertisementItem = item.ToObject<Advertisement>();
+                    Advertisements.Add(advertisementItem);
+                }
 
-            try
-            {
-                await postAdvertisementsToDatabase((List<Advertisement>)Advertisements);
+                try
+                {
+                    await postAdvertisementsToDatabase((List<Advertisement>)Advertisements);
+                }
+                catch 
+                {
+                    _logger.LogError("Saving to JobListings to db did not work ");
+                }
             }
-            catch (Exception e)
-            {
-                _logger.LogError("Saving to JobListings to db did not work " + e);
-            }
-
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
             await Task.Delay(120000, stoppingToken);
         }
