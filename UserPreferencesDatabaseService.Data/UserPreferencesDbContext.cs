@@ -33,6 +33,12 @@ namespace UserPreferencesDatabaseService.Data
                 mb.HasKey(User => User.Id);
             });
 
+            modelBuilder.Entity<LoggedOnUser>(mb =>
+            {
+                mb.ToTable("LoggedOnUser");
+                mb.HasOne(u => u.user);
+            });
+
             modelBuilder.Entity<InterestedAdvertisement>()
                 .HasOne<User>(u => u.User)
                 .WithMany(i => i.interestedAdvertisements)
