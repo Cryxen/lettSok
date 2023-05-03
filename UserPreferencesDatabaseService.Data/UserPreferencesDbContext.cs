@@ -10,6 +10,7 @@ namespace UserPreferencesDatabaseService.Data
         public DbSet<UninterestedAdvertisement> uninterestedAdvertisements { get; set; }
         public DbSet<Location> locations { get; set; }
         public DbSet<SearchLocation> searchLocations { get; set; }
+        public DbSet<LoggedOnUser> loggedOnUsers { get; set; }
 
         public UserPreferencesDbContext()
         {

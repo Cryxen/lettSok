@@ -60,12 +60,12 @@ namespace UserPreferencesDatabaseService.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<Guid>("userId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("LoggedOnUser", (string)null);
                 });
@@ -141,7 +141,7 @@ namespace UserPreferencesDatabaseService.Data.Migrations
                 {
                     b.HasOne("UserPreferencesDatabaseService.Data.User", "user")
                         .WithMany()
-                        .HasForeignKey("userId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

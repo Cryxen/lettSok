@@ -11,8 +11,8 @@ using UserPreferencesDatabaseService.Data;
 namespace UserPreferencesDatabaseService.Data.Migrations
 {
     [DbContext(typeof(UserPreferencesDbContext))]
-    [Migration("20230503052936_LoggedOnUserTable")]
-    partial class LoggedOnUserTable
+    [Migration("20230503193500_FixedLoggedOnUserBug")]
+    partial class FixedLoggedOnUserBug
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,12 +63,12 @@ namespace UserPreferencesDatabaseService.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<Guid>("userId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("LoggedOnUser", (string)null);
                 });
@@ -144,7 +144,7 @@ namespace UserPreferencesDatabaseService.Data.Migrations
                 {
                     b.HasOne("UserPreferencesDatabaseService.Data.User", "user")
                         .WithMany()
-                        .HasForeignKey("userId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

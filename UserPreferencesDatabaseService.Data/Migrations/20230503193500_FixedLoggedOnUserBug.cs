@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace UserPreferencesDatabaseService.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class testMigration : Migration
+    public partial class FixedLoggedOnUserBug : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,6 +56,26 @@ namespace UserPreferencesDatabaseService.Data.Migrations
                     table.PrimaryKey("PK_interestedAdvertisements", x => x.Id);
                     table.ForeignKey(
                         name: "FK_interestedAdvertisements_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "LoggedOnUser",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LoggedOnUser", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LoggedOnUser_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
@@ -117,6 +137,11 @@ namespace UserPreferencesDatabaseService.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LoggedOnUser_UserId",
+                table: "LoggedOnUser",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_searchLocations_LocationId",
                 table: "searchLocations",
                 column: "LocationId");
@@ -137,6 +162,9 @@ namespace UserPreferencesDatabaseService.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "interestedAdvertisements");
+
+            migrationBuilder.DropTable(
+                name: "LoggedOnUser");
 
             migrationBuilder.DropTable(
                 name: "searchLocations");

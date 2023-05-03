@@ -6,6 +6,9 @@ namespace UserPreferencesDatabaseService.Data
 		public int Id { get; set; }
 
 		public User user { get; set; }
-	}
+
+        public Guid UserId { get; set; }
+
+    }
 }
 
