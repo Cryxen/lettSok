@@ -77,17 +77,10 @@ public class Worker : BackgroundService
             {
                 foreach (var location in locationList)
                 {
-                    var jsonMunicipality = await RetrieveFromPublicAPI(location.Municipality);
-                    _logger.LogDebug("Retrieving jobs for {municipality}", location.Municipality);
 
-                    var resultMunicipality = parseJson(jsonMunicipality);
-                    List<Advertisement> AdvertisementsMunicipality = new List<Advertisement>();
+                    _logger.LogDebug("Retrieving jobs for {municipality} at time {time}", location.Municipality + DateTimeOffset.Now);
 
-                    foreach (var item in resultMunicipality)
-                    {
-                        Advertisement advertisementItem = item.ToObject<Advertisement>();
-                        AdvertisementsMunicipality.Add(advertisementItem);
-                    }
+                    var AdvertisementsMunicipality = await FetchJobsAndParseFromPublicAPI(location.Municipality);
 
                     try
                     {
@@ -107,9 +100,8 @@ public class Worker : BackgroundService
             else
             {
                 _logger.LogDebug("Fetching jobs from public API without location at:{time}", DateTimeOffset.Now);
-                List<Advertisement> Advertisements = new List<Advertisement>();
 
-                Advertisements = await FetchJobsAndParseFromPublicAPI();
+                var Advertisements = await FetchJobsAndParseFromPublicAPI();
 
                 try
                 {
@@ -123,6 +115,11 @@ public class Worker : BackgroundService
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
             await Task.Delay(120000, stoppingToken);
         }
+    }
+
+    public void MatchFavoredLocations()
+    {
+
     }
 
     public async Task<List<Advertisement>> FetchJobsAndParseFromPublicAPI(string location = "No Location")

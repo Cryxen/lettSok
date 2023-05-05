@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AdvertisementWorker.Test;
 
-public class UnitTest1
+public class AdvertisementWorkerTest
 {
     // Set up advertisement used for checking
 
