@@ -10,7 +10,6 @@ namespace UserPreferencesDatabaseService.Data
         public DbSet<UninterestedAdvertisement> uninterestedAdvertisements { get; set; }
         public DbSet<Location> locations { get; set; }
         public DbSet<SearchLocation> searchLocations { get; set; }
-        public DbSet<LoggedOnUser> loggedOnUsers { get; set; }
 
         public UserPreferencesDbContext()
         {
@@ -32,12 +31,6 @@ namespace UserPreferencesDatabaseService.Data
                 mb.Property(User => User.Name);
 
                 mb.HasKey(User => User.Id);
-            });
-
-            modelBuilder.Entity<LoggedOnUser>(mb =>
-            {
-                mb.ToTable("LoggedOnUser");
-                mb.HasOne(u => u.user);
             });
 
             modelBuilder.Entity<InterestedAdvertisement>()

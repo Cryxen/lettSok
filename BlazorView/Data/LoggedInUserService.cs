@@ -10,6 +10,9 @@ namespace BlazorView.Data
 
         public static List<string> interests { get; set; }
         public static List<string> uninterests { get; set; }
+
+        private static HttpClient client = new HttpClient();
+
     }
 }
 

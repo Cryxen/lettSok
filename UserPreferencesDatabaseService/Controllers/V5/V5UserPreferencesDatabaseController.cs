@@ -305,36 +305,5 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         }
         await _UserPreferencesDbContext.SaveChangesAsync();
     }
-
-    [HttpGet("getLoggedOnUsers")]
-    public async Task<List<V3User>> getLoggedOnUsers()
-    {
-        var LoggedOnUser = await _UserPreferencesDbContext.loggedOnUsers
-        .Select(user => new V3User
-        {
-            Id = user.UserId
-        }).ToListAsync();
-
-        return LoggedOnUser;
-    }
-
-    [HttpPost("saveLoggedOnUser")]
-    public async Task<V3Result<V3User>> saveLoggedOnUser(V3User user)
-    {
-        var userToSave = new LoggedOnUser()
-        {
-            UserId = user.Id
-        };
-        _UserPreferencesDbContext.Add(userToSave);
-
-        await _UserPreferencesDbContext.SaveChangesAsync();
-
-        var result = new V3Result<V3User>();
-        result.Value = new V3User
-        {
-            Id = user.Id
-        };
-        return result;
-    }
 }
 

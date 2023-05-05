@@ -78,7 +78,7 @@ public class Worker : BackgroundService
                 foreach (var location in locationList)
                 {
                     var jsonMunicipality = await RetrieveFromPublicAPI(location.Municipality);
-                    _logger.LogInformation("Retrieving jobs for {municipality}", location.Municipality);
+                    _logger.LogDebug("Retrieving jobs for {municipality}", location.Municipality);
 
                     var resultMunicipality = parseJson(jsonMunicipality);
                     List<Advertisement> AdvertisementsMunicipality = new List<Advertisement>();
@@ -106,14 +106,10 @@ public class Worker : BackgroundService
             // No search locations -> Pull from all jobs
             else
             {
-                var json = await RetrieveFromPublicAPI();
-                var results = parseJson(json);
+                _logger.LogDebug("Fetching jobs from public API without location at:{time}", DateTimeOffset.Now);
                 List<Advertisement> Advertisements = new List<Advertisement>();
-                foreach (var item in results)
-                {
-                    Advertisement advertisementItem = item.ToObject<Advertisement>();
-                    Advertisements.Add(advertisementItem);
-                }
+
+                Advertisements = await FetchJobsAndParseFromPublicAPI();
 
                 try
                 {
@@ -127,6 +123,30 @@ public class Worker : BackgroundService
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
             await Task.Delay(120000, stoppingToken);
         }
+    }
+
+    public async Task<List<Advertisement>> FetchJobsAndParseFromPublicAPI(string location = "No Location")
+    {
+        string json;
+
+        if (location == "No Location")
+        {
+            json = await RetrieveFromPublicAPI();
+        }
+        else
+        {
+            json = await RetrieveFromPublicAPI(location);
+        }
+
+        var results = parseJson(json);
+        List<Advertisement> Advertisements = new List<Advertisement>();
+        foreach (var item in results)
+        {
+            Advertisement advertisementItem = item.ToObject<Advertisement>();
+            Advertisements.Add(advertisementItem);
+        }
+
+        return Advertisements;
     }
 
 
