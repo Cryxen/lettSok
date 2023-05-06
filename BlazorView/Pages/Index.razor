@@ -3,7 +3,7 @@
 @using Newtonsoft.Json
 
 @inject FetchUserFromDb UserListingService
-@inject FetchJobListingsFromInternet JobListingsFromInternetService
+@inject ILogger<Index> logger
 @page "/"
 
 <PageTitle>Index</PageTitle>
@@ -77,6 +77,7 @@
 
     private async Task showFullListing(Advertisement advertisement)
     {
+        logger.LogDebug("Showing the full listing, time: {time}", DateTimeOffset.Now);
         advertisementToShow = advertisement;
         fullListingStyle = "visibility: visible;";
         tempSearch = searchValue;

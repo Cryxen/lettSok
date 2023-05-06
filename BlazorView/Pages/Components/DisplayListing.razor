@@ -1,5 +1,6 @@
 ﻿@using BlazorView.Data
 @inject FetchUserFromDb userFromDb
+@inject ILogger<DisplayListing> logger
 
 @if (showListing && !LoggedInUserService.uninterests.Contains(item.Uuid))
     {    
@@ -41,6 +42,7 @@
     public bool showFullAdvertisement { get; set; }
     private void saveLikes()
     {
+        logger.LogInformation("Saving advertisement Uuid: {0} and User Id: {1} as a new interest, time: {time}", item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
         showListing = false;
 
         //Interests
@@ -56,6 +58,8 @@
 
     private void saveNotLikes()
     {
+        logger.LogInformation("Saving advertisement Uuid: {0} and User Id: {1} as a new Uninterest, time: {time}", item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
+
         showListing = false;
 
         //Interests
@@ -71,6 +75,8 @@
 
     private void deleteNotLikes()
     {
+        logger.LogInformation("Deleting advertisement Uuid: {0} and User Id: {1} as an uninterest, time: {time}", item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
+
         showListing = false;
 
         Interest interest = new();
@@ -85,6 +91,8 @@
 
     private void deleteLikes()
     {
+        logger.LogInformation("Deleting advertisement Uuid: {0} and User Id: {1} as an interest, time: {time}", item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
+
         showListing = false;
 
         Interest interest = new();

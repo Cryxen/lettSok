@@ -4,6 +4,7 @@
 @using BlazorView.Pages.Components
 
 @inject FetchUserFromDb UserListingService
+@inject ILogger<UserPreference> logger
 
 <h3>
     Pålogget bruker: @LoggedInUserService.Name
@@ -50,12 +51,11 @@
     */
     FormModel formModel = new();
     string name;
-    int counter;
     bool showUsers = true;
     private async Task submitUser()
     {
+        logger.LogInformation("Submitting user with name: {0} to be saved to Database, time: {time}", name, DateTimeOffset.Now);
         showUsers = false;
-        counter++;
 
         User user = new User();
         user.Name = name;

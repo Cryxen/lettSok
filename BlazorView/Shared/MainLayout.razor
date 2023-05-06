@@ -4,6 +4,7 @@
 @using Newtonsoft.Json
 
 @inject FetchUserFromDb UserListingService
+@inject ILogger<MainLayout> logger
 
     <PageTitle>BlazorView</PageTitle>
     <div class="page">
@@ -40,7 +41,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-
+        logger.LogInformation("Initializing Logged in user, time: {time}", DateTimeOffset.Now);
         usersFromDb = await UserListingService.FetchUser();
         users = JsonConvert.DeserializeObject<IEnumerable<User>>(usersFromDb);
 

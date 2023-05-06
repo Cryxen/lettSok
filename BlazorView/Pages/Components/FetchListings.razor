@@ -4,6 +4,8 @@
 @using Newtonsoft.Json
 
 @inject FetchJobListingsFromDb JobListingsService
+@inject ILogger<FetchListings> logger
+ 
 <!--If statement checking if user searches for an ad. -->
 
 <p>@searchValue</p>
@@ -53,6 +55,7 @@ else
     /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
+        logger.LogInformation("Fetching listings from Database, time: {time}", DateTimeOffset.Now);
         advertisementsFromDb = await JobListingsService.FetchJobListings();
         advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
     }

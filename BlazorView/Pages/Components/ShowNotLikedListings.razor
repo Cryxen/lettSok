@@ -2,7 +2,7 @@
 @using Newtonsoft.Json
 @inject FetchJobListingsFromDb JobListingsService
 @inject FetchUserFromDb UserListingService
-
+@inject ILogger<ShowNotLikedListings> logger
 
 <h3>Stillinger som er markert som ikke likt:</h3>
 @foreach (var item in advertisementList)
@@ -38,6 +38,7 @@
             advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
 
             // Fetch uninterests TODO: Try to make this global at some point
+            logger.LogInformation("Get uninterests from Database, time: {time}", DateTimeOffset.Now);
             uninterestsFromDb = await UserListingService.FetchUninterest();
             uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(uninterestsFromDb);
 
@@ -52,13 +53,14 @@
         }
 
         private void RemoveFromUninterests(Advertisement advertisement)
-{
+        {
             Interest interest = new();
             interest.userGuid = LoggedInUserService.Id;
             interest.advertisementUuid = advertisement.Uuid;
+            logger.LogInformation("Deleting uninterest from Database, Advertisement Uuid: {0}, User Id: {1}, Time: {time}", interest.advertisementUuid, interest.userGuid, DateTimeOffset.Now);
 
             UserListingService.DeleteUninterest(interest);
             LoggedInUserService.uninterests.Remove(advertisement.Uuid);
-}
+        }
     }
 

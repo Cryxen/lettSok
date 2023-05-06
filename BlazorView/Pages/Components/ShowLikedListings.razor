@@ -3,6 +3,7 @@
 
 @inject FetchJobListingsFromDb JobListingsService
 @inject FetchUserFromDb UserListingService
+@inject ILogger<ShowLikedListings> logger
 
 <h3>Stillinger som er markert som likt:</h3>
 @foreach (var item in advertisementList)
@@ -35,10 +36,12 @@
     /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
+        logger.LogInformation("Fetching Job Listings from Database, time: {time}", DateTimeOffset.Now);
         advertisementsFromDb = await JobListingsService.FetchJobListings();
         advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
 
         // Fetch uninterests TODO: Try to make this global at some point
+        logger.LogInformation("Fetching Interests from Database, time: {time}", DateTimeOffset.Now);
         interestsFromDb = await UserListingService.FetchInterest();
         interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(interestsFromDb);
 
@@ -54,6 +57,7 @@
 
     private void RemoveFromInterests(Advertisement advertisement)
     {
+        logger.LogInformation("Removing Advertisement Uuid: {0} from Interest list for user {1}, time: {time}", advertisement.Uuid, LoggedInUserService.Name, DateTimeOffset.Now);
         Interest interest = new();
         interest.userGuid = LoggedInUserService.Id;
         interest.advertisementUuid = advertisement.Uuid;

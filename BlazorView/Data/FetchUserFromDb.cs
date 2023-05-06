@@ -9,12 +9,19 @@ namespace BlazorView.Data
 
 
 	{
-		
+        
+        private readonly ILogger logger;
 
+        public FetchUserFromDb(ILogger<FetchUserFromDb> logger)
+        {
+            this.logger = logger;
+        }
+        
         private static HttpClient client = new HttpClient();
 
         public async Task<string> FetchUser()
         {
+            logger.LogDebug("Fetching Users from Database, time: {time}", DateTimeOffset.Now);
             string json = await client.GetStringAsync("https://localhost:7293/V4UserPreferencesDatabase/getUsers");
 
             return json;
@@ -25,6 +32,7 @@ namespace BlazorView.Data
         /// <param name="user"></param>
         public async void PostUser(User user) 
         {
+            logger.LogDebug("Saving User: {0} to Database, time: {time}", user.Name, DateTimeOffset.Now);
             var body = JsonConvert.SerializeObject(user);
             StringContent content = new StringContent(body, encoding: System.Text.Encoding.UTF8, "application/json");
             using var response = await client.PostAsync("https://localhost:7293/V4UserPreferencesDatabase/saveUser", content);
@@ -32,7 +40,7 @@ namespace BlazorView.Data
 
         public async void PostInterest(Interest interest)
         {
-            
+            logger.LogDebug("Saving interest with advertisement Uuid: {0}, and User Id: {1} to Database, time: {time}", interest.advertisementUuid, interest.userGuid, DateTimeOffset.Now);
             var body = JsonConvert.SerializeObject(interest);
             StringContent content = new StringContent(body, encoding: System.Text.Encoding.UTF8, "application/json");
             using var response = await client.PostAsync("https://localhost:7293/V3UserPreferencesDatabase/saveInterest", content);
@@ -40,6 +48,7 @@ namespace BlazorView.Data
 
         public async Task<string> FetchInterest()
         {
+            logger.LogDebug("Fetching Interests from Database, time: {time}", DateTimeOffset.Now);
             string json = await client.GetStringAsync("https://localhost:7293/V4UserPreferencesDatabase/getInterest");
 
             return json;
@@ -47,12 +56,14 @@ namespace BlazorView.Data
 
         public async void DeleteInterest(Interest interest)
         {
+            logger.LogDebug("Deleting interest with Advertisement Uuid: {0}, and User Id: {1} from Database, time: {time}", interest.advertisementUuid, interest.userGuid, DateTimeOffset.Now);
             string uri = $"https://localhost:7293/V5UserPreferencesDatabase/deleteInterest?UserGuid={interest.userGuid}&AdvertisementUuid={interest.advertisementUuid}";
             using var response = await client.DeleteAsync(uri);
         }
 
         public async void PostUninterest(Interest interest)
         {
+            logger.LogDebug("Saving Uninterest with advertisement Uuid: {0}, and User Id: {1} to Database, time: {time}", interest.advertisementUuid, interest.userGuid, DateTimeOffset.Now);
 
             var body = JsonConvert.SerializeObject(interest);
             StringContent content = new StringContent(body, encoding: System.Text.Encoding.UTF8, "application/json");
@@ -61,6 +72,8 @@ namespace BlazorView.Data
 
         public async Task<string> FetchUninterest()
         {
+            logger.LogDebug("Fetching Uninterest from Database, time: {time}", DateTimeOffset.Now);
+
             string json = await client.GetStringAsync("https://localhost:7293/V4UserPreferencesDatabase/getUninterest");
 
             return json;
@@ -68,6 +81,8 @@ namespace BlazorView.Data
 
         public async void DeleteUninterest(Interest interest)
         {
+            logger.LogDebug("Deleting Uninterest with Advertisement Uuid: {0}, and User Id: {1} from Database, time: {time}", interest.advertisementUuid, interest.userGuid, DateTimeOffset.Now);
+
             string uri = $"https://localhost:7293/V5UserPreferencesDatabase/deleteUninterest?UserGuid={interest.userGuid}&AdvertisementUuid={interest.advertisementUuid}";
             using var response = await client.DeleteAsync(uri);
         }

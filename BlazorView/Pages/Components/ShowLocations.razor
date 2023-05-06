@@ -1,6 +1,8 @@
 ﻿@using BlazorView.Data
 @using Newtonsoft.Json
+
 @inject FetchLocationsFromDb LocationService
+@inject ILogger<ShowLocations> logger
 
 <h3>Kommuner:</h3>
         <section>
@@ -56,10 +58,12 @@
     {
 
         // Fetch list of municipalities in Norway from db
+        logger.LogInformation("Fetching list of municipalities in Norway from Database, time: {time}", DateTimeOffset.Now);
         locationsFromDb = await LocationService.FetchLocations();
         locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsFromDb);
 
         // Fetch list of preferred municipalities in Norway from db
+        logger.LogInformation("Fetching list of preferred municipalities in Norway from Database, time: {time}", DateTimeOffset.Now);
         preferredLocationsFromDb = await LocationService.FetchPreferredLocations();
         prefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(preferredLocationsFromDb);
 
@@ -74,10 +78,10 @@
 
     private async void selectLocation()
     {
-
         PreferredLocation preferredLocation = new();
         preferredLocation.UserId = LoggedInUserService.Id;
         preferredLocation.LocationId = selectedLocation;
+        logger.LogInformation("Saving new preferred location to Database, Location Id: {0}, User Id: {1}, Time: {time}", preferredLocation.LocationId, preferredLocation.UserId, DateTimeOffset.Now);
 
         LocationService.PostPreferredLocation(preferredLocation);
         prefferedLocations.Append(preferredLocation);
@@ -86,12 +90,14 @@
     }
 
     private async void DeletePreferredLocation(Location location)
-{
+    {
         PreferredLocation preferredLocation = new();
         preferredLocation.LocationId = location.Id;
         preferredLocation.UserId = LoggedInUserService.Id;
+        logger.LogInformation("Deleting preferred location to Database, Location Id: {0}, User Id: {1}, Time: {time}", preferredLocation.LocationId, preferredLocation.UserId, DateTimeOffset.Now);
+
         LocationService.DeletePreferredLocation(preferredLocation);
         await showLocations.InvokeAsync();
-}
+    }
 }
 

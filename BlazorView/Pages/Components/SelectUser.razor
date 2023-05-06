@@ -1,6 +1,6 @@
 ﻿@using BlazorView.Data
 @inject NavigationManager navigationManager
-
+@inject ILogger<SelectUser> logger
 
 
 <h3>Velg aktiv bruker:</h3>
@@ -41,6 +41,8 @@
         if (selectedUser != null)
         {
             findSelectedUser();
+
+            logger.LogInformation("Selecting new user as logged in user, name: {0}, time: {time}", user.Name, DateTimeOffset.Now);
 
             LoggedInUserService.Name = user.Name;
             LoggedInUserService.Id = user.Id;
