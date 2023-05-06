@@ -1,5 +1,6 @@
 ﻿using JobListingsDatabaseService.Test;
 using Microsoft.Extensions.Logging;
+using Moq;
 using UserPreferencesDatabaseService.Controllers.V5;
 using UserPreferencesDatabaseService.Model.V3;
 
@@ -9,7 +10,6 @@ namespace UserPreferencesDatabaseService.Test;
 [Collection("UserPreferenceCollection")]
 public class UserTest : IDisposable
 {
-    private readonly ILogger<V5UserPreferencesDatabaseController>? _logger;
 
     public UserTest(DatabaseFixtureTest fixture)
     => Fixture = fixture;
@@ -21,6 +21,9 @@ public class UserTest : IDisposable
     public async void Get_Users_From_Database()
     {
         //Arrange
+        var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+        var _logger = mockLogger.Object;
+
         using var context = Fixture.CreateContext();
         var controller = new V5UserPreferencesDatabaseController(_logger, context);
 
@@ -52,6 +55,9 @@ public class UserTest : IDisposable
     public async void Save_User_To_Database()
     {
         //Arrange
+        var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+        var _logger = mockLogger.Object;
+
         using var context = Fixture.CreateContext();
         var controller = new V5UserPreferencesDatabaseController(_logger, context);
         bool userFound = false;

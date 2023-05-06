@@ -1,6 +1,7 @@
 ﻿using System;
 using JobListingsDatabaseService.Test;
 using Microsoft.Extensions.Logging;
+using Moq;
 using UserPreferencesDatabaseService.Controllers.V5;
 using UserPreferencesDatabaseService.Model.V3;
 
@@ -9,8 +10,6 @@ namespace UserPreferencesDatabaseService.Test
     [Collection("UserPreferenceCollection")]
     public class UninterestTest : IDisposable
 	{
-        private readonly ILogger<V5UserPreferencesDatabaseController>? _logger;
-
         public UninterestTest(DatabaseFixtureTest fixture)
         => Fixture = fixture;
 
@@ -20,6 +19,9 @@ namespace UserPreferencesDatabaseService.Test
         public async void Get_Uninterests_In_Database()
         {
             //Arrange
+            var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+            var _logger = mockLogger.Object;
+
             using var context = Fixture.CreateContext();
             var controller = new V5UserPreferencesDatabaseController(_logger, context);
 
@@ -47,6 +49,9 @@ namespace UserPreferencesDatabaseService.Test
         public async void Post_New_Uninterested_Advertisement()
         {
             //Arrange
+            var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+            var _logger = mockLogger.Object;
+
             using var context = Fixture.CreateContext();
             var controller = new V5UserPreferencesDatabaseController(_logger, context);
 
@@ -85,6 +90,9 @@ namespace UserPreferencesDatabaseService.Test
         public async void Delete_Uninterest_From_Database()
         {
             //Arrange
+            var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+            var _logger = mockLogger.Object;
+
             using var context = Fixture.CreateContext();
             var controller = new V5UserPreferencesDatabaseController(_logger, context);
 
