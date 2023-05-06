@@ -44,14 +44,18 @@ public class AdvertisementWorkerTest
         // Assert
         foreach (var listing in JobListings)
         {
-            if (listing.WorkLocations.ElementAt(0).municipal.Equals("VESTBY"))
+            bool workLocation = false;
+            foreach (var item in listing.WorkLocations)
             {
-                Assert.True(true);
+                if (item.municipal is not null && item.municipal.Equals("VESTBY"))
+                {
+                    workLocation = true;
+                }
             }
-            else
-            {
-                Assert.True(false);
-            }
+                Assert.True(workLocation);
+            
+           
+
         }
     }
 

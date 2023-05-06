@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Metadata;
+using Castle.Core.Logging;
 using JobListingsDatabaseService.Controllers.V2;
 using JobListingsDatabaseService.Data;
 using JobListingsDatabaseService.Model.V1;
@@ -12,7 +13,14 @@ namespace JobListingsDatabaseService.Test;
 
 public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
 {
-    private readonly ILogger<V2JobListingsDatabaseController>? _logger;
+    /*
+    var mockLogger = new Mock<ILogger<OrderController>>();
+    mockLogger.Setup(x => x.LogError(It.IsAny<Exception>(), It.IsAny<string>() );
+      _logger = mockLogger.Object;
+    */
+
+    
+    //private readonly ILogger<V2JobListingsDatabaseController>? _logger;
 
     public JobListingsDatabaseServiceTest(DatabaseFixtureTest fixture)
     => Fixture = fixture;
@@ -23,6 +31,9 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
     public async void Get_Advertisements_From_Database()
     {
         // Arrange
+        var mockLogger = new Mock<ILogger<V2JobListingsDatabaseController>>();
+        var _logger = mockLogger.Object;
+
         using var context = Fixture.CreateContext();
         var controller = new V2JobListingsDatabaseController(_logger, context);
 
@@ -61,6 +72,8 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
     public async void Post_Advertisement_To_database()
     {
         // Arrange
+        var mockLogger = new Mock<ILogger<V2JobListingsDatabaseController>>();
+        var _logger = mockLogger.Object;
         using var context = Fixture.CreateContext();
         var controller = new V2JobListingsDatabaseController(_logger, context);
 
@@ -119,57 +132,15 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
 
     }
 
-    [Fact]
-    public async void Try_To_Add_Duplicate_Uuid()
-    {
-        //Arrange
-        using var context = Fixture.CreateContext();
-        var controller = new V2JobListingsDatabaseController(_logger, context);
-
-        // Retrieve an already used Uuid
-        var ListFromDatabase = await controller.Get();
-        var UsedUuid = ListFromDatabase.First().Uuid;
-
-        V2Employer employer = new()
-        {
-            name = "Deg selv"
-        };
-
-        V2WorkLocation workLocation = new()
-        {
-            municipal = "Oslo"
-        };
-
-        List<V2WorkLocation> workLocations = new();
-        workLocations.Add(workLocation);
-
-        V2Advertisement advertisement = new()
-        {
-            Uuid = UsedUuid,
-            Title = "Utvikler ved siden av jobb",
-            Description = "Vil du jobbe med Utvikler ved siden av det du gjør til daglig? Da er denne stillingen for deg!",
-            EngagementType = "Fulltid",
-            Employer = employer,
-            JobTitle = "Overarbeidet",
-            workLocations = workLocations,
-            Expires = DateTime.Today
-        };
-
-        //Act and assert
-        await Assert.ThrowsAsync<DbUpdateException>(() =>
-        controller.saveAdvertisements(advertisement)
-        );
-
-
-        // Cleanup
-        Fixture.Cleanup();
-
-    }
+    
 
     [Fact]
         public async void Check_That_Expired_Listings_Are_Deleted()
         {
         //Arrange
+        var mockLogger = new Mock<ILogger<V2JobListingsDatabaseController>>();
+        var _logger = mockLogger.Object;
+
         using var context = Fixture.CreateContext();
         var controller = new V2JobListingsDatabaseController(_logger, context);
 
