@@ -19,8 +19,8 @@ public class Worker : BackgroundService
     private static HttpClient client = new HttpClient();
     string prefferedLocationsJson;
     string locationsJson;
-    List<Location> locationList = new();
                     List<Advertisement> Advertisements = new List<Advertisement>();
+    List<Location> locationList = new();
 
 
     // Public API settings
@@ -44,32 +44,26 @@ public class Worker : BackgroundService
             {
                 // Empty location list
                 locationList.Clear();
-
+                _logger.LogDebug("Clearing locationlist {time}", DateTimeOffset.Now);
 
                 // Get all locations
-                locationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getLocations", stoppingToken);
-                var locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsJson);
-
-
+         
+                    locationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getLocations", stoppingToken);
+                    var locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsJson);
+                    _logger.LogDebug("Fetching locations from database {time}", DateTimeOffset.Now);
+           
                 // Get preffered Locations
-                prefferedLocationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getSearchLocations", stoppingToken);
-                var prefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(prefferedLocationsJson);
-
+                    prefferedLocationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getSearchLocations", stoppingToken);
+                    var prefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(prefferedLocationsJson);
+                    _logger.LogDebug("Fetching preffered locations from database, {time}", DateTimeOffset.Now);
+                
                 // Match locations with prefferedLocations. Make a list
-                foreach (var location in locations)
-                {
-                    foreach (var prefferedLocation in prefferedLocations)
-                    {
-                        if (location.Id == prefferedLocation.LocationId)
-                        {
-                            locationList.Add(location);
-                        }
-                    }
-                }
+                locationList = MatchFavoredLocations(locations, prefferedLocations);
             }
-            catch 
+            catch (Exception e)
             {
                 _logger.LogError("Fetching Preferred Locations from database did not work ");
+                _logger.LogDebug("Error: {e}", e);
             }
 
             // If search locations have been saved
@@ -78,7 +72,7 @@ public class Worker : BackgroundService
                 foreach (var location in locationList)
                 {
 
-                    _logger.LogDebug("Retrieving jobs for {municipality} at time {time}", location.Municipality + DateTimeOffset.Now);
+                    _logger.LogInformation("Retrieving jobs for {municipality} at time {time}", location.Municipality + DateTimeOffset.Now);
 
                     var AdvertisementsMunicipality = await FetchJobsAndParseFromPublicAPI(location.Municipality);
 
@@ -99,7 +93,7 @@ public class Worker : BackgroundService
             // No search locations -> Pull from all jobs
             else
             {
-                _logger.LogDebug("Fetching jobs from public API without location at:{time}", DateTimeOffset.Now);
+                _logger.LogInformation("Fetching jobs from public API without location at:{time}", DateTimeOffset.Now);
 
                 var Advertisements = await FetchJobsAndParseFromPublicAPI();
 
@@ -117,10 +111,23 @@ public class Worker : BackgroundService
         }
     }
 
-    public void MatchFavoredLocations()
+    public List<Location> MatchFavoredLocations(IEnumerable<Location> locations, IEnumerable<PreferredLocation> preferredLocations)
     {
+        List<Location> locationList = new();
 
+        foreach (var location in locations)
+        {
+            foreach (var preferredLocation in preferredLocations)
+            {
+                if (location.Id == preferredLocation.LocationId)
+                {
+                    locationList.Add(location);
+                }
+            }
+        }
+        return locationList;
     }
+
 
     public async Task<List<Advertisement>> FetchJobsAndParseFromPublicAPI(string location = "No Location")
     {
