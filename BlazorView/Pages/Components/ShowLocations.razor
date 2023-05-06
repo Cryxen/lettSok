@@ -5,32 +5,50 @@
 @inject ILogger<ShowLocations> logger
 
 <h3>Kommuner:</h3>
-        <section>
-            <EditForm Model="locationModel">
-                <select @bind="selectedLocation">
-                    <option value="">Velg kommune</option>
-                    @foreach (var item in locations)
-                    {
-                        @if (!prefferedLocations.Any(i => i.LocationId == item.Id))
-                        {
-                            <option value="@item.Id">@item.Municipality</option>
-                        }
-                    }
-                </select>
-                <button @onclick="selectLocation">Velg kommune</button>
-
-            </EditForm>
-            <p>Lokasjoner lagt til:</p>
-            @foreach (var item in locations)
-            {
-                @if (loggedInUserPrefferedLocations.Any(i => i.LocationId == item.Id))
+<section>
+    @if (locations != null)
+    {
+        <EditForm Model="locationModel">
+            <select @bind="selectedLocation">
+                <option value="">Velg kommune</option>
+                @foreach (var item in locations)
                 {
-                    <p>@item.Municipality</p>
-                    <button @onclick="() => DeletePreferredLocation(item)" >Slett</button>
-
+                    @if (!prefferedLocations.Any(i => i.LocationId == item.Id))
+                    {
+                        <option value="@item.Id">@item.Municipality</option>
+                    }
                 }
+            </select>
+            <button @onclick="selectLocation">Velg kommune</button>
+
+        </EditForm>
+    }
+    else
+    {
+        <p>Det er dessverre utfordringer med å nå Databasen som holder på lokasjoner. Vennligst prøv igjen senere.</p>
+
+    }
+
+    <p>Lokasjoner lagt til:</p>
+    @if (locations != null)
+    {
+        @foreach (var item in locations)
+        {
+            @if (loggedInUserPrefferedLocations.Any(i => i.LocationId == item.Id))
+            {
+                <p>@item.Municipality</p>
+                <button @onclick="() => DeletePreferredLocation(item)">Slett</button>
+
             }
-        </section>
+        }
+    }
+    else
+    {
+        <p>Det er dessverre utfordringer med å nå Databasen som holder på lokasjoner. Vennligst prøv igjen senere.</p>
+
+    }
+
+</section>
 @code {
     [Parameter]
     public EventCallback<bool> showLocations { get; set; }
@@ -67,13 +85,17 @@
         preferredLocationsFromDb = await LocationService.FetchPreferredLocations();
         prefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(preferredLocationsFromDb);
 
-        foreach (var item in prefferedLocations)
+        if (prefferedLocations != null)
         {
-            if (item.UserId == LoggedInUserService.Id)
+            foreach (var item in prefferedLocations)
             {
-                loggedInUserPrefferedLocations.Add(item);
+                if (item.UserId == LoggedInUserService.Id)
+                {
+                    loggedInUserPrefferedLocations.Add(item);
+                }
             }
         }
+
     }
 
     private async void selectLocation()

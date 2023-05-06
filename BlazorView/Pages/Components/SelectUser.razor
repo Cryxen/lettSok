@@ -4,8 +4,11 @@
 
 
 <h3>Velg aktiv bruker:</h3>
+@if (users != null)
+{
 <EditForm Model="@userModel">
     <select @bind="selectedUser">
+
         <option value="">Velg bruker</option>
         @foreach (var item in users)
         {
@@ -15,6 +18,12 @@
     <button @onclick="selectUser">Velg bruker</button>
 
 </EditForm>
+}
+else
+{
+        <p>Det er desverre utfordringer med å nå bruker databasen akkurat nå. Prøv igjen senere.</p>
+}
+
 
 
 

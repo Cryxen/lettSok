@@ -21,10 +21,19 @@ namespace BlazorView.Data
 
         public async Task<string> FetchUser()
         {
-            logger.LogDebug("Fetching Users from Database, time: {time}", DateTimeOffset.Now);
-            string json = await client.GetStringAsync("https://localhost:7293/V4UserPreferencesDatabase/getUsers");
+            string json = "";
+            try
+            {
+                logger.LogDebug("Fetching Users from Database, time: {time}", DateTimeOffset.Now);
+                json = await client.GetStringAsync("https://localhost:7293/V4UserPreferencesDatabase/getUsers");
 
+            }
+            catch (Exception e)
+            {
+                logger.LogCritical(e, "Can't fetch users from Database, time: {time}", DateTimeOffset.Now);
+            }
             return json;
+
         }
         /// <summary>
         /// TODO: Make handling of error codes
@@ -35,7 +44,14 @@ namespace BlazorView.Data
             logger.LogDebug("Saving User: {0} to Database, time: {time}", user.Name, DateTimeOffset.Now);
             var body = JsonConvert.SerializeObject(user);
             StringContent content = new StringContent(body, encoding: System.Text.Encoding.UTF8, "application/json");
-            using var response = await client.PostAsync("https://localhost:7293/V4UserPreferencesDatabase/saveUser", content);
+            try
+            {
+                using var response = await client.PostAsync("https://localhost:7293/V4UserPreferencesDatabase/saveUser", content);
+            }
+            catch (Exception e)
+            {
+                logger.LogWarning(e, "Can't save user {0} to Database, time: {time}", user.Name, DateTimeOffset.Now);
+            }
         }
 
         public async void PostInterest(Interest interest)
@@ -48,8 +64,16 @@ namespace BlazorView.Data
 
         public async Task<string> FetchInterest()
         {
-            logger.LogDebug("Fetching Interests from Database, time: {time}", DateTimeOffset.Now);
-            string json = await client.GetStringAsync("https://localhost:7293/V4UserPreferencesDatabase/getInterest");
+            string json = "";
+            try {
+                logger.LogDebug("Fetching Interests from Database, time: {time}", DateTimeOffset.Now);
+                json = await client.GetStringAsync("https://localhost:7293/V4UserPreferencesDatabase/getInterest");
+            }
+            catch (Exception e)
+            {
+                logger.LogCritical(e, "Can't fetch interest from Database, time: {time}", DateTimeOffset.Now);
+            }
+            
 
             return json;
         }
@@ -72,10 +96,19 @@ namespace BlazorView.Data
 
         public async Task<string> FetchUninterest()
         {
-            logger.LogDebug("Fetching Uninterest from Database, time: {time}", DateTimeOffset.Now);
+            string json = "";
 
-            string json = await client.GetStringAsync("https://localhost:7293/V4UserPreferencesDatabase/getUninterest");
+            try
+            {
+                logger.LogDebug("Fetching Uninterest from Database, time: {time}", DateTimeOffset.Now);
 
+                json = await client.GetStringAsync("https://localhost:7293/V4UserPreferencesDatabase/getUninterest");
+            }
+            catch (Exception e)
+            {
+                logger.LogCritical(e, "Can't fetch uninterest from Database, time: {time}", DateTimeOffset.Now);
+
+            }
             return json;
         }
 

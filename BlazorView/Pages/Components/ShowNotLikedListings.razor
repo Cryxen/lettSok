@@ -5,43 +5,54 @@
 @inject ILogger<ShowNotLikedListings> logger
 
 <h3>Stillinger som er markert som ikke likt:</h3>
-@foreach (var item in advertisementList)
+@if (advertisementList != null)
+{
+    @foreach (var item in advertisementList)
     {
         if (LoggedInUserService.uninterests.Contains(item.Uuid))
         {
-            <p>@item.Title</p> <button @onclick="() => RemoveFromUninterests(item)">Fjern fra ikke likt kategori</button>
+            <p>@item.Title</p>
+            <button @onclick="() => RemoveFromUninterests(item)">Fjern fra ikke likt kategori</button>
         }
     }
-@if (LoggedInUserService.uninterests == null || LoggedInUserService.uninterests.Count() == 0)
-    {
-        <p> Ingen stillinger er markert som ikke likt.</p>
     }
-    @code {
+    else
+    {
+        <p>Det er dessverre utfordringer med å nå Databasen som holder på ledige stillinger. Vennligst prøv igjen senere.</p>
+    }
 
-        IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
-        string advertisementsFromDb;
+@if (LoggedInUserService.uninterests == null || LoggedInUserService.uninterests.Count() == 0)
+{
+    <p> Ingen stillinger er markert som ikke likt.</p>
+}
+@code {
+
+    IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
+    string advertisementsFromDb;
 
 
 
-        //Uninterests
-        string? uninterestsFromDb;
-        IEnumerable<Interest> uninterests = new List<Interest>();
-        List<string> commonUninterests = new List<string>();
+    //Uninterests
+    string? uninterestsFromDb;
+    IEnumerable<Interest> uninterests = new List<Interest>();
+    List<string> commonUninterests = new List<string>();
 
-        /// <summary>
-        /// Fetch job listings from database
-        /// </summary>
-        /// <returns></returns>
-        protected override async Task OnInitializedAsync()
+    /// <summary>
+    /// Fetch job listings from database
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnInitializedAsync()
+    {
+        advertisementsFromDb = await JobListingsService.FetchJobListings();
+        advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
+
+        // Fetch uninterests TODO: Try to make this global at some point
+        logger.LogInformation("Get uninterests from Database, time: {time}", DateTimeOffset.Now);
+        uninterestsFromDb = await UserListingService.FetchUninterest();
+        uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(uninterestsFromDb);
+
+        if (uninterests != null)
         {
-            advertisementsFromDb = await JobListingsService.FetchJobListings();
-            advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
-
-            // Fetch uninterests TODO: Try to make this global at some point
-            logger.LogInformation("Get uninterests from Database, time: {time}", DateTimeOffset.Now);
-            uninterestsFromDb = await UserListingService.FetchUninterest();
-            uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(uninterestsFromDb);
-
             foreach (var item in uninterests)
             {
                 if (item.userGuid == LoggedInUserService.Id)
@@ -52,15 +63,17 @@
             LoggedInUserService.uninterests = commonUninterests;
         }
 
-        private void RemoveFromUninterests(Advertisement advertisement)
-        {
-            Interest interest = new();
-            interest.userGuid = LoggedInUserService.Id;
-            interest.advertisementUuid = advertisement.Uuid;
-            logger.LogInformation("Deleting uninterest from Database, Advertisement Uuid: {0}, User Id: {1}, Time: {time}", interest.advertisementUuid, interest.userGuid, DateTimeOffset.Now);
-
-            UserListingService.DeleteUninterest(interest);
-            LoggedInUserService.uninterests.Remove(advertisement.Uuid);
-        }
     }
+
+    private void RemoveFromUninterests(Advertisement advertisement)
+    {
+        Interest interest = new();
+        interest.userGuid = LoggedInUserService.Id;
+        interest.advertisementUuid = advertisement.Uuid;
+        logger.LogInformation("Deleting uninterest from Database, Advertisement Uuid: {0}, User Id: {1}, Time: {time}", interest.advertisementUuid, interest.userGuid, DateTimeOffset.Now);
+
+        UserListingService.DeleteUninterest(interest);
+        LoggedInUserService.uninterests.Remove(advertisement.Uuid);
+    }
+}
 

@@ -18,9 +18,17 @@ namespace BlazorView.Data
         
         public async Task<string> FetchJobListings()
 		{
-            logger.LogDebug("Fetching Job Listings from Database, time: {time}", DateTimeOffset.Now);
+            string json = "";
+            try
+            {
+                logger.LogDebug("Fetching Job Listings from Database, time: {time}", DateTimeOffset.Now);
 
-            string json = await client.GetStringAsync("https://localhost:7223/api/V2/Advertisements/getAdvertisements");
+                json = await client.GetStringAsync("https://localhost:7223/api/V2/Advertisements/getAdvertisements");
+            }
+            catch (Exception e)
+            {
+                logger.LogCritical(e, "Can't fetch advertisements from database, time: {time}", DateTimeOffset.Now);
+            }
 
             return json;
         }

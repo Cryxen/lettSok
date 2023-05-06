@@ -5,34 +5,42 @@
 
 @inject FetchJobListingsFromDb JobListingsService
 @inject ILogger<FetchListings> logger
- 
 <!--If statement checking if user searches for an ad. -->
 
 <p>@searchValue</p>
-@if (searchValue != "")
+@if (advertisementList != null)
 {
-    @foreach (var item in advertisementList)
+    @if (searchValue != "")
     {
-        <!--if statement looking for search string in: Title, description, employer, engagement type and municipal-->
-        @if (item.Title != null && item.Description != null && item.Employer != null && item.EngagementType != null && item.Municipal != null)
+        @foreach (var item in advertisementList)
         {
-           @if (item.Title.ToUpper().Contains(searchValue) || item.Description.ToUpper().Contains(searchValue) ||
-              item.Employer.ToUpper().Contains(searchValue) || item.EngagementType.ToUpper().Contains(searchValue) ||
-              item.Municipal.ToUpper().Contains(searchValue))
+            <!--if statement looking for search string in: Title, description, employer, engagement type and municipal-->
+            @if (item.Title != null && item.Description != null && item.Employer != null && item.EngagementType != null && item.Municipal != null)
             {
-                <DisplayListing item="item" showFullAdvertisement="@showFullAdvertisement" />
+                @if (item.Title.ToUpper().Contains(searchValue) || item.Description.ToUpper().Contains(searchValue) ||
+                 item.Employer.ToUpper().Contains(searchValue) || item.EngagementType.ToUpper().Contains(searchValue) ||
+                 item.Municipal.ToUpper().Contains(searchValue))
+                {
+                    <DisplayListing item="item" showFullAdvertisement="@showFullAdvertisement" />
+                }
             }
-        }
 
+        }
+    }
+    else
+    {
+        @foreach (var item in advertisementList)
+        {
+            <DisplayListing item="item" advertisementToShow="@advertisementToShow" />
+        }
     }
 }
 else
 {
-    @foreach (var item in advertisementList)
-    {
-        <DisplayListing item="item" advertisementToShow="@advertisementToShow"/>
-    }
+    <p>Det er dessverre utfordringer med å nå Databasen som holder på ledige stillinger. Vennligst prøv igjen senere.</p>
+
 }
+
 
 
 

@@ -45,7 +45,7 @@
         usersFromDb = await UserListingService.FetchUser();
         users = JsonConvert.DeserializeObject<IEnumerable<User>>(usersFromDb);
 
-        if (users.Count() == 0)
+        if (users != null && users.Count() == 0)
         {
             User newUser = new();
             newUser.Name = "Bruker";
@@ -56,8 +56,15 @@
 
         if (LoggedInUserService.Name == null)
         {
-            LoggedInUserService.Name = users.First().Name;
-            LoggedInUserService.Id = users.First().Id;
+            if (users == null)
+            {
+                LoggedInUserService.Name = "default";
+            }
+            else {
+                LoggedInUserService.Name = users.First().Name;
+                LoggedInUserService.Id = users.First().Id;
+            }
+
         }
 
         // Interests
@@ -69,14 +76,18 @@
                 LoggedInUserService.interests.Clear();
             }
 
-        foreach (var item in interests)
+        if (interests != null)
         {
-            if (item.userGuid == LoggedInUserService.Id)
+            foreach (var item in interests)
             {
-                commonInterests.Add(item.advertisementUuid);
+                if (item.userGuid == LoggedInUserService.Id)
+                {
+                    commonInterests.Add(item.advertisementUuid);
+                }
             }
+            LoggedInUserService.interests = commonInterests;
         }
-        LoggedInUserService.interests = commonInterests;
+
 
         // Uninterests
         uninterestsFromDb = await UserListingService.FetchUninterest();
@@ -86,14 +97,19 @@
         {
             LoggedInUserService.uninterests.Clear();
         }
-        foreach (var item in uninterests)
+
+        if (uninterests != null)
         {
-            if (item.userGuid == LoggedInUserService.Id)
+            foreach (var item in uninterests)
             {
-                commonUninterests.Add(item.advertisementUuid);
+                if (item.userGuid == LoggedInUserService.Id)
+                {
+                    commonUninterests.Add(item.advertisementUuid);
+                }
             }
+            LoggedInUserService.uninterests = commonUninterests;
         }
-        LoggedInUserService.uninterests = commonUninterests;
+
 
     }
 }

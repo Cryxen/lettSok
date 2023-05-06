@@ -16,19 +16,36 @@ namespace BlazorView.Data
 
         public async Task<string> FetchLocations()
         {
-            logger.LogDebug("Fetching locations from Database, time: {time}", DateTimeOffset.Now);
+            string json = "";
+            try
+            {
+                logger.LogDebug("Fetching locations from Database, time: {time}", DateTimeOffset.Now);
 
-            string json = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getLocations");
+                json = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getLocations");
+            }
+            catch (Exception e)
+            {
+                logger.LogCritical(e, "Can't fetch locations from database, time: {time}", DateTimeOffset.Now);
 
+            }
             return json;
         }
 
         public async Task<string> FetchPreferredLocations()
         {
-            logger.LogDebug("Fetching Preferred locations from Database, time: {time}", DateTimeOffset.Now);
+            string json = "";
 
-            string json = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getSearchLocations");
+            try
+            {
+                logger.LogDebug("Fetching Preferred locations from Database, time: {time}", DateTimeOffset.Now);
 
+                json = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getSearchLocations");
+            }
+            catch (Exception e)
+            {
+                logger.LogCritical(e, "Can't fetch preferred locations from database, time: {time}", DateTimeOffset.Now);
+
+            }
             return json;
         }
 

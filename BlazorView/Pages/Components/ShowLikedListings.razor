@@ -6,17 +6,25 @@
 @inject ILogger<ShowLikedListings> logger
 
 <h3>Stillinger som er markert som likt:</h3>
-@foreach (var item in advertisementList)
+@if (advertisementList != null)
 {
-    if (LoggedInUserService.interests.Contains(item.Uuid))
+    @foreach (var item in advertisementList)
     {
-        <p>@item.Title</p>
-        <button @onclick="() => RemoveFromInterests(item)">Fjern fra likt kategori</button>
+        if (LoggedInUserService.interests.Contains(item.Uuid))
+        {
+            <p>@item.Title</p>
+            <button @onclick="() => RemoveFromInterests(item)">Fjern fra likt kategori</button>
+        }
     }
 }
+else
+{
+    <p>Det er dessverre utfordringer med å nå Databasen som holder på ledige stillinger. Vennligst prøv igjen senere.</p>
+}
+
 @if (LoggedInUserService.interests == null || LoggedInUserService.interests.Count() == 0)
 {
-        <p>Ingen stillinger er markert som likt</p>
+    <p>Ingen stillinger er markert som likt</p>
 }
 
 @code {
@@ -45,14 +53,18 @@
         interestsFromDb = await UserListingService.FetchInterest();
         interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(interestsFromDb);
 
-        foreach (var item in interests)
+        if (interests != null)
         {
-            if (item.userGuid == LoggedInUserService.Id)
+            foreach (var item in interests)
             {
-                commonInterests.Add(item.advertisementUuid);
+                if (item.userGuid == LoggedInUserService.Id)
+                {
+                    commonInterests.Add(item.advertisementUuid);
+                }
             }
+            LoggedInUserService.interests = commonInterests;
         }
-        LoggedInUserService.interests = commonInterests;
+
     }
 
     private void RemoveFromInterests(Advertisement advertisement)
