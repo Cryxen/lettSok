@@ -29,7 +29,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     [HttpGet("getAdvertisements")]
     public virtual async Task<List<V1Advertisement>> Get()
     {
-
+        _logger.LogInformation("Getting advertisements from Database, {time}", DateTimeOffset.Now);
         var responseAdvertisements = await _lettsokDbContext.advertisements
             .Select(advertisement => new V1Advertisement
             {
@@ -80,36 +80,41 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     [HttpPost("saveAdvertisement")]
     public async Task<V1Restult<V2Advertisement>> saveAdvertisements(V2Advertisement advertisementPost)
     {
+        _logger.LogInformation("Saving Advertisement {advertisement}", advertisementPost + " time: " + DateTimeOffset.Now);
         var advertisementsFromDb = await Get();
 
         if (advertisementsFromDb.Count > 0)
         {
+            Boolean ItemInDatabase = false;
+            _logger.LogDebug("The database is not empty. Making a check to see if the advertisement is in the database, time: {time}", DateTimeOffset.Now);
             foreach (var item in advertisementsFromDb)
             {
                 if (item.Uuid == advertisementPost.Uuid)
                 {
-                    Console.WriteLine("Already in Database");
-                }
-                else
-                {
-                    var advertisement = new Advertisement()
-                    {
-                        Uuid = advertisementPost.Uuid,
-                        Expires = advertisementPost.Expires,
-                        Municipal = advertisementPost.workLocations[0].municipal,
-                        Title = advertisementPost.Title,
-                        Description = advertisementPost.Description,
-                        JobTitle = advertisementPost.JobTitle,
-                        Employer = advertisementPost.Employer.name,
-                        EngagementType = advertisementPost.EngagementType
-                    };
-                    _lettsokDbContext.Add(advertisement);
-                    break;
+                    ItemInDatabase = true;
+                    _logger.LogDebug(item.Uuid + " Is already in database, time: {time}", DateTimeOffset.Now);
                 }
             }
+            if (!ItemInDatabase)
+            {
+                _logger.LogDebug(advertisementPost + " Is not in database. Adding advertisement to database, time: {time}", DateTimeOffset.Now);
+                var advertisement = new Advertisement()
+                {
+                    Uuid = advertisementPost.Uuid,
+                    Expires = advertisementPost.Expires,
+                    Municipal = advertisementPost.workLocations[0].municipal,
+                    Title = advertisementPost.Title,
+                    Description = advertisementPost.Description,
+                    JobTitle = advertisementPost.JobTitle,
+                    Employer = advertisementPost.Employer.name,
+                    EngagementType = advertisementPost.EngagementType
+                };
+                _lettsokDbContext.Add(advertisement);
+            } 
         }
         else
         {
+            _logger.LogDebug("The database is empty. Adding the first advertisement, time: {time}", DateTimeOffset.Now);
             var advertisement = new Advertisement()
             {
                 Uuid = advertisementPost.Uuid,
@@ -123,10 +128,11 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
             };
             _lettsokDbContext.Add(advertisement);
         }
-        
+        _logger.LogDebug("Saving changes to Database, time: {time}", DateTimeOffset.Now);
         await _lettsokDbContext.SaveChangesAsync();
 
         var result = new V1Restult<V2Advertisement>();
+        _logger.LogDebug("Error codes from saving: " + result.Errors + " time: {time}", DateTimeOffset.Now);
         result.Value = new V2Advertisement
         {
             Uuid = advertisementPost.Uuid,
@@ -145,6 +151,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
 
     private async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement)
     {
+        _logger.LogDebug("Checking when job advertisement expires of advertisement: " + deleteAdvertisement.Uuid + " time: {time}", DateTimeOffset.Now);
         DateTime date = DateTime.Today;
         if (DateTime.Compare(date, (DateTime)deleteAdvertisement.Expires) > 0)
         {

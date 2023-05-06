@@ -5,8 +5,8 @@ internal class Program
 {
     private static async Task Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder(args);
 
+    var builder = WebApplication.CreateBuilder(args);
         // Add services to the container.
 
         builder.Services.AddControllers();
@@ -19,6 +19,7 @@ internal class Program
         {
             //Using: https://dev.mysql.com/doc/connector-net/en/connector-net-entityframework-core.html
             options.UseMySQL(builder.Configuration.GetConnectionString("LettsokDb"));
+            options.LogTo(Console.WriteLine, LogLevel.None);
         });
 
         var app = builder.Build();
