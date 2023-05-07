@@ -2,8 +2,8 @@
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
 using AdvertisementWorker.Model;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
-using JobListingsDatabaseService.gRPC;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -78,9 +78,12 @@ public class Worker : BackgroundService
 
                     var AdvertisementsMunicipality = await FetchJobsAndParseFromPublicAPI(location.Municipality);
 
+                    await gRPC(Advertisements);
+
                     try
                     {
                         await postAdvertisementsToDatabase((List<Advertisement>)AdvertisementsMunicipality);
+
                     }
                     catch (Exception e)
                     {
@@ -99,6 +102,8 @@ public class Worker : BackgroundService
 
                 var Advertisements = await FetchJobsAndParseFromPublicAPI();
 
+                await gRPC(Advertisements);
+
                 try
                 {
                     await postAdvertisementsToDatabase((List<Advertisement>)Advertisements);
@@ -110,14 +115,14 @@ public class Worker : BackgroundService
             }
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-            await gRPC();
 
             await Task.Delay(120000, stoppingToken);
         }
     }
 
-    private async Task gRPC()
+    private async Task gRPC(List<Advertisement> advertisements)
     {
+        /*
         var input = new HelloRequest { Name = "Tim" };
 
         _logger.LogInformation("Trying to run gRPC, time: {time}", DateTimeOffset.Now);
@@ -125,6 +130,49 @@ public class Worker : BackgroundService
         var gRPCclient = new Greeter.GreeterClient(channel);
         var reply = await gRPCclient.SayHelloAsync(input);
         _logger.LogInformation(reply.Message);
+        
+
+        var emptyParam = new getAdvertisementParams();
+
+        _logger.LogInformation("Trying to run gRPC, time: {time}", DateTimeOffset.Now);
+        var channel = GrpcChannel.ForAddress("http://localhost:5080");
+        var gRPCclient = new AdvertisementgRPC.AdvertisementgRPCClient(channel);
+        var reply = await gRPCclient.getAdvertisementAsync(emptyParam);
+        _logger.LogInformation(reply.Uuid + reply.Title + reply.Description);
+        */
+
+        _logger.LogInformation("Trying to run gRPC, time: {time}", DateTimeOffset.Now);
+        var channel = GrpcChannel.ForAddress("http://localhost:5080");
+        var gRPCclient = new AdvertisementgRPC.AdvertisementgRPCClient(channel);
+        {
+            foreach (var item in advertisements)
+            {
+                var TimestampExpires = Timestamp.FromDateTime((DateTime)item.Expires);
+
+                try
+                {
+                    await gRPCclient.postAdvertisementsAsync(new AdvertisementModel
+                    {
+                        Uuid = item.Uuid,
+                        Expires = TimestampExpires,
+                        WorkLocation = item.WorkLocations.ElementAt(0).municipal,
+                        Title = item.Title,
+                        Description = item.Description,
+                        JobTitle = item.JobTitle,
+                        Employer = item.Employer.name,
+                        EngagementType = item.EngagementType
+                    });
+                }
+                catch (Exception e)
+                {
+                    _logger.LogDebug(e, "Something went wrong when trying to post Advertisement async, time: {time}", DateTimeOffset.Now);
+                }
+
+
+
+
+            }
+        }
     }
 
     public List<Location> MatchFavoredLocations(IEnumerable<Location> locations, IEnumerable<PreferredLocation> preferredLocations)

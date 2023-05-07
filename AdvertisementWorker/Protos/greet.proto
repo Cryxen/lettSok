@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "JobListingsDatabaseService.gRPC";
+option csharp_namespace = "AdvertisementWorker";
 
 package greet;
 
