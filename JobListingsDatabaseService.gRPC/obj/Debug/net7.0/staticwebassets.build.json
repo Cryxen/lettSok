@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "6rtHAg+uh8WsYhTDdcsMixAQ1MgPfDbASPVydUFjDW0=",
+  "Source": "JobListingsDatabaseService.gRPC",
+  "BasePath": "_content/JobListingsDatabaseService.gRPC",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

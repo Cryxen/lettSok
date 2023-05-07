@@ -1,4 +1,6 @@
 ﻿using AdvertisementWorker;
+using Grpc.Net.Client;
+using JobListingsDatabaseService.gRPC;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
@@ -7,5 +9,8 @@ IHost host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 
-host.Run();
+var input = new HelloRequest { Name = "Tim" };
 
+
+
+host.Run();

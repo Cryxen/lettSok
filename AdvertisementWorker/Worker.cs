@@ -2,6 +2,8 @@
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
 using AdvertisementWorker.Model;
+using Grpc.Net.Client;
+using JobListingsDatabaseService.gRPC;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -107,8 +109,22 @@ public class Worker : BackgroundService
                 }
             }
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+
+            await gRPC();
+
             await Task.Delay(120000, stoppingToken);
         }
+    }
+
+    private async Task gRPC()
+    {
+        var input = new HelloRequest { Name = "Tim" };
+
+        _logger.LogInformation("Trying to run gRPC, time: {time}", DateTimeOffset.Now);
+        var channel = GrpcChannel.ForAddress("http://localhost:5080");
+        var gRPCclient = new Greeter.GreeterClient(channel);
+        var reply = await gRPCclient.SayHelloAsync(input);
+        _logger.LogInformation(reply.Message);
     }
 
     public List<Location> MatchFavoredLocations(IEnumerable<Location> locations, IEnumerable<PreferredLocation> preferredLocations)

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1705.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advertisements", "Haakostr.Lettsok.Advertisements\Advertisements.csproj", "{81419DAB-B925-437A-88C0-138D8093E342}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobListingsDatabaseService", "JobListingsDatabaseService\JobListingsDatabaseService.csproj", "{EF330A52-4582-4559-B423-95E22AD6DD61}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobListingsDatabaseService.Data", "JobListingsDatabaseService.Data\JobListingsDatabaseService.Data.csproj", "{C0FFA330-6DAE-43CC-A03D-AB0F2DB5471B}"
@@ -15,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPreferencesDatabaseServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorView", "BlazorView\BlazorView.csproj", "{EFF94FBD-4A1C-4C6A-8625-91AD3B0CD515}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advertisements.Test", "Advertisements.Test\Advertisements.Test.csproj", "{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobListingsDatabaseService.Test", "JobListingsDatabaseService.Test\JobListingsDatabaseService.Test.csproj", "{9A6C5774-7845-4DBA-AFFB-2B7378FB1C9A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPreferencesDatabaseService.Test", "UserPreferencesDatabaseService.Test\UserPreferencesDatabaseService.Test.csproj", "{F08F639A-366B-43E4-AFE0-FCD159F69BAA}"
@@ -25,16 +21,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertisementWorker", "Adve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertisementWorker.Test", "AdvertisementWorker.Test\AdvertisementWorker.Test.csproj", "{51BFC302-26F2-4998-828D-94EA3F2CEC02}"
 EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Advertisements", "Haakostr.Lettsok.Advertisements\Advertisements.csproj", "{A3A8995B-A1EC-4231-993D-ED0F45678C2E}"
+EndProject
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Advertisements.Test", "Advertisements.Test\Advertisements.Test.csproj", "{6BA72BC7-7CD6-45BE-A8A0-E9C5994BDD23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobListingsDatabaseService.gRPC", "JobListingsDatabaseService.gRPC\JobListingsDatabaseService.gRPC.csproj", "{7DEAFEE7-4D55-4DFA-BAC2-A684098EBA88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcClient", "GrpcClient\GrpcClient.csproj", "{C7351A1F-EB77-41E1-ABAD-F6D3C176097E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{81419DAB-B925-437A-88C0-138D8093E342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81419DAB-B925-437A-88C0-138D8093E342}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81419DAB-B925-437A-88C0-138D8093E342}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81419DAB-B925-437A-88C0-138D8093E342}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF330A52-4582-4559-B423-95E22AD6DD61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF330A52-4582-4559-B423-95E22AD6DD61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF330A52-4582-4559-B423-95E22AD6DD61}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -55,10 +55,6 @@ Global
 		{EFF94FBD-4A1C-4C6A-8625-91AD3B0CD515}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFF94FBD-4A1C-4C6A-8625-91AD3B0CD515}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFF94FBD-4A1C-4C6A-8625-91AD3B0CD515}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12B43DA7-84AF-4F1D-BC8A-63E9D600068B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A6C5774-7845-4DBA-AFFB-2B7378FB1C9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A6C5774-7845-4DBA-AFFB-2B7378FB1C9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A6C5774-7845-4DBA-AFFB-2B7378FB1C9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,6 +71,22 @@ Global
 		{51BFC302-26F2-4998-828D-94EA3F2CEC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51BFC302-26F2-4998-828D-94EA3F2CEC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51BFC302-26F2-4998-828D-94EA3F2CEC02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3A8995B-A1EC-4231-993D-ED0F45678C2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3A8995B-A1EC-4231-993D-ED0F45678C2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3A8995B-A1EC-4231-993D-ED0F45678C2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3A8995B-A1EC-4231-993D-ED0F45678C2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BA72BC7-7CD6-45BE-A8A0-E9C5994BDD23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BA72BC7-7CD6-45BE-A8A0-E9C5994BDD23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BA72BC7-7CD6-45BE-A8A0-E9C5994BDD23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BA72BC7-7CD6-45BE-A8A0-E9C5994BDD23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DEAFEE7-4D55-4DFA-BAC2-A684098EBA88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DEAFEE7-4D55-4DFA-BAC2-A684098EBA88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DEAFEE7-4D55-4DFA-BAC2-A684098EBA88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DEAFEE7-4D55-4DFA-BAC2-A684098EBA88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7351A1F-EB77-41E1-ABAD-F6D3C176097E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7351A1F-EB77-41E1-ABAD-F6D3C176097E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7351A1F-EB77-41E1-ABAD-F6D3C176097E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7351A1F-EB77-41E1-ABAD-F6D3C176097E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

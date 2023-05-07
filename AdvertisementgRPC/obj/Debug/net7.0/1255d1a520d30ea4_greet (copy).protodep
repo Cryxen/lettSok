@@ -1,0 +1,2 @@
+obj/Debug/net7.0/Protos/Greet (copy)Grpc.cs \
+obj/Debug/net7.0/Protos/GreetCopy.cs: Protos/greet (copy).proto
