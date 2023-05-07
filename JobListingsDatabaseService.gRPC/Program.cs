@@ -1,5 +1,7 @@
-﻿using JobListingsDatabaseService.gRPC.Services;
+﻿using JobListingsDatabaseService.Data;
+using JobListingsDatabaseService.gRPC.Services;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,13 @@ builder.WebHost.ConfigureKestrel(options =>
 
 // Add services to the container.
 builder.Services.AddGrpc();
+
+builder.Services.AddDbContext<JobListingsDbContext>(options =>
+{
+    //Using: https://dev.mysql.com/doc/connector-net/en/connector-net-entityframework-core.html
+    options.UseMySQL(builder.Configuration.GetConnectionString("LettsokDb"));
+});
+
 
 var app = builder.Build();
 

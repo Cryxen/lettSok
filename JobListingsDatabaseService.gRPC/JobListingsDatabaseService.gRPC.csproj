@@ -20,4 +20,12 @@
   <ItemGroup>
     <None Remove="Protos\advertisement.proto" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JobListingsDatabaseService.Data\JobListingsDatabaseService.Data.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\JobListingsDatabaseService\JobListingsDatabaseService.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
