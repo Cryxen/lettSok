@@ -81,7 +81,7 @@ namespace JobListingsDatabaseService.gRPC.Services
                 Expires = request.Expires.ToDateTime()
             };
 
-
+            
             _lettsokDbContext.Add(advertisement);
             await _lettsokDbContext.SaveChangesAsync();
 
