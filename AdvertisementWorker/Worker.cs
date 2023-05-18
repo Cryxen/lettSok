@@ -74,7 +74,8 @@ public class Worker : BackgroundService
                 foreach (var location in locationList)
                 {
 
-                    _logger.LogInformation("Retrieving jobs for {municipality} at time {time}", location.Municipality + DateTimeOffset.Now);
+                    _logger.LogInformation("Retrieving jobs for {municipality} at time {time}", location.Municipality, DateTimeOffset.Now);
+
 
                     var AdvertisementsMunicipality = await FetchJobsAndParseFromPublicAPI(location.Municipality);
 
