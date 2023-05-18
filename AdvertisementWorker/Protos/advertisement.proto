@@ -1,0 +1,28 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+
+option csharp_namespace = "AdvertisementWorker";
+
+service AdvertisementgRPC
+{
+    rpc getAdvertisement (getAdvertisementParams) returns (AdvertisementModel);
+
+    rpc postAdvertisements (AdvertisementModel) returns (getAdvertisementParams);
+}
+
+
+message getAdvertisementParams {}
+
+message AdvertisementModel {
+    string uuid = 1;
+    google.protobuf.Timestamp expires = 2;
+    string workLocation = 3;
+    string title = 4;
+    string description = 5;
+    string jobTitle = 6;
+    string employer = 7;
+    string engagementType = 8;
+
+}

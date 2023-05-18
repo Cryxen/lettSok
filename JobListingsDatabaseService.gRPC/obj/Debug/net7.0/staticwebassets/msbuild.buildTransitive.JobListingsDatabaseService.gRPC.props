@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../buildMultiTargeting/JobListingsDatabaseService.gRPC.props" />
+</Project>
