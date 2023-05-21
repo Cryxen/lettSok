@@ -11,19 +11,23 @@
         
         @if (LoggedInUserService.interests.Contains(item.Uuid))
         {
-            <button @onclick="deleteLikes">Likt</button>
+            <button @onclick="deleteLikes" class="advButton">Likt</button>
 
         }
         else
         {
-            <button @onclick="saveLikes">Liker</button>
+            <button @onclick="saveLikes" class="advButton">
+                <img src="img/like2.png" alt="Liker"/>
+            </button>
         }
         @if (LoggedInUserService.uninterests.Contains(item.Uuid))
         {
-        <button @onclick="deleteNotLikes">Markert ikke likt</button>
+        <button @onclick="deleteNotLikes" class="advButton">Markert ikke likt</button>
         }
         else {
-        <button @onclick="saveNotLikes">Liker ikke</button>
+    <button @onclick="saveNotLikes" class="advButton">
+        <img src="img/not_like2.png" alt="Liker" />
+    </button>
         }
     </section>
     }
