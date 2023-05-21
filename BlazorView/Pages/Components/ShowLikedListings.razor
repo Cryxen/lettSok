@@ -12,8 +12,12 @@
     {
         if (LoggedInUserService.interests.Contains(item.Uuid))
         {
-            <p>@item.Title</p>
-            <button @onclick="() => RemoveFromInterests(item)">Fjern fra likt kategori</button>
+                <table>
+                    <tr>
+                        <td>@item.Title</td>
+                        <td><button @onclick="() => RemoveFromInterests(item)">Slett</button></td>
+                    </tr>
+                </table>
         }
     }
 }
