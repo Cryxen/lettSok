@@ -4,7 +4,6 @@
 @inject FetchLocationsFromDb LocationService
 @inject ILogger<ShowLocations> logger
 
-<h3>Kommuner:</h3>
 <section>
     @if (locations != null)
     {
@@ -29,7 +28,7 @@
 
     }
 
-    <p>Lokasjoner lagt til:</p>
+    <h5>Lokasjoner lagt til:</h5>
     @if (locations != null)
     {
         @foreach (var item in locations)

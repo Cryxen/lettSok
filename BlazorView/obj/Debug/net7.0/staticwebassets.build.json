@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "T1bZCB9UPBwlCJvPLFf0iKdIF0GvNSqW+wxnfE2MVyw=",
+  "Hash": "8WF6Ih8DPcQXlTXxFE5B8UziVKWmkArAPEqEIKToxy8=",
   "Source": "BlazorView",
   "BasePath": "_content/BlazorView",
   "Mode": "Default",
@@ -323,6 +323,23 @@
       "OriginalItemSpec": "wwwroot/img/heart.png"
     },
     {
+      "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/heart2.png",
+      "SourceId": "BlazorView",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/",
+      "BasePath": "_content/BlazorView",
+      "RelativePath": "img/heart2.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/heart2.png"
+    },
+    {
       "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/LETT-5.png",
       "SourceId": "BlazorView",
       "SourceType": "Discovered",
@@ -355,6 +372,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/img/like.png"
+    },
+    {
+      "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/like2.png",
+      "SourceId": "BlazorView",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/",
+      "BasePath": "_content/BlazorView",
+      "RelativePath": "img/like2.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/like2.png"
     },
     {
       "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/logo.png",
@@ -406,6 +440,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/img/not like.png"
+    },
+    {
+      "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/not_like2.png",
+      "SourceId": "BlazorView",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/",
+      "BasePath": "_content/BlazorView",
+      "RelativePath": "img/not_like2.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/img/not_like2.png"
     },
     {
       "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/user.png",

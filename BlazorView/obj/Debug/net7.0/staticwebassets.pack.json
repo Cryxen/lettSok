@@ -73,8 +73,16 @@
       "PackagePath": "staticwebassets/img/heart.png"
     },
     {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/heart2.png",
+      "PackagePath": "staticwebassets/img/heart2.png"
+    },
+    {
       "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/like.png",
       "PackagePath": "staticwebassets/img/like.png"
+    },
+    {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/like2.png",
+      "PackagePath": "staticwebassets/img/like2.png"
     },
     {
       "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/logo.png",
@@ -87,6 +95,10 @@
     {
       "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/not like.png",
       "PackagePath": "staticwebassets/img/not like.png"
+    },
+    {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/not_like2.png",
+      "PackagePath": "staticwebassets/img/not_like2.png"
     },
     {
       "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/user.png",

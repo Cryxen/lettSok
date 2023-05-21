@@ -1,0 +1,11 @@
+﻿.userPrefSection {
+    margin-top: 2%;
+    border-bottom-style: dashed;
+    padding: 2%;
+}
+
+#userPrefLoggedOnUser {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    }

@@ -35,3 +35,4 @@
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/obj/Debug/net7.0/BlazorView.pdb
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/obj/Debug/net7.0/BlazorView.genruntimeconfig.cache
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/obj/Debug/net7.0/ref/BlazorView.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/obj/Debug/net7.0/scopedcss/Pages/UserPreference.razor.rz.scp.css

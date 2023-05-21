@@ -5,71 +5,86 @@
 
 @inject FetchUserFromDb UserListingService
 @inject ILogger<UserPreference> logger
-
-<h3>
-    Pålogget bruker: @LoggedInUserService.Name
-</h3>
-<p>@showLocations</p>
-@if (showUsers)
-{
-    <GetUser />
-}
-
-<ShowNotLikedListings />
-
-<ShowLikedListings />
-@if (showLocations)
-{
-    <ShowLocations showLocations="@locationSelected" />
-}
-
-
-
-<h3>Legg til ny bruker</h3>
-<EditForm Model="formModel">
-    <input type="text" @bind-value="name" @bind-value:event="oninput" />
-    <button @onclick="submitUser">Legg til bruker</button>
-</EditForm>
-
-
-
-@code {
-
-
-
-    private bool showLocations = true;
-
-    private class FormModel
+<section class="userPrefSection" id="userPrefLoggedOnUser">
+    <h3>Bruker:</h3>
+    @if (showUsers)
     {
-        public FormModel()
+        <GetUser />
+    }
+
+    <h5>
+        Pålogget bruker: @LoggedInUserService.Name
+    </h5>
+
+
+    <EditForm Model="formModel">
+        <h5>Legg til ny bruker:</h5>
+
+        <input type="text" @bind-value="name" @bind-value:event="oninput" />
+        <button @onclick="submitUser">Legg til bruker</button>
+    </EditForm>
+
+</section>
+
+
+<section class="userPrefSection">
+    <h3>Stillinger som er markert som likt og ikke likt: </h3>
+    <ShowNotLikedListings />
+    <ShowLikedListings />
+</section>
+
+    <section class="userPrefSection">
+        <h3>Prefererte søkesteder: </h3>
+        @if (showLocations)
         {
+            <ShowLocations showLocations="@locationSelected" />
         }
-    }
 
-    /*
-    Post user to db
-    */
-    FormModel formModel = new();
-    string name;
-    bool showUsers = true;
-    private async Task submitUser()
-    {
-        logger.LogInformation("Submitting user with name: {0} to be saved to Database, time: {time}", name, DateTimeOffset.Now);
-        showUsers = false;
+    </section>
 
-        User user = new User();
-        user.Name = name;
-        UserListingService.PostUser(user);
-        await Task.Delay(5);
-        showUsers = true;
 
-    }
 
-    private async Task locationSelected()
-    {
-        showLocations = false;
-        await Task.Delay(5);
-        showLocations = true;
-    }
-}
+
+
+
+
+        @code {
+
+
+
+            private bool showLocations = true;
+
+            private class FormModel
+            {
+                public FormModel()
+                {
+                }
+            }
+
+            /*
+            Post user to db
+            */
+            FormModel formModel = new();
+            string name;
+            bool showUsers = true;
+            private async Task submitUser()
+            {
+                logger.LogInformation("Submitting user with name: {0} to be saved to Database, time: {time}", name, DateTimeOffset.Now);
+                showUsers = false;
+
+                User user = new User();
+                user.Name = name;
+                UserListingService.PostUser(user);
+                await Task.Delay(5);
+                showUsers = true;
+
+            }
+
+            private async Task locationSelected()
+            {
+                showLocations = false;
+                await Task.Delay(5);
+                showLocations = true;
+            }
+        }
 
