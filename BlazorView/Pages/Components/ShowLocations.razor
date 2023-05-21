@@ -36,8 +36,14 @@
         {
             @if (loggedInUserPrefferedLocations.Any(i => i.LocationId == item.Id))
             {
-                <p>@item.Municipality</p>
-                <button @onclick="() => DeletePreferredLocation(item)">Slett</button>
+                    <table>
+                        <tr>
+                            <td>@item.Municipality</td>
+                            <td><button @onclick="() => DeletePreferredLocation(item)">Slett</button></td>
+                        </tr>
+                    </table>
+     
+                
 
             }
         }
