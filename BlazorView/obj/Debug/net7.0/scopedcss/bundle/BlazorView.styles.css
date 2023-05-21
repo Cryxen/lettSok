@@ -18,8 +18,9 @@
 .contentWrapper[b-dwcektb1l1] {
     display: flex;
     flex-direction: column;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     align-items: center;
+    background-color: #00989e;
 }
 
 .contentWrapper h1[b-dwcektb1l1] {
@@ -70,6 +71,7 @@
     position: absolute;
     opacity: 0.95;
 }
+
 /* _content/BlazorView/Shared/MainLayout.razor.rz.scp.css */
 body[b-ivxfbxz1bn] {
     height: 100%;
@@ -110,6 +112,9 @@ main[b-ivxfbxz1bn] {
 }
 
 
+.sidebar[b-ivxfbxz1bn] {
+    background-color: #00989e;
+}
 /* _content/BlazorView/Shared/NavMenu.razor.rz.scp.css */
 .navbar-toggler[b-iiofiewy08] {
     background-color: rgba(255, 255, 255, 0.1);
