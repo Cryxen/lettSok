@@ -11,7 +11,9 @@
         
         @if (LoggedInUserService.interests.Contains(item.Uuid))
         {
-            <button @onclick="deleteLikes" class="advButton">Likt</button>
+            <button @onclick="deleteLikes" class="advButton">
+                <img src="img/heart2.png" alt="Likt" />
+            </button>
 
         }
         else
@@ -26,7 +28,7 @@
         }
         else {
     <button @onclick="saveNotLikes" class="advButton">
-        <img src="img/not_like2.png" alt="Liker" />
+        <img src="img/not_like2.png" alt="Liker ikke" />
     </button>
         }
     </section>
