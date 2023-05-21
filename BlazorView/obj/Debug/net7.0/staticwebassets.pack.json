@@ -69,6 +69,30 @@
       "PackagePath": "staticwebassets/img/LETT-5.png"
     },
     {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/heart.png",
+      "PackagePath": "staticwebassets/img/heart.png"
+    },
+    {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/like.png",
+      "PackagePath": "staticwebassets/img/like.png"
+    },
+    {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/logo.png",
+      "PackagePath": "staticwebassets/img/logo.png"
+    },
+    {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/menu.png",
+      "PackagePath": "staticwebassets/img/menu.png"
+    },
+    {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/not like.png",
+      "PackagePath": "staticwebassets/img/not like.png"
+    },
+    {
+      "Id": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/BlazorView/wwwroot/img/user.png",
+      "PackagePath": "staticwebassets/img/user.png"
+    },
+    {
       "Id": "obj/Debug/net7.0/staticwebassets/msbuild.BlazorView.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
