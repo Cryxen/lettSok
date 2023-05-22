@@ -29,7 +29,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     /// <remarks>
     /// A sample return:
     /// 
-    ///     POST /getAdvertisement
+    ///     GET /getAdvertisement
     ///     {
     ///     "uuid": "01e70f56-8889-4335-8a3c-54bbb75d8062",
     ///     "expires": "2023-07-22T19:59:59.978",

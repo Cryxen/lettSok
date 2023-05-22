@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using UserPreferencesDatabaseService.Data;
 
@@ -21,6 +22,8 @@ internal class Program
                 Title = "Controller for User Preference Database",
                 Description = "A REST API controller for Lettsøks User Preference Database service"
             });
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
 
 

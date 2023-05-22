@@ -28,7 +28,19 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// Gets all users in Database
     /// </summary>
     /// <returns>JSON list of users</returns>
+    /// <remarks>
+    /// Sample return:
+    /// 
+    ///     GET /getUsers
+    ///     {
+    ///         "id": "02603a46-83e4-4089-aeae-f2725c4e83c1",
+    ///         "name": "test"
+    ///     }
+    ///     
+    /// </remarks>
+    /// <response code="200">OK, List of all users in database</response>
     [HttpGet("getUsers")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<List<V3User>> Get()
     {
         _logger.LogInformation("Getting all users from Database, time: {time}", DateTimeOffset.Now);
@@ -47,7 +59,19 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// </summary>
     /// <param name="userPost">name of user</param>
     /// <returns>Error codes</returns>
+    /// <remarks>
+    /// Sample Post:
+    ///
+    ///     POST /saveUser
+    ///     {
+    ///         "name": "name of user"
+    ///     }
+    /// </remarks>
+    /// <response code="201">Returns empty error list and newly created object</response>
+    /// <response code="400">Returns a bad request, typically something wrong with JSON in POST request</response>
     [HttpPost("saveUser")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<V3Result<V3User>> saveUser(V3User userPost)
     {
         _logger.LogInformation("Saving user with name: {0} to Database, time: {time}", userPost.Name, DateTimeOffset.Now);
