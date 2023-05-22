@@ -93,3 +93,5 @@
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/obj/Debug/net7.0/JobListingsDatabaseService.pdb
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/obj/Debug/net7.0/JobListingsDatabaseService.genruntimeconfig.cache
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/obj/Debug/net7.0/ref/JobListingsDatabaseService.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/JobListingsDatabaseService.xml
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/obj/Debug/net7.0/JobListingsDatabaseService.xml

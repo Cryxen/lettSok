@@ -1,4 +1,5 @@
-﻿using JobListingsDatabaseService.Data;
+﻿using System.Reflection;
+using JobListingsDatabaseService.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -21,6 +22,9 @@ internal class Program
                 Title = "Controller for Job Listings Database",
                 Description = "A REST API controller for Lettsøks Job Listings Database service"
             });
+
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
 
 

@@ -26,7 +26,29 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     /// Retrieves advertisements from database
     /// </summary>
     /// <returns>List of advertisements</returns>
+    /// <remarks>
+    /// A sample return:
+    /// <br />
+    ///   { <br />
+    ///   <blockquote>
+    ///     "uuid": "01e70f56-8889-4335-8a3c-54bbb75d8062", <br />
+    ///     "expires": "2023-07-22T19:59:59.978",<br />
+    ///     "municipal": "OSLO",<br />
+    ///     "title": "Title of advertisement",<br />
+    ///     "description": "Sometimes this is in HTML", <br />
+    ///     "jobTitle": JobTitle,<br />
+    ///     "employer": "Name of the employer",<br />
+    ///     "engagementType": "Fast"<br />
+    ///   </blockquote>
+    ///     }<br />
+    /// 
+    /// </remarks>
+    /// <response code="200">Returns list of advertisements saved in Database</response>
+
+
+
     [HttpGet("getAdvertisements")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public virtual async Task<List<V1Advertisement>> Get()
     {
         _logger.LogInformation("Getting advertisements from Database, {time}", DateTimeOffset.Now);
@@ -77,6 +99,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     /// </summary>
     /// <param name="advertisementPost">Reflects advertisement model</param>
     /// <returns>Returns V1Result error codes</returns>
+    /// 
     [HttpPost("saveAdvertisement")]
     public async Task<V1Restult<V2Advertisement>> saveAdvertisements(V2Advertisement advertisementPost)
     {
