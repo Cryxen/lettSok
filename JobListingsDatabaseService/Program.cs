@@ -1,5 +1,6 @@
 ﻿using JobListingsDatabaseService.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 internal class Program
 {
@@ -12,7 +13,15 @@ internal class Program
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v2",
+                Title = "Controller for Job Listings Database",
+                Description = "A REST API controller for Lettsøks Job Listings Database service"
+            });
+        });
 
 
         builder.Services.AddDbContext<JobListingsDbContext>(options =>
@@ -29,6 +38,7 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
 
         app.UseHttpsRedirection();
 

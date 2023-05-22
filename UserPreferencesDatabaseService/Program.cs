@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using UserPreferencesDatabaseService.Data;
 
 internal class Program
@@ -12,7 +13,15 @@ internal class Program
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v5",
+                Title = "Controller for User Preference Database",
+                Description = "A REST API controller for Lettsøks User Preference Database service"
+            });
+        });
 
 
         builder.Services.AddDbContext<UserPreferencesDbContext>(options =>
