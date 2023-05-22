@@ -4,7 +4,6 @@
 @inject FetchUserFromDb UserListingService
 @inject ILogger<ShowNotLikedListings> logger
 
-<h5>Stillinger som er markert som ikke likt:</h5>
 @if (advertisementList != null)
 {
     @foreach (var item in advertisementList)

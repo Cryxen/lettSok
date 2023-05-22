@@ -17,7 +17,7 @@
     <picture>
         <img src="img/logo.png" class="logo" />
     </picture>
-    <EditForm Model="@searchModel" class="searchForm">
+    <EditForm Model="@searchModel" class="searchForm" name="searchForm">
         <input type="text" placeholder="Søk her" @bind-value="searchValue" @bind-value:event="oninput" />
         <button @onclick="searchPress">Søk</button>
     </EditForm>

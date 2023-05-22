@@ -28,31 +28,47 @@
 
 
 <section class="userPrefSection">
-    <h3>Stillinger som er markert som likt og ikke likt: </h3>
-    <ShowNotLikedListings />
-    <ShowLikedListings />
+    <button @onclick="@showLikedListingsButtonPress" class="sectionButton">Stillinger som er markert som likt</button>
+
+    @if (showLikedListings)
+            {
+             <div class="showSectionDiv">
+                <ShowLikedListings />
+             </div>
+            }
 </section>
 
-    <section class="userPrefSection">
-        <h3>Prefererte søkesteder: </h3>
-        @if (showLocations)
-        {
-            <ShowLocations showLocations="@locationSelected" />
-        }
 
+<section class="userPrefSection">
+    <button @onclick="@showNotLikedListingsButtonPress" class="sectionButton">Stillinger som er markert som ikke likt</button>
+    @if (showNotLikedListings)
+    {
+        <div class="showSectionDiv">
+            <ShowNotLikedListings />
+            </div>
+            }
     </section>
 
+<section class="userPrefSection">
+    <button @onclick="@showPrefLocations" class="sectionButton">Prefererte søkesteder</button>
+    @if (showLocations)
+    {
+        <div class="showSectionDiv">
+            <ShowLocations showLocations="@locationSelected" />
+        </div>
 
+    }
 
-
-
+</section>
 
 
         @code {
 
 
 
-            private bool showLocations = true;
+            private bool showLocations = false;
+            private bool showLikedListings = false;
+            private bool showNotLikedListings = false;
 
             private class FormModel
             {
@@ -85,6 +101,20 @@
                 showLocations = false;
                 await Task.Delay(5);
                 showLocations = true;
+            }
+
+            private void showLikedListingsButtonPress()
+            {
+                showLikedListings ^= true;
+            }
+
+            private void showNotLikedListingsButtonPress()
+            {
+                showNotLikedListings ^= true;
+            }
+            private void showPrefLocations()
+            {
+                showLocations ^= true;
             }
         }
 

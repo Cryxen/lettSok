@@ -1,11 +1,42 @@
 ﻿.userPrefSection {
-    margin-top: 2%;
-    border-bottom-style: dashed;
-    padding: 2%;
+    width: 80rem;
+    background-color: #00989e;
+    padding: 1%;
 }
 
-#userPrefLoggedOnUser {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    .userPrefSection .sectionButton {
+        border-style: none;
+        background-color: #00989e;
+        font-weight:800;
+        font-size: larger;
     }
+
+        .userPrefSection .sectionButton:hover {
+            border-bottom-style: solid;
+            border-color: black;
+        }
+
+        #userPrefLoggedOnUser {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+.showSectionDiv {
+    animation-name: showSection;
+    animation-duration: 2s;
+    border-bottom-style: dashed;
+}
+
+@keyframes showSection {
+    from {
+        opacity: 0;
+        display: none;
+    }
+
+    to {
+        display: initial;
+        opacity: 1;
+    }
+}
+

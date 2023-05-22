@@ -5,81 +5,81 @@
 @inject FetchUserFromDb UserListingService
 @inject ILogger<ShowLikedListings> logger
 
-<h5>Stillinger som er markert som likt:</h5>
-@if (advertisementList != null)
-{
-    @foreach (var item in advertisementList)
-    {
-        if (LoggedInUserService.interests.Contains(item.Uuid))
+
+        @if (advertisementList != null)
         {
-                <table>
-                    <tr>
-                        <td>@item.Title</td>
-                        <td><button @onclick="() => RemoveFromInterests(item)">Slett</button></td>
-                    </tr>
-                </table>
-        }
-    }
-}
-else
-{
-    <p>Det er dessverre utfordringer med å nå Databasen som holder på ledige stillinger. Vennligst prøv igjen senere.</p>
-}
-
-@if (LoggedInUserService.interests == null || LoggedInUserService.interests.Count() == 0)
-{
-    <p>Ingen stillinger er markert som likt</p>
-}
-
-@code {
-    IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
-    string advertisementsFromDb;
-
-
-
-    //Interests
-    string? interestsFromDb;
-    IEnumerable<Interest> interests = new List<Interest>();
-    List<string> commonInterests = new List<string>();
-
-    /// <summary>
-    /// Fetch job listings from database
-    /// </summary>
-    /// <returns></returns>
-    protected override async Task OnInitializedAsync()
-    {
-        logger.LogInformation("Fetching Job Listings from Database, time: {time}", DateTimeOffset.Now);
-        advertisementsFromDb = await JobListingsService.FetchJobListings();
-        advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
-
-        // Fetch uninterests TODO: Try to make this global at some point
-        logger.LogInformation("Fetching Interests from Database, time: {time}", DateTimeOffset.Now);
-        interestsFromDb = await UserListingService.FetchInterest();
-        interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(interestsFromDb);
-
-        if (interests != null)
-        {
-            foreach (var item in interests)
+            @foreach (var item in advertisementList)
             {
-                if (item.userGuid == LoggedInUserService.Id)
+                if (LoggedInUserService.interests.Contains(item.Uuid))
                 {
-                    commonInterests.Add(item.advertisementUuid);
+                    <table>
+                        <tr>
+                            <td>@item.Title</td>
+                            <td><button @onclick="() => RemoveFromInterests(item)">Slett</button></td>
+                        </tr>
+                    </table>
                 }
             }
-            LoggedInUserService.interests = commonInterests;
+        }
+        else
+        {
+            <p>Det er dessverre utfordringer med å nå Databasen som holder på ledige stillinger. Vennligst prøv igjen senere.</p>
         }
 
-    }
+        @if (LoggedInUserService.interests == null || LoggedInUserService.interests.Count() == 0)
+        {
+            <p>Ingen stillinger er markert som likt</p>
+        }
 
-    private void RemoveFromInterests(Advertisement advertisement)
-    {
-        logger.LogInformation("Removing Advertisement Uuid: {0} from Interest list for user {1}, time: {time}", advertisement.Uuid, LoggedInUserService.Name, DateTimeOffset.Now);
-        Interest interest = new();
-        interest.userGuid = LoggedInUserService.Id;
-        interest.advertisementUuid = advertisement.Uuid;
+    @code {
+        IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
+        string advertisementsFromDb;
 
-        UserListingService.DeleteInterest(interest);
-        LoggedInUserService.interests.Remove(advertisement.Uuid);
+
+
+        //Interests
+        string? interestsFromDb;
+        IEnumerable<Interest> interests = new List<Interest>();
+        List<string> commonInterests = new List<string>();
+
+        /// <summary>
+        /// Fetch job listings from database
+        /// </summary>
+        /// <returns></returns>
+        protected override async Task OnInitializedAsync()
+        {
+            logger.LogInformation("Fetching Job Listings from Database, time: {time}", DateTimeOffset.Now);
+            advertisementsFromDb = await JobListingsService.FetchJobListings();
+            advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
+
+            // Fetch uninterests TODO: Try to make this global at some point
+            logger.LogInformation("Fetching Interests from Database, time: {time}", DateTimeOffset.Now);
+            interestsFromDb = await UserListingService.FetchInterest();
+            interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(interestsFromDb);
+
+            if (interests != null)
+            {
+                foreach (var item in interests)
+                {
+                    if (item.userGuid == LoggedInUserService.Id)
+                    {
+                        commonInterests.Add(item.advertisementUuid);
+                    }
+                }
+                LoggedInUserService.interests = commonInterests;
+            }
+
+        }
+
+        private void RemoveFromInterests(Advertisement advertisement)
+        {
+            logger.LogInformation("Removing Advertisement Uuid: {0} from Interest list for user {1}, time: {time}", advertisement.Uuid, LoggedInUserService.Name, DateTimeOffset.Now);
+            Interest interest = new();
+            interest.userGuid = LoggedInUserService.Id;
+            interest.advertisementUuid = advertisement.Uuid;
+
+            UserListingService.DeleteInterest(interest);
+            LoggedInUserService.interests.Remove(advertisement.Uuid);
+        }
     }
-}
 

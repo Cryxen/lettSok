@@ -86,16 +86,47 @@
 
 /* _content/BlazorView/Pages/UserPreference.razor.rz.scp.css */
 .userPrefSection[b-uekz9cdww5] {
-    margin-top: 2%;
-    border-bottom-style: dashed;
-    padding: 2%;
+    width: 80rem;
+    background-color: #00989e;
+    padding: 1%;
 }
 
-#userPrefLoggedOnUser[b-uekz9cdww5] {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    .userPrefSection .sectionButton[b-uekz9cdww5] {
+        border-style: none;
+        background-color: #00989e;
+        font-weight:800;
+        font-size: larger;
     }
+
+        .userPrefSection .sectionButton:hover[b-uekz9cdww5] {
+            border-bottom-style: solid;
+            border-color: black;
+        }
+
+        #userPrefLoggedOnUser[b-uekz9cdww5] {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+.showSectionDiv[b-uekz9cdww5] {
+    animation-name: showSection-b-uekz9cdww5;
+    animation-duration: 2s;
+    border-bottom-style: dashed;
+}
+
+@keyframes showSection-b-uekz9cdww5 {
+    from {
+        opacity: 0;
+        display: none;
+    }
+
+    to {
+        display: initial;
+        opacity: 1;
+    }
+}
+
 /* _content/BlazorView/Shared/MainLayout.razor.rz.scp.css */
 body[b-ivxfbxz1bn] {
     height: 100%;
