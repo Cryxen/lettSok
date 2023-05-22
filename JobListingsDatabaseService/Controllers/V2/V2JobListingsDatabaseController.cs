@@ -114,11 +114,14 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     ///         },
     ///         "engagementType": "Full time"
     ///     }
-    ///     
-    /// 
     /// </remarks>
-    /// 
+    /// <response code="201">Returns empty error list and newly created object</response>
+    /// <response code="400">Returns a bad request, something wrong with JSON in POST</response>
+    /// <response code="500">Returns internal server error, found to be case if "uuid" is missing in POST</response>
     [HttpPost("saveAdvertisement")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<V1Restult<V2Advertisement>> saveAdvertisements(V2Advertisement advertisementPost)
     {
         _logger.LogInformation("Saving Advertisement {advertisement}", advertisementPost + " time: " + DateTimeOffset.Now);
