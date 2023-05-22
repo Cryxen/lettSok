@@ -7,6 +7,7 @@ using System.Linq;
 namespace JobListingsDatabaseService.Controllers.V1;
 
 [ApiController]
+[ApiExplorerSettings(IgnoreApi = true)]
 [Route("api/V1/Advertisements")]
 public class V1JobListingsDatabaseController : ControllerBase
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 namespace JobListingsDatabaseService.Model.V1;
 
+
     public class V1Advertisement
 	{
 		public string? Uuid

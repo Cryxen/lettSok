@@ -6,6 +6,7 @@ using UserPreferencesDatabaseService.Model.V3;
 namespace UserPreferencesDatabaseService.Controllers.V3;
 
 [ApiController]
+[ApiExplorerSettings(IgnoreApi = true)]
 [Route("[controller]")]
 public class V3UserPreferencesDatabaseController : ControllerBase
 {
