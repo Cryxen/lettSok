@@ -28,19 +28,18 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     /// <returns>List of advertisements</returns>
     /// <remarks>
     /// A sample return:
-    /// <br />
-    ///   { <br />
-    ///   <blockquote>
-    ///     "uuid": "01e70f56-8889-4335-8a3c-54bbb75d8062", <br />
-    ///     "expires": "2023-07-22T19:59:59.978",<br />
-    ///     "municipal": "OSLO",<br />
-    ///     "title": "Title of advertisement",<br />
-    ///     "description": "Sometimes this is in HTML", <br />
-    ///     "jobTitle": JobTitle,<br />
-    ///     "employer": "Name of the employer",<br />
-    ///     "engagementType": "Fast"<br />
-    ///   </blockquote>
-    ///     }<br />
+    /// 
+    ///     POST /getAdvertisement
+    ///     {
+    ///     "uuid": "01e70f56-8889-4335-8a3c-54bbb75d8062",
+    ///     "expires": "2023-07-22T19:59:59.978",
+    ///     "municipal": "OSLO",
+    ///     "title": "Title of advertisement",
+    ///     "description": "Sometimes this is in HTML",
+    ///     "jobTitle": JobTitle,
+    ///     "employer": "Name of the employer",
+    ///     "engagementType": "Fast"
+    ///     }
     /// 
     /// </remarks>
     /// <response code="200">Returns list of advertisements saved in Database</response>
