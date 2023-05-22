@@ -44,9 +44,6 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     /// 
     /// </remarks>
     /// <response code="200">Returns list of advertisements saved in Database</response>
-
-
-
     [HttpGet("getAdvertisements")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public virtual async Task<List<V1Advertisement>> Get()
@@ -89,9 +86,9 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
 
         //return new V1Restult<IEnumerable<V1Advertisement>>(responseAdvertisements);
         return responseAdvertisements;
-           
-     
-      
+
+
+
     }
 
     /// <summary>
@@ -99,6 +96,28 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     /// </summary>
     /// <param name="advertisementPost">Reflects advertisement model</param>
     /// <returns>Returns V1Result error codes</returns>
+    /// <remarks>
+    /// Sample value of message
+    /// 
+    ///     POST /saveAdvertisement
+    ///     {
+    ///         "uuid": "01e70f56-8889-4335-8a3c-54bbb75d8062",
+    ///         "expires": "2023-05-22T21:04:21.919Z",
+    ///         "workLocations": [
+    ///         {
+    ///             "municipal": "OSLO"
+    ///         }],
+    ///         "title": "Title of advertisement",
+    ///         "description": "Description of advertisement, sometimes in HTML",
+    ///         "jobTitle": "JobTitle",
+    ///         "employer": {
+    ///             "name": "Name of employer",
+    ///         },
+    ///         "engagementType": "Full time"
+    ///     }
+    ///     
+    /// 
+    /// </remarks>
     /// 
     [HttpPost("saveAdvertisement")]
     public async Task<V1Restult<V2Advertisement>> saveAdvertisements(V2Advertisement advertisementPost)
