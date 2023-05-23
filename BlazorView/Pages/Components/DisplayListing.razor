@@ -1,14 +1,14 @@
 ﻿@using BlazorView.Data
 @inject FetchUserFromDb UserFromDb
 @inject ILogger<DisplayListing> Logger
-
+@try {
 @if (_showListing && !LoggedInUserService.Uninterests.Contains(Item.Uuid))
-    {    
+{
     <section class="listing">
         <button @onclick="ShowFullListing" type="button" class="listingTitle">
             @Item.Title
         </button>
-        
+
         @if (LoggedInUserService.Interests.Contains(Item.Uuid))
         {
             <button @onclick="deleteLikes" class="advButton">
@@ -19,20 +19,28 @@
         else
         {
             <button @onclick="SaveLikes" class="advButton">
-                <img src="img/like2.png" alt="Liker"/>
+                <img src="img/like2.png" alt="Liker" />
             </button>
         }
         @if (LoggedInUserService.Uninterests.Contains(Item.Uuid))
         {
-        <button @onclick="DeleteNotLikes" class="advButton">Markert ikke likt</button>
+            <button @onclick="DeleteNotLikes" class="advButton">Markert ikke likt</button>
         }
-        else {
-    <button @onclick="SaveNotLikes" class="advButton">
-        <img src="img/not_like2.png" alt="Liker ikke" />
-    </button>
+        else
+        {
+            <button @onclick="SaveNotLikes" class="advButton">
+                <img src="img/not_like2.png" alt="Liker ikke" />
+            </button>
         }
     </section>
+}
     }
+    catch (Exception e)
+    {
+        Logger.LogDebug("The LoggedInUserService does not seem to reach the database {time}", DateTimeOffset.Now);
+        <p>Det ser ut til å være utfordringer med å koble til Databasen for brukerprefferanser</p>
+
+    };
 
 
 @code {

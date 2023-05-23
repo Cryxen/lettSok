@@ -23,7 +23,7 @@ namespace BlazorView.Data
             {
                 _logger.LogDebug("Fetching Job Listings from Database, time: {time}", DateTimeOffset.Now);
 
-                Json = await s_client.GetStringAsync("https://localhost:7223/api/V2/Advertisements/getAdvertisements");
+                Json = await s_client.GetStringAsync("http://localhost:5081/api/V2/Advertisements/getAdvertisements");
             }
             catch (Exception e)
             {

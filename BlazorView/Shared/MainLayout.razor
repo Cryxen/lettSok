@@ -25,27 +25,27 @@
 @code{
 
     //Interests
-    string? InterestsFromDb;
-    IEnumerable<Interest> Interests = new List<Interest>();
-    List<string> CommonInterests = new List<string>();
+    private string? _interestsFromDb;
+    private IEnumerable<Interest> _interests = new List<Interest>();
+    private List<string> _commonInterests = new List<string>();
 
     //Uninterests
-    string? UninterestsFromDb;
-    IEnumerable<Interest> Uninterests = new List<Interest>();
-    List<string> CommonUninterests = new List<string>();
+    private string? _uninterestsFromDb;
+    private IEnumerable<Interest> _uninterests = new List<Interest>();
+    private List<string> _commonUninterests = new List<string>();
 
     //Users
-    IEnumerable<User> Users = new List<User>();
-    string UsersFromDb;
+    private IEnumerable<User> _users = new List<User>();
+    private string _usersFromDb;
 
 
     protected override async Task OnInitializedAsync()
     {
         Logger.LogInformation("Initializing Logged in user, time: {time}", DateTimeOffset.Now);
-        UsersFromDb = await UserListingService.FetchUser();
-        Users = JsonConvert.DeserializeObject<IEnumerable<User>>(UsersFromDb);
+        _usersFromDb = await UserListingService.FetchUser();
+        _users = JsonConvert.DeserializeObject<IEnumerable<User>>(_usersFromDb);
 
-        if (Users != null && Users.Count() == 0)
+        if (_users != null && _users.Count() == 0)
         {
             User NewUser = new();
             NewUser.Name = "Bruker";
@@ -56,58 +56,58 @@
 
         if (LoggedInUserService.Name == null)
         {
-            if (Users == null)
+            if (_users == null)
             {
                 LoggedInUserService.Name = "default";
             }
             else {
-                LoggedInUserService.Name = Users.First().Name;
-                LoggedInUserService.Id = Users.First().Id;
+                LoggedInUserService.Name = _users.First().Name;
+                LoggedInUserService.Id = _users.First().Id;
             }
 
         }
 
         // Interests
-        InterestsFromDb = await UserListingService.FetchInterest();
-        Interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(InterestsFromDb);
+        _interestsFromDb = await UserListingService.FetchInterest();
+        _interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(_interestsFromDb);
 
         @if (LoggedInUserService.Interests != null)
             {
                 LoggedInUserService.Interests.Clear();
             }
 
-        if (Interests != null)
+        if (_interests != null)
         {
-            foreach (var Item in Interests)
+            foreach (var Item in _interests)
             {
                 if (Item.UserGuid == LoggedInUserService.Id)
                 {
-                    CommonInterests.Add(Item.AdvertisementUuid);
+                    _commonInterests.Add(Item.AdvertisementUuid);
                 }
             }
-            LoggedInUserService.Interests = CommonInterests;
+            LoggedInUserService.Interests = _commonInterests;
         }
 
 
         // Uninterests
-        UninterestsFromDb = await UserListingService.FetchUninterest();
-        Uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(UninterestsFromDb);
+        _uninterestsFromDb = await UserListingService.FetchUninterest();
+        _uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(_uninterestsFromDb);
 
         if (LoggedInUserService.Uninterests != null)
         {
             LoggedInUserService.Uninterests.Clear();
         }
 
-        if (Uninterests != null)
+        if (_uninterests != null)
         {
-            foreach (var Item in Uninterests)
+            foreach (var Item in _uninterests)
             {
                 if (Item.UserGuid == LoggedInUserService.Id)
                 {
-                    CommonUninterests.Add(Item.AdvertisementUuid);
+                    _commonUninterests.Add(Item.AdvertisementUuid);
                 }
             }
-            LoggedInUserService.Uninterests = CommonUninterests;
+            LoggedInUserService.Uninterests = _commonUninterests;
         }
 
 
