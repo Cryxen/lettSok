@@ -3,12 +3,12 @@ namespace AdvertisementWorker.Model
 {
     public class WorkLocations
     {
-        public string? country { get; set; }
-        public string? address { get; set; }
-        public string? city { get; set; }
-        public string? postalCode { get; set; }
-        public string? county { get; set; }
-        public string? municipal { get; set; }
+        public string? Country { get; set; }
+        public string? Address { get; set; }
+        public string? City { get; set; }
+        public string? PostalCode { get; set; }
+        public string? County { get; set; }
+        public string? Municipal { get; set; }
     }
 }
 

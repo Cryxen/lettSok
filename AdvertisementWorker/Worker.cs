@@ -19,22 +19,23 @@ public class Worker : BackgroundService
     }
 
     private static HttpClient client = new HttpClient();
-    string prefferedLocationsJson;
-    string locationsJson;
-                    List<Advertisement> Advertisements = new List<Advertisement>();
-    List<Location> locationList = new();
+    string PrefferedLocationsJson;
+    string LocationsJson;
+
+    List<Advertisement> Advertisements = new List<Advertisement>();
+    List<Location> LocationList = new();
 
 
     // Public API settings
-    private static string setHttpClientToPublicAPISettings()
+    private static string SetHttpClientToPublicAPISettings()
     {
         // Client secret TODO: Make is a proper secret
         client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdWJsaWMudG9rZW4udjFAbmF2Lm5vIiwiYXVkIjoiZmVlZC1hcGktdjEiLCJpc3MiOiJuYXYubm8iLCJpYXQiOjE1NTc0NzM0MjJ9.jNGlLUF9HxoHo5JrQNMkweLj_91bgk97ZebLdfx3_UQ");
         // URL for public API
-        var jsonUrl = "https://arbeidsplassen.nav.no/public-feed/api/v1/ads";
+        var JsonUrl = "https://arbeidsplassen.nav.no/public-feed/api/v1/ads";
 
-        return jsonUrl;
+        return JsonUrl;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -45,22 +46,22 @@ public class Worker : BackgroundService
             try
             {
                 // Empty location list
-                locationList.Clear();
+                LocationList.Clear();
                 _logger.LogDebug("Clearing locationlist {time}", DateTimeOffset.Now);
 
                 // Get all locations
          
-                    locationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getLocations", stoppingToken);
-                    var locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsJson);
+                    LocationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getLocations", stoppingToken);
+                    var Locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(LocationsJson);
                     _logger.LogDebug("Fetching locations from database {time}", DateTimeOffset.Now);
            
                 // Get preffered Locations
-                    prefferedLocationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getSearchLocations", stoppingToken);
-                    var prefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(prefferedLocationsJson);
+                    PrefferedLocationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getSearchLocations", stoppingToken);
+                    var PrefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(PrefferedLocationsJson);
                     _logger.LogDebug("Fetching preffered locations from database, {time}", DateTimeOffset.Now);
                 
                 // Match locations with prefferedLocations. Make a list
-                locationList = MatchFavoredLocations(locations, prefferedLocations);
+                LocationList = MatchFavoredLocations(Locations, PrefferedLocations);
             }
             catch (Exception e)
             {
@@ -69,22 +70,20 @@ public class Worker : BackgroundService
             }
 
             // If search locations have been saved
-            if (locationList.Count > 0)
+            if (LocationList.Count > 0)
             {
-                foreach (var location in locationList)
+                foreach (var Location in LocationList)
                 {
 
-                    _logger.LogInformation("Retrieving jobs for {municipality} at time {time}", location.Municipality, DateTimeOffset.Now);
+                    _logger.LogInformation("Retrieving jobs for {municipality} at time {time}", Location.Municipality, DateTimeOffset.Now);
 
 
-                    var AdvertisementsMunicipality = await FetchJobsAndParseFromPublicAPI(location.Municipality);
+                    var AdvertisementsMunicipality = await FetchJobsAndParseFromPublicAPI(Location.Municipality);
 
-                    await gRPC(Advertisements);
 
                     try
                     {
-                        await postAdvertisementsToDatabase((List<Advertisement>)AdvertisementsMunicipality);
-
+                        await GRPC(Advertisements);
                     }
                     catch (Exception e)
                     {
@@ -103,11 +102,11 @@ public class Worker : BackgroundService
 
                 var Advertisements = await FetchJobsAndParseFromPublicAPI();
 
-                await gRPC(Advertisements);
 
                 try
                 {
-                    await postAdvertisementsToDatabase((List<Advertisement>)Advertisements);
+                    await GRPC(Advertisements);
+
                 }
                 catch 
                 {
@@ -121,47 +120,28 @@ public class Worker : BackgroundService
         }
     }
 
-    private async Task gRPC(List<Advertisement> advertisements)
+    private async Task GRPC(List<Advertisement> advertisements)
     {
-        /*
-        var input = new HelloRequest { Name = "Tim" };
-
         _logger.LogInformation("Trying to run gRPC, time: {time}", DateTimeOffset.Now);
-        var channel = GrpcChannel.ForAddress("http://localhost:5080");
-        var gRPCclient = new Greeter.GreeterClient(channel);
-        var reply = await gRPCclient.SayHelloAsync(input);
-        _logger.LogInformation(reply.Message);
-        
-
-        var emptyParam = new getAdvertisementParams();
-
-        _logger.LogInformation("Trying to run gRPC, time: {time}", DateTimeOffset.Now);
-        var channel = GrpcChannel.ForAddress("http://localhost:5080");
-        var gRPCclient = new AdvertisementgRPC.AdvertisementgRPCClient(channel);
-        var reply = await gRPCclient.getAdvertisementAsync(emptyParam);
-        _logger.LogInformation(reply.Uuid + reply.Title + reply.Description);
-        */
-
-        _logger.LogInformation("Trying to run gRPC, time: {time}", DateTimeOffset.Now);
-        var channel = GrpcChannel.ForAddress("http://localhost:5080");
-        var gRPCclient = new AdvertisementgRPC.AdvertisementgRPCClient(channel);
+        var Channel = GrpcChannel.ForAddress("http://localhost:5080");
+        var GRPCclient = new AdvertisementgRPC.AdvertisementgRPCClient(Channel);
         {
-            foreach (var item in advertisements)
+            foreach (var Item in advertisements)
             {
-                var TimestampExpires = Timestamp.FromDateTime((DateTime)item.Expires);
+                var TimestampExpires = Timestamp.FromDateTime((DateTime)Item.Expires);
 
                 try
                 {
-                    await gRPCclient.postAdvertisementsAsync(new AdvertisementModel
+                    await GRPCclient.PostAdvertisementsAsync(new AdvertisementModel
                     {
-                        Uuid = item.Uuid,
+                        Uuid = Item.Uuid,
                         Expires = TimestampExpires,
-                        WorkLocation = item.WorkLocations.ElementAt(0).municipal,
-                        Title = item.Title,
-                        Description = item.Description,
-                        JobTitle = item.JobTitle,
-                        Employer = item.Employer.name,
-                        EngagementType = item.EngagementType
+                        WorkLocation = Item.WorkLocations.ElementAt(0).Municipal,
+                        Title = Item.Title,
+                        Description = Item.Description,
+                        JobTitle = Item.JobTitle,
+                        Employer = Item.Employer.Name,
+                        EngagementType = Item.EngagementType
                     });
                 }
                 catch (Exception e)
@@ -178,19 +158,19 @@ public class Worker : BackgroundService
 
     public List<Location> MatchFavoredLocations(IEnumerable<Location> locations, IEnumerable<PreferredLocation> preferredLocations)
     {
-        List<Location> locationList = new();
+        List<Location> LocationList = new();
 
-        foreach (var location in locations)
+        foreach (var Location in locations)
         {
-            foreach (var preferredLocation in preferredLocations)
+            foreach (var PreferredLocation in preferredLocations)
             {
-                if (location.Id == preferredLocation.LocationId)
+                if (Location.Id == PreferredLocation.LocationId)
                 {
-                    locationList.Add(location);
+                    LocationList.Add(Location);
                 }
             }
         }
-        return locationList;
+        return LocationList;
     }
 
 
@@ -207,12 +187,12 @@ public class Worker : BackgroundService
             json = await RetrieveFromPublicAPI(location);
         }
 
-        var results = parseJson(json);
+        var Results = ParseJson(json);
         List<Advertisement> Advertisements = new List<Advertisement>();
-        foreach (var item in results)
+        foreach (var Item in Results)
         {
-            Advertisement advertisementItem = item.ToObject<Advertisement>();
-            Advertisements.Add(advertisementItem);
+            Advertisement AdvertisementItem = Item.ToObject<Advertisement>();
+            Advertisements.Add(AdvertisementItem);
         }
 
         return Advertisements;
@@ -225,56 +205,31 @@ public class Worker : BackgroundService
     /// <returns>Json String</returns>
     public async Task<string> RetrieveFromPublicAPI(string location = "No Location")
     {
-        HttpResponseMessage? response = new(); 
+        HttpResponseMessage? Response = new(); 
         if (location == "No Location")
         {
-            response = await client.GetAsync(setHttpClientToPublicAPISettings());
+            Response = await client.GetAsync(SetHttpClientToPublicAPISettings());
         }
         else
         {
-            response = await client.GetAsync(setHttpClientToPublicAPISettings() + "?municipal=" + location.ToUpper());
+            Response = await client.GetAsync(SetHttpClientToPublicAPISettings() + "?municipal=" + location.ToUpper());
         }
-        if (!response.IsSuccessStatusCode)
+        if (!Response.IsSuccessStatusCode)
         {
             _logger.LogError("Worker failed at: {time} to fetch listings from public API", DateTimeOffset.Now);
         }
 
-        string json = await response.Content.ReadAsStringAsync();
+        string Json = await Response.Content.ReadAsStringAsync();
 
-        return json;
+        return Json;
     }
-
-
-
-    /// <summary>
-    /// Post method saving advertisements to database.
-    /// Used https://learn.microsoft.com/en-us/aspnet/web-api/overview/advanced/calling-a-web-api-from-a-net-client as a source
-    /// for how to make post.
-    /// </summary>
-    /// <param name="advertisements">List of Model advertisement</param>
-    /// <returns></returns>
-    private async Task<Uri?> postAdvertisementsToDatabase(List<Advertisement> advertisements)
-    {
-        //From: https://learn.microsoft.com/en-us/aspnet/web-api/overview/advanced/calling-a-web-api-from-a-net-client
-        //client.BaseAddress = new Uri("http://localhost:5201/");
-        client.DefaultRequestHeaders.Accept.Clear();
-        client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-
-        foreach (var advertisement in advertisements)
-        {
-            HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:7223/api/V2/Advertisements/saveAdvertisement", advertisement);
-        }
-        return null;
-    }
-
 
     /// <summary>
     /// Parse json string to object
     /// </summary>
     /// <param name="json"></param>
     /// <returns>IList Json Object</returns>
-    public IList<JToken> parseJson(string json)
+    public IList<JToken> ParseJson(string json)
     {
         JObject jsonObject = JObject.Parse(json);
         JsonArray jSONArray = new JsonArray();

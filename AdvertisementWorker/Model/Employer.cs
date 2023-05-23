@@ -4,10 +4,10 @@ namespace AdvertisementWorker.Model
 {
     public class Employer
     {
-        public string? name { get; set; }
-        public int? orgnr { get; set; }
-        public string? description { get; set; }
-        public string? homepage { get; set; }
+        public string? Name { get; set; }
+        public int? Orgnr { get; set; }
+        public string? Description { get; set; }
+        public string? Homepage { get; set; }
 	}
 }
 

@@ -9,7 +9,7 @@ public class AdvertisementWorkerTest
 
     private readonly ILogger<Worker> _logger;
 
-    private Advertisement advertisement = new()
+    private Advertisement _advertisement = new()
     {
         Uuid = "Uuid test",
         Expires = DateTime.Today,
@@ -23,36 +23,36 @@ public class AdvertisementWorkerTest
     public async void Public_API_Responds_With_JSON()
     {
         // Arrange
-        Worker worker = new Worker(_logger);
+        Worker Worker = new Worker(_logger);
 
         // Act
-        var result = await worker.RetrieveFromPublicAPI();
+        var Result = await Worker.RetrieveFromPublicAPI();
 
         //Assert
-        Assert.EndsWith("}", result);
+        Assert.EndsWith("}", Result);
     }
 
     [Fact]
     public async void Fetch_Jobs_From_Public_API_Based_On_Location()
     {
         // Arrange
-        Worker worker = new Worker(_logger);
+        Worker Worker = new Worker(_logger);
 
         // Act
-        var JobListings = await worker.FetchJobsAndParseFromPublicAPI("Vestby");
+        var JobListings = await Worker.FetchJobsAndParseFromPublicAPI("Vestby");
 
         // Assert
-        foreach (var listing in JobListings)
+        foreach (var Listing in JobListings)
         {
-            bool workLocation = false;
-            foreach (var item in listing.WorkLocations)
+            bool WorkLocation = false;
+            foreach (var Item in Listing.WorkLocations)
             {
-                if (item.municipal is not null && item.municipal.Equals("VESTBY"))
+                if (Item.Municipal is not null && Item.Municipal.Equals("VESTBY"))
                 {
-                    workLocation = true;
+                    WorkLocation = true;
                 }
             }
-                Assert.True(workLocation);
+                Assert.True(WorkLocation);
             
            
 
@@ -63,10 +63,10 @@ public class AdvertisementWorkerTest
     public async void Fetch_Jobs_From_Public_API_Without_Location()
     {
         // Arrange
-        Worker worker = new Worker(_logger);
+        Worker Worker = new Worker(_logger);
 
         // Act
-        var JobListings = await worker.FetchJobsAndParseFromPublicAPI();
+        var JobListings = await Worker.FetchJobsAndParseFromPublicAPI();
 
         // Assert
         Assert.True(JobListings.Count > 0);
