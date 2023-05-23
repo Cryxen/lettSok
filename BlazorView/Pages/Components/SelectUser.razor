@@ -7,7 +7,7 @@
 @if (Users != null)
 {
 <EditForm Model="@_userModel">
-    <select @bind="SelectedUser">
+    <select @bind="_selectedUser">
 
         <option value="">Velg bruker</option>
         @foreach (var Item in Users)
@@ -37,8 +37,8 @@ else
     }
 
     private UserModel _userModel = new();
-    String SelectedUser;
-    User User = new();
+    private String _selectedUser;
+    private User _user = new();
 
     [Parameter]
     public IEnumerable<User>? Users { get; set; }
@@ -47,14 +47,14 @@ else
 
     private void SelectUserProfile()
     {
-        if (SelectedUser != null)
+        if (_selectedUser != null)
         {
             FindSelectedUser();
 
-            Logger.LogInformation("Selecting new user as logged in user, name: {0}, time: {time}", User.Name, DateTimeOffset.Now);
+            Logger.LogInformation("Selecting new user as logged in user, name: {0}, time: {time}", _user.Name, DateTimeOffset.Now);
 
-            LoggedInUserService.Name = User.Name;
-            LoggedInUserService.Id = User.Id;
+            LoggedInUserService.Name = _user.Name;
+            LoggedInUserService.Id = _user.Id;
 
             NavigationManager.NavigateTo("/");
         }
@@ -65,10 +65,10 @@ else
     {
         foreach (var item in Users)
         {
-            if (item.Name.Equals(SelectedUser))
+            if (item.Name.Equals(_selectedUser))
             {
-                User.Name = item.Name;
-                User.Id = item.Id;
+                _user.Name = item.Name;
+                _user.Id = item.Id;
             }
         }
     }

@@ -4,9 +4,9 @@
 @inject FetchUserFromDb UserListingService
 @inject ILogger<ShowNotLikedListings> Logger
 
-@if (AdvertisementList != null)
+@if (_advertisementList != null)
 {
-    @foreach (var Item in AdvertisementList)
+    @foreach (var Item in _advertisementList)
     {
         if (LoggedInUserService.Uninterests.Contains(Item.Uuid))
         {
@@ -30,15 +30,15 @@
 }
 @code {
 
-    IEnumerable<Advertisement> AdvertisementList = new List<Advertisement>();
-    string AdvertisementsFromDb;
+    private IEnumerable<Advertisement> _advertisementList = new List<Advertisement>();
+    private string _advertisementsFromDb;
 
 
 
     //Uninterests
-    string? UninterestsFromDb;
-    IEnumerable<Interest> Uninterests = new List<Interest>();
-    List<string> CommonUninterests = new List<string>();
+    private string? _uninterestsFromDb;
+    private IEnumerable<Interest> _uninterests = new List<Interest>();
+    private List<string> _commonUninterests = new List<string>();
 
     /// <summary>
     /// Fetch job listings from database
@@ -46,28 +46,28 @@
     /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
-        AdvertisementsFromDb = await JobListingsService.FetchJobListings();
-        AdvertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(AdvertisementsFromDb);
+        _advertisementsFromDb = await JobListingsService.FetchJobListings();
+        _advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(_advertisementsFromDb);
 
         // Fetch uninterests TODO: Try to make this global at some point
         Logger.LogInformation("Get uninterests from Database, time: {time}", DateTimeOffset.Now);
-        UninterestsFromDb = await UserListingService.FetchUninterest();
-        Uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(UninterestsFromDb);
+        _uninterestsFromDb = await UserListingService.FetchUninterest();
+        _uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(_uninterestsFromDb);
 
-        if (Uninterests != null)
+        if (_uninterests != null)
         {
-            foreach (var Item in Uninterests)
+            foreach (var Item in _uninterests)
             {
                 if (Item.UserGuid == LoggedInUserService.Id)
                 {
-                    CommonUninterests.Add(Item.AdvertisementUuid);
+                    _commonUninterests.Add(Item.AdvertisementUuid);
                 }
             }
-            LoggedInUserService.Uninterests = CommonUninterests;
+            LoggedInUserService.Uninterests = _commonUninterests;
         }
 
     }
-
+      
     private void RemoveFromUninterests(Advertisement advertisement)
     {
         Interest Interest = new();

@@ -8,11 +8,11 @@
 <!--If statement checking if user searches for an ad. -->
 
 <p>@SearchValue</p>
-@if (AdvertisementList != null)
+@if (_advertisementList != null)
 {
     @if (SearchValue != "")
     {
-        @foreach (var Item in AdvertisementList)
+        @foreach (var Item in _advertisementList)
         {
             <!--if statement looking for search string in: Title, description, employer, engagement type and municipal-->
             @if (Item.Title != null && Item.Description != null && Item.Employer != null && Item.EngagementType != null && Item.Municipal != null)
@@ -29,7 +29,7 @@
     }
     else
     {
-        @foreach (var Item in AdvertisementList)
+        @foreach (var Item in _advertisementList)
         {
             <DisplayListing Item="Item" AdvertisementToShow="@AdvertisementToShow" />
         }
@@ -46,8 +46,8 @@ else
 
 
 @code {
-    IEnumerable<Advertisement> AdvertisementList = new List<Advertisement>();
-    string AdvertisementsFromDb;
+    private IEnumerable<Advertisement> _advertisementList = new List<Advertisement>();
+    private string _advertisementsFromDb;
 
     [Parameter]
     public string? SearchValue { get; set; }
@@ -64,8 +64,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         Logger.LogInformation("Fetching listings from Database, time: {time}", DateTimeOffset.Now);
-        AdvertisementsFromDb = await JobListingsService.FetchJobListings();
-        AdvertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(AdvertisementsFromDb);
+        _advertisementsFromDb = await JobListingsService.FetchJobListings();
+        _advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(_advertisementsFromDb);
     }
 
 }

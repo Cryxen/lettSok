@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "R1qemvsiIvaNC4j2tK2X/lHxMGVf8V2LA7suCop7rlQ=",
+  "Hash": "b5dbgieNEAHRuJRvvSDEHsrt1TclffGNDDzED8o66/g=",
   "Source": "JobListingsDatabaseService",
   "BasePath": "_content/JobListingsDatabaseService",
   "Mode": "Default",
@@ -11,10 +11,10 @@
       "Version": 2,
       "Source": "JobListingsDatabaseService.gRPC",
       "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
-      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishProperties": "",
       "AdditionalPublishPropertiesToRemove": "TargetFramework",
       "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
-      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildProperties": "",
       "AdditionalBuildPropertiesToRemove": "TargetFramework"
     }
   ],

@@ -6,9 +6,9 @@
 @inject ILogger<ShowLikedListings> Logger
 
 
-        @if (AdvertisementList != null)
+        @if (_advertisementList != null)
         {
-            @foreach (var Item in AdvertisementList)
+            @foreach (var Item in _advertisementList)
             {
                 if (LoggedInUserService.Interests.Contains(Item.Uuid))
                 {
@@ -32,15 +32,15 @@
         }
 
     @code {
-        IEnumerable<Advertisement> AdvertisementList = new List<Advertisement>();
-        string AdvertisementsFromDb;
+        private IEnumerable<Advertisement> _advertisementList = new List<Advertisement>();
+        private string _advertisementsFromDb;
 
 
 
         //Interests
-        string? InterestsFromDb;
-        IEnumerable<Interest> Interests = new List<Interest>();
-        List<string> CommonInterests = new List<string>();
+        private string? _interestsFromDb;
+        private IEnumerable<Interest> _interests = new List<Interest>();
+        private List<string> _commonInterests = new List<string>();
 
         /// <summary>
         /// Fetch job listings from database
@@ -49,24 +49,24 @@
         protected override async Task OnInitializedAsync()
         {
             Logger.LogInformation("Fetching Job Listings from Database, time: {time}", DateTimeOffset.Now);
-            AdvertisementsFromDb = await JobListingsService.FetchJobListings();
-            AdvertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(AdvertisementsFromDb);
+            _advertisementsFromDb = await JobListingsService.FetchJobListings();
+            _advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(_advertisementsFromDb);
 
             // Fetch uninterests TODO: Try to make this global at some point
             Logger.LogInformation("Fetching Interests from Database, time: {time}", DateTimeOffset.Now);
-            InterestsFromDb = await UserListingService.FetchInterest();
-            Interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(InterestsFromDb);
+            _interestsFromDb = await UserListingService.FetchInterest();
+            _interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(_interestsFromDb);
 
-            if (Interests != null)
+            if (_interests != null)
             {
-                foreach (var Item in Interests)
+                foreach (var Item in _interests)
                 {
                     if (Item.UserGuid == LoggedInUserService.Id)
                     {
-                        CommonInterests.Add(Item.AdvertisementUuid);
+                        _commonInterests.Add(Item.AdvertisementUuid);
                     }
                 }
-                LoggedInUserService.Interests = CommonInterests;
+                LoggedInUserService.Interests = _commonInterests;
             }
 
         }

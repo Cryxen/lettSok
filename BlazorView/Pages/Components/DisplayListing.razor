@@ -2,7 +2,7 @@
 @inject FetchUserFromDb UserFromDb
 @inject ILogger<DisplayListing> Logger
 
-@if (ShowListing && !LoggedInUserService.Uninterests.Contains(Item.Uuid))
+@if (_showListing && !LoggedInUserService.Uninterests.Contains(Item.Uuid))
     {    
     <section class="listing">
         <button @onclick="ShowFullListing" type="button" class="listingTitle">
@@ -36,7 +36,7 @@
 
 
 @code {
-    bool ShowListing = true;
+    private bool _showListing = true;
 
     [Parameter]
     public Advertisement? Item { get; set; }
@@ -49,7 +49,7 @@
     private void SaveLikes()
     {
         Logger.LogInformation("Saving advertisement Uuid: {0} and User Id: {1} as a new interest, time: {time}", Item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
-        ShowListing = false;
+        _showListing = false;
 
         //Interests
         Interest interest = new();
@@ -59,14 +59,14 @@
         UserFromDb.PostInterest(interest);
         LoggedInUserService.Interests.Add(Item.Uuid);
         Task.Delay(5);
-        ShowListing = true;
+        _showListing = true;
     }
 
     private void SaveNotLikes()
     {
         Logger.LogInformation("Saving advertisement Uuid: {0} and User Id: {1} as a new Uninterest, time: {time}", Item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
 
-        ShowListing = false;
+        _showListing = false;
 
         //Interests
         Interest Interest = new();
@@ -76,14 +76,14 @@
         UserFromDb.PostUninterest(Interest);
         LoggedInUserService.Uninterests.Add(Item.Uuid);
         Task.Delay(5);
-        ShowListing = true;
+        _showListing = true;
     }
 
     private void DeleteNotLikes()
     {
         Logger.LogInformation("Deleting advertisement Uuid: {0} and User Id: {1} as an uninterest, time: {time}", Item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
 
-        ShowListing = false;
+        _showListing = false;
 
         Interest Interest = new();
         Interest.UserGuid = LoggedInUserService.Id;
@@ -92,14 +92,14 @@
         UserFromDb.DeleteUninterest(Interest);
         LoggedInUserService.Uninterests.Remove(Item.Uuid);
         Task.Delay(5);
-        ShowListing = true;
+        _showListing = true;
     }
 
     private void deleteLikes()
     {
         Logger.LogInformation("Deleting advertisement Uuid: {0} and User Id: {1} as an interest, time: {time}", Item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
 
-        ShowListing = false;
+        _showListing = false;
 
         Interest interest = new();
         interest.UserGuid = LoggedInUserService.Id;
@@ -108,7 +108,7 @@
         UserFromDb.DeleteInterest(interest);
         LoggedInUserService.Interests.Remove(Item.Uuid);
         Task.Delay(5);
-        ShowListing = true;
+        _showListing = true;
     }
 
     private async void ShowFullListing()

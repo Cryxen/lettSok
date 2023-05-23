@@ -7,7 +7,7 @@
 @inject ILogger<UserPreference> Logger
 <section class="userPrefSection" id="userPrefLoggedOnUser">
     <h3>Bruker:</h3>
-    @if (ShowUsers)
+    @if (_showUsers)
     {
         <GetUser />
     }
@@ -20,7 +20,7 @@
     <EditForm Model="_formModel">
         <h5>Legg til ny bruker:</h5>
 
-        <input type="text" @bind-value="Name" @bind-value:event="oninput" />
+        <input type="text" @bind-value="_name" @bind-value:event="oninput" />
         <button @onclick="SubmitUser">Legg til bruker</button>
     </EditForm>
 
@@ -80,19 +80,20 @@
             /*
             Post user to db
             */
-            FormModel _formModel = new();
-            string Name;
-            bool ShowUsers = true;
+            private FormModel _formModel = new();
+            private string _name;
+            private bool _showUsers = true;
+
             private async Task SubmitUser()
             {
-                Logger.LogInformation("Submitting user with name: {0} to be saved to Database, time: {time}", Name, DateTimeOffset.Now);
-                ShowUsers = false;
+                Logger.LogInformation("Submitting user with name: {0} to be saved to Database, time: {time}", _name, DateTimeOffset.Now);
+                _showUsers = false;
 
                 User User = new User();
-                User.Name = Name;
+                User.Name = _name;
                 UserListingService.PostUser(User);
                 await Task.Delay(5);
-                ShowUsers = true;
+                _showUsers = true;
 
             }
 

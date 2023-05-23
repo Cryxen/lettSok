@@ -9,23 +9,23 @@
 <PageTitle>Index</PageTitle>
 
 <div class="contentWrapper">
-    <p>@FullListingStyle</p>
+    <p>@_fullListingStyle</p>
         
-            <DisplayFullListing AdvertisementToShow="@AdvertisementToShow" FullListingStyle="@FullListingStyle" ShowFullAdvertisement="@ShowFullAdvertisement"/>
+            <DisplayFullListing AdvertisementToShow="@_advertisementToShow" FullListingStyle="@_fullListingStyle" ShowFullAdvertisement="@ShowFullAdvertisement"/>
         
     <h1>ANGSTFRI JOBBSØKING</h1>
     <picture>
         <img src="img/logo.png" class="logo" />
     </picture>
     <EditForm Model="@_searchModel" class="searchForm" name="searchForm">
-        <input type="text" placeholder="Søk her" @bind-value="SearchValue" @bind-value:event="oninput" />
+        <input type="text" placeholder="Søk her" @bind-value="_searchValue" @bind-value:event="oninput" />
         <button @onclick="SearchPress">Søk</button>
     </EditForm>
 
-    @if (ShowSearch)
+    @if (_showSearch)
     {
         <section class="listings">
-            <FetchListings SearchValue="@SearchValue.ToUpper()" AdvertisementToShow="@ShowFullListing" />
+            <FetchListings SearchValue="@_searchValue.ToUpper()" AdvertisementToShow="@ShowFullListing" />
         </section>
     }
 </div>
@@ -34,10 +34,9 @@
 @code{
 
 
-    int Counter = 0;
-    bool ShowSearch = false;
-    Advertisement? AdvertisementToShow;
-    string FullListingStyle;
+    private bool _showSearch = false;
+    private Advertisement? _advertisementToShow;
+    private string _fullListingStyle;
 
     /// <summary>
     /// Used by EditForm
@@ -51,44 +50,44 @@
     private SearchModel _searchModel = new();
 
     // Value of search field
-    string? SearchValue = "";
-    string? TempSearch = "";
+    private string? _searchValue = "";
+    private string? _tempSearch = "";
 
     /// <summary>
     /// Method being used when search button is pressed.
     /// </summary>
     private void SearchPress()
     {
-        ShowSearch ^= true;
+        _showSearch ^= true;
     }
 
     //Interests
-    string? InterestsFromDb;
-    IEnumerable<Interest> Interests = new List<Interest>();
-    List<string> CommonInterests = new List<string>();
+    private string? _interestsFromDb;
+    private IEnumerable<Interest> _interests = new List<Interest>();
+    private List<string> _commonInterests = new List<string>();
 
     //Uninterests
-    string? UninterestsFromDb;
-    IEnumerable<Interest> Uninterests = new List<Interest>();
-    List<string> CommonUninterests = new List<string>();
+    private string? _uninterestsFromDb;
+    private IEnumerable<Interest> _uninterests = new List<Interest>();
+    private List<string> _commonUninterests = new List<string>();
 
     //Users
-    IEnumerable<User> Users = new List<User>();
-    string UsersFromDb;
+    private IEnumerable<User> _users = new List<User>();
+    private string _usersFromDb;
 
     private async Task ShowFullListing(Advertisement advertisement)
     {
         Logger.LogDebug("Showing the full listing, time: {time}", DateTimeOffset.Now);
-        AdvertisementToShow = advertisement;
-        FullListingStyle = "visibility: visible;";
-        TempSearch = SearchValue;
-        TempSearch = "";
+        _advertisementToShow = advertisement;
+        _fullListingStyle = "visibility: visible;";
+        _tempSearch = _searchValue;
+        _tempSearch = "";
     }
 
     private async Task ShowFullAdvertisement()
     {
-        FullListingStyle = "visibility: hidden;";
-        SearchValue = TempSearch;
+        _fullListingStyle = "visibility: hidden;";
+        _searchValue = _tempSearch;
 
     }
 
