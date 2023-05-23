@@ -4,7 +4,7 @@
 @using Newtonsoft.Json
 
 @inject FetchUserFromDb UserListingService
-@inject ILogger<MainLayout> logger
+@inject ILogger<MainLayout> Logger
 
     <PageTitle>BlazorView</PageTitle>
     <div class="page">
@@ -25,89 +25,89 @@
 @code{
 
     //Interests
-    string? interestsFromDb;
-    IEnumerable<Interest> interests = new List<Interest>();
-    List<string> commonInterests = new List<string>();
+    string? InterestsFromDb;
+    IEnumerable<Interest> Interests = new List<Interest>();
+    List<string> CommonInterests = new List<string>();
 
     //Uninterests
-    string? uninterestsFromDb;
-    IEnumerable<Interest> uninterests = new List<Interest>();
-    List<string> commonUninterests = new List<string>();
+    string? UninterestsFromDb;
+    IEnumerable<Interest> Uninterests = new List<Interest>();
+    List<string> CommonUninterests = new List<string>();
 
     //Users
-    IEnumerable<User> users = new List<User>();
-    string usersFromDb;
+    IEnumerable<User> Users = new List<User>();
+    string UsersFromDb;
 
 
     protected override async Task OnInitializedAsync()
     {
-        logger.LogInformation("Initializing Logged in user, time: {time}", DateTimeOffset.Now);
-        usersFromDb = await UserListingService.FetchUser();
-        users = JsonConvert.DeserializeObject<IEnumerable<User>>(usersFromDb);
+        Logger.LogInformation("Initializing Logged in user, time: {time}", DateTimeOffset.Now);
+        UsersFromDb = await UserListingService.FetchUser();
+        Users = JsonConvert.DeserializeObject<IEnumerable<User>>(UsersFromDb);
 
-        if (users != null && users.Count() == 0)
+        if (Users != null && Users.Count() == 0)
         {
-            User newUser = new();
-            newUser.Name = "Bruker";
-            UserListingService.PostUser(newUser);
+            User NewUser = new();
+            NewUser.Name = "Bruker";
+            UserListingService.PostUser(NewUser);
 
-            LoggedInUserService.Name = newUser.Name;
+            LoggedInUserService.Name = NewUser.Name;
         }
 
         if (LoggedInUserService.Name == null)
         {
-            if (users == null)
+            if (Users == null)
             {
                 LoggedInUserService.Name = "default";
             }
             else {
-                LoggedInUserService.Name = users.First().Name;
-                LoggedInUserService.Id = users.First().Id;
+                LoggedInUserService.Name = Users.First().Name;
+                LoggedInUserService.Id = Users.First().Id;
             }
 
         }
 
         // Interests
-        interestsFromDb = await UserListingService.FetchInterest();
-        interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(interestsFromDb);
+        InterestsFromDb = await UserListingService.FetchInterest();
+        Interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(InterestsFromDb);
 
         @if (LoggedInUserService.Interests != null)
             {
                 LoggedInUserService.Interests.Clear();
             }
 
-        if (interests != null)
+        if (Interests != null)
         {
-            foreach (var item in interests)
+            foreach (var Item in Interests)
             {
-                if (item.UserGuid == LoggedInUserService.Id)
+                if (Item.UserGuid == LoggedInUserService.Id)
                 {
-                    commonInterests.Add(item.AdvertisementUuid);
+                    CommonInterests.Add(Item.AdvertisementUuid);
                 }
             }
-            LoggedInUserService.Interests = commonInterests;
+            LoggedInUserService.Interests = CommonInterests;
         }
 
 
         // Uninterests
-        uninterestsFromDb = await UserListingService.FetchUninterest();
-        uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(uninterestsFromDb);
+        UninterestsFromDb = await UserListingService.FetchUninterest();
+        Uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(UninterestsFromDb);
 
         if (LoggedInUserService.Uninterests != null)
         {
             LoggedInUserService.Uninterests.Clear();
         }
 
-        if (uninterests != null)
+        if (Uninterests != null)
         {
-            foreach (var item in uninterests)
+            foreach (var Item in Uninterests)
             {
-                if (item.UserGuid == LoggedInUserService.Id)
+                if (Item.UserGuid == LoggedInUserService.Id)
                 {
-                    commonUninterests.Add(item.AdvertisementUuid);
+                    CommonUninterests.Add(Item.AdvertisementUuid);
                 }
             }
-            LoggedInUserService.Uninterests = commonUninterests;
+            LoggedInUserService.Uninterests = CommonUninterests;
         }
 
 
