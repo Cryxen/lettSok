@@ -96,7 +96,20 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// Gets users interested advertisements
     /// </summary>
     /// <returns>Gets users interested advertisements</returns>
+    /// <remarks>
+    /// sample return:
+    ///
+    ///     GET /getInterest
+    ///     [{
+    ///         "userGuid": "02603a46-83e4-4089-aeae-f2725c4e83c1",
+    ///         "advertisementUuid": "0334eb60-4218-42e5-bf17-656ddd0abc3f",
+    ///         "id": 1
+    ///     }]
+    /// </remarks>
+    /// <response code="200">OK, list of all advertisements marked as interesting by all users</response>
     [HttpGet("getInterest")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+
     public async Task<List<V3Interested>> getInterest()
     {
         _logger.LogInformation("Getting all interests from Database, time: {time}", DateTimeOffset.Now);
@@ -113,11 +126,26 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     }
 
     /// <summary>
-    /// Saves interested advertisement in a one-to-many relationship in database
+    /// Saves a users interested advertisement 
     /// </summary>
     /// <param name="interestPost">Uuid of advertisement, and guid of user</param>
-    /// <returns>Error code</returns>
+    /// <returns>Object that has been saved</returns>
+    /// <remarks>
+    /// A sample POST request:
+    ///
+    ///     POST /saveInterest
+    ///     {
+    ///         "userGuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    ///         "advertisementUuid": "string",
+    ///     }
+    /// </remarks>
+    /// <response code="201">Returns empty error list, and newly created object</response>
+    /// <response code="400">Returns a bad request, typically something wrong with JSON in POST request</response>
+    /// <response code="500">Returns internal server error. This is found when userGuid and AdvertisementUuid can't be found in Database</response>
     [HttpPost("saveInterest")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<V3Result<V3Interested>> saveInterest (V3Interested interestPost)
     {
         _logger.LogInformation("Saving interest post consisting of adverstisementUuid: {0}, and UserGuid: {1} to Database, time: {time}", interestPost.AdvertisementUuid, interestPost.UserGuid, DateTimeOffset.Now);
