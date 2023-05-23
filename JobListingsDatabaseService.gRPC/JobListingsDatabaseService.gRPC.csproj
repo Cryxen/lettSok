@@ -19,13 +19,14 @@
 
   <ItemGroup>
     <None Remove="Protos\advertisement.proto" />
+    <None Remove="Model\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JobListingsDatabaseService.Data\JobListingsDatabaseService.Data.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\JobListingsDatabaseService\JobListingsDatabaseService.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
 </Project>

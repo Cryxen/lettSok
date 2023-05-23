@@ -95,3 +95,14 @@
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/obj/Debug/net7.0/ref/JobListingsDatabaseService.dll
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/JobListingsDatabaseService.xml
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/obj/Debug/net7.0/JobListingsDatabaseService.xml
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/JobListingsDatabaseService.gRPC.deps.json
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/JobListingsDatabaseService.gRPC.runtimeconfig.json
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/JobListingsDatabaseService.gRPC
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/Grpc.AspNetCore.Server.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/Grpc.AspNetCore.Server.ClientFactory.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/Grpc.Core.Api.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/Grpc.Net.Client.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/Grpc.Net.ClientFactory.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/Grpc.Net.Common.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/JobListingsDatabaseService.gRPC.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService/bin/Debug/net7.0/JobListingsDatabaseService.gRPC.pdb

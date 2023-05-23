@@ -2,7 +2,8 @@
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using JobListingsDatabaseService.Data;
-using JobListingsDatabaseService.Model.V2;
+using JobListingsDatabaseService.gRPC.Model;
+using Advertisement = JobListingsDatabaseService.Data.Advertisement;
 
 namespace JobListingsDatabaseService.gRPC.Services
 {
@@ -17,7 +18,7 @@ namespace JobListingsDatabaseService.gRPC.Services
             _lettsokDbContext = lettsokDbContext;
         }
 
-        public override Task<AdvertisementModel> GetAdvertisement(getAdvertisementParams request, ServerCallContext context)
+        public override Task<AdvertisementModel> getAdvertisement(getAdvertisementParams request, ServerCallContext context)
         {
             var Time = Timestamp.FromDateTimeOffset(DateTime.Now);
             AdvertisementModel Advertisement = new AdvertisementModel()
@@ -34,40 +35,11 @@ namespace JobListingsDatabaseService.gRPC.Services
             return Task.FromResult(Advertisement);
         }
 
-        public override async Task<getAdvertisementParams> PostAdvertisements(AdvertisementModel request, ServerCallContext context)
+        public override async Task<getAdvertisementParams> postAdvertisements(AdvertisementModel request, ServerCallContext context)
         {
             getAdvertisementParams EmptyParams = new();
 
-
-
             _logger.LogInformation("Advertisement " + request.Title + " uuid: " + request.Uuid + " expires: " + request.Expires);
-
-
-            V2Employer V2Employer = new()
-            {
-                Name = request.Employer
-            };
-            List<V2WorkLocation> WorkLocations = new();
-
-            V2WorkLocation WorkLocation = new()
-            {
-                Municipal = request.WorkLocation
-            };
-            WorkLocations.Add(WorkLocation);
-
-
-            //TODO: Find out what this is for.
-            V2Advertisement V2Advertisement = new V2Advertisement()
-            {
-                Uuid = request.Title,
-                Employer = V2Employer,
-                WorkLocations = WorkLocations,
-                Title = request.Title,
-                Description = request.Description,
-                JobTitle = request.JobTitle,
-                EngagementType = request.EngagementType,
-                Expires = request.Expires.ToDateTime()
-            };
 
             var Advertisement = new Advertisement()
             {

@@ -1,7 +1,7 @@
 ﻿using System;
-namespace JobListingsDatabaseService.Model.V2;
+namespace JobListingsDatabaseService.gRPC.Model;
 
-    public class V2Advertisement
+    public class Advertisement
 	{
 		public string? Uuid
 		{
@@ -13,7 +13,7 @@ namespace JobListingsDatabaseService.Model.V2;
 			get;
 			set;
 		}
-		public List<V2WorkLocation>? WorkLocations
+		public List<WorkLocation>? WorkLocations
 		{
 			get;
 			set;
@@ -33,7 +33,7 @@ namespace JobListingsDatabaseService.Model.V2;
 			get;
 			set;
 		}
-		public V2Employer? Employer
+		public Employer? Employer
 		{
 			get;
 			set;

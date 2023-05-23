@@ -53,5 +53,8 @@
     <ProjectReference Include="..\JobListingsDatabaseService.Data\JobListingsDatabaseService.Data.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\JobListingsDatabaseService.gRPC\JobListingsDatabaseService.gRPC.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>

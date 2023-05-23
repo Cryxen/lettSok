@@ -1,11 +1,23 @@
 {
   "Version": 1,
-  "Hash": "wYnjBGFuSl1tvXx5ldBYPGzEbt2BPhd0lARrgn0jnUA=",
+  "Hash": "b5dbgieNEAHRuJRvvSDEHsrt1TclffGNDDzED8o66/g=",
   "Source": "JobListingsDatabaseService",
   "BasePath": "_content/JobListingsDatabaseService",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService.gRPC/JobListingsDatabaseService.gRPC.csproj",
+      "Version": 2,
+      "Source": "JobListingsDatabaseService.gRPC",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "",
+      "AdditionalPublishPropertiesToRemove": "TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "",
+      "AdditionalBuildPropertiesToRemove": "TargetFramework"
+    }
+  ],
   "DiscoveryPatterns": [],
   "Assets": []
 }

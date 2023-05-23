@@ -1,8 +1,8 @@
 ﻿using System;
-namespace JobListingsDatabaseService.Model.V2
-{
+namespace JobListingsDatabaseService.gRPC.Model;
 
-    public class V2WorkLocation
+
+    public class WorkLocation
     {
         public string? Country { get; set; }
         public string? Address { get; set; }
@@ -11,5 +11,5 @@ namespace JobListingsDatabaseService.Model.V2
         public string? County { get; set; }
         public string? Municipal { get; set; }
     }
-}
+
 
