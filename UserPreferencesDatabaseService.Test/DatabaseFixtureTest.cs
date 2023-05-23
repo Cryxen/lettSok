@@ -71,10 +71,10 @@ namespace JobListingsDatabaseService.Test
             using var Context = CreateContext();
 
             Context.users.RemoveRange(Context.users);
-            Context.InterestedAdvertisements.RemoveRange(Context.InterestedAdvertisements);
-            Context.UninterestedAdvertisements.RemoveRange(Context.UninterestedAdvertisements);
-            Context.SearchLocations.RemoveRange(Context.SearchLocations);
-            Context.Locations.RemoveRange(Context.Locations);
+            Context.interestedAdvertisements.RemoveRange(Context.interestedAdvertisements);
+            Context.uninterestedAdvertisements.RemoveRange(Context.uninterestedAdvertisements);
+            Context.searchLocations.RemoveRange(Context.searchLocations);
+            Context.locations.RemoveRange(Context.locations);
             Context.AddRange(
                     User1,
                     User2,
