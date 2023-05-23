@@ -170,11 +170,12 @@ public class V5UserPreferencesDatabaseController : ControllerBase
 
     /// <summary>
     /// Deletes interest from database
-    /// TODO: Add a return method to see that everything went ok.
     /// </summary>
-    /// <param name="v3Interested"></param>
-    /// <returns></returns>
+    /// <param name="UserGuid"></param>
+    /// <param name="AdvertisementUuid"></param>
+    /// <returns>Status 200, success</returns>
     [HttpDelete("deleteInterest")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task DeleteInterest(Guid UserGuid, string AdvertisementUuid)
     {
         _logger.LogInformation("Deleting interest consiting of Advertisement Uuid: {0}, and UserGuid: {1} from Database, time: {time}", AdvertisementUuid, UserGuid, DateTimeOffset.Now);
@@ -194,7 +195,20 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// Gets advertisements users did not find interesting
     /// </summary>
     /// <returns>Gets advertisements users did not find interesting</returns>
+    /// 
+    ///  <remarks>
+    /// sample return:
+    ///
+    ///     GET /getUnInterest
+    ///     [{
+    ///         "userGuid": "02603a46-83e4-4089-aeae-f2725c4e83c1",
+    ///         "advertisementUuid": "0334eb60-4218-42e5-bf17-656ddd0abc3f",
+    ///         "id": 1
+    ///     }]
+    /// </remarks>
+    /// <response code="200">OK, list of all advertisements marked as uninteresting by all users</response>
     [HttpGet("getUnInterest")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<List<V3Uninterested>> getUninterest()
     {
         _logger.LogInformation("Getting all Uninterests from Database, time: {time}", DateTimeOffset.Now);
@@ -212,12 +226,26 @@ public class V5UserPreferencesDatabaseController : ControllerBase
 
 
     /// <summary>
-    /// Saves interested advertisement in a one-to-many relationship in database
+    /// Saves Uninterested advertisement
     /// </summary>
     /// <param name="uninterestPost">Uuid of advertisement, and guid of user</param>
-    /// <returns>Error code</returns>
+    /// <returns>Object that has been saved</returns>
+    /// <remarks>
+    /// A sample POST request:
+    ///
+    ///     POST /saveUninterest
+    ///     {
+    ///         "userGuid": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    ///         "advertisementUuid": "string",
+    ///     }
+    /// </remarks>
+    /// <response code="201">Returns empty error list, and newly created object</response>
+    /// <response code="400">Returns a bad request, typically something wrong with JSON in POST request</response>
+    /// <response code="500">Returns internal server error. This is found when userGuid and AdvertisementUuid can't be found in Database</response>
     [HttpPost("saveUninterest")]
-
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<V3Result<V3Uninterested>> saveUninterest(V3Uninterested uninterestPost)
     {
         _logger.LogInformation("Saving uninterest post consisting of adverstisementUuid: {0}, and UserGuid: {1} to Database, time: {time}", uninterestPost.AdvertisementUuid, uninterestPost.UserGuid, DateTimeOffset.Now);
@@ -242,11 +270,12 @@ public class V5UserPreferencesDatabaseController : ControllerBase
 
     /// <summary>
     /// Deletes uninterest from database
-    /// TODO: Concider making return
     /// </summary>
-    /// <param name="v3Uninterested"></param>
-    /// <returns></returns>
+    /// <param name="UserGuid"></param>
+    /// <param name="AdvertisementUuid"></param>
+    /// <returns>Status 200, success</returns>
     [HttpDelete("deleteUninterest")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task deleteUninterest(Guid UserGuid, string AdvertisementUuid)
     {
         _logger.LogInformation("Deleting interest consiting of Advertisement Uuid: {0}, and UserGuid: {1} from Database, time: {time}", AdvertisementUuid, UserGuid, DateTimeOffset.Now);
@@ -261,7 +290,9 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         }
         await _UserPreferencesDbContext.SaveChangesAsync();
     }
-    
+
+
+
     [HttpGet("getLocations")]
     public async Task<List<V3Location>> getLocations()
     {
