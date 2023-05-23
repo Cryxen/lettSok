@@ -29,14 +29,14 @@ public class V4UserPreferencesDatabaseController : ControllerBase
     public async Task<List<V3User>> Get()
     {
 
-        var responseUsers = await _UserPreferencesDbContext.users
-            .Select(user => new V3User
+        var ResponseUsers = await _UserPreferencesDbContext.users
+            .Select(User => new V3User
             {
-                Id = user.Id,
-                Name = user.Name,
+                Id = User.Id,
+                Name = User.Name,
             }).ToListAsync();
 
-        return responseUsers;
+        return ResponseUsers;
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public class V4UserPreferencesDatabaseController : ControllerBase
     /// <param name="userPost">name of user</param>
     /// <returns>Error codes</returns>
     [HttpPost("saveUser")]
-    public async Task<V3Result<V3User>> saveUser(V3User userPost)
+    public async Task<V3Result<V3User>> SaveUser(V3User userPost)
     {
         var User = new User()
         {
@@ -56,12 +56,12 @@ public class V4UserPreferencesDatabaseController : ControllerBase
 
         await _UserPreferencesDbContext.SaveChangesAsync();
 
-        var result = new V3Result<V3User>();
-        result.Value = new V3User
+        var Result = new V3Result<V3User>();
+        Result.Value = new V3User
         {
             Name = userPost.Name,
         };
-        return result;
+        return Result;
     }
 
     /// <summary>
@@ -69,17 +69,17 @@ public class V4UserPreferencesDatabaseController : ControllerBase
     /// </summary>
     /// <returns>Gets users interested advertisements</returns>
     [HttpGet("getInterest")]
-    public async Task<List<V3Interested>> getInterest()
+    public async Task<List<V3Interested>> GetInterest()
     {
 
-        var responseInterests = await _UserPreferencesDbContext.interestedAdvertisements
-            .Select(interest => new V3Interested
+        var ResponseInterests = await _UserPreferencesDbContext.InterestedAdvertisements
+            .Select(Interest => new V3Interested
             {
-                UserGuid = interest.UserId,
-                AdvertisementUuid = interest.AdvertisementUuid
+                UserGuid = Interest.UserId,
+                AdvertisementUuid = Interest.AdvertisementUuid
             }).ToListAsync();
 
-        return responseInterests;
+        return ResponseInterests;
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public class V4UserPreferencesDatabaseController : ControllerBase
     /// <param name="interestPost">Uuid of advertisement, and guid of user</param>
     /// <returns>Error code</returns>
     [HttpPost("saveInterest")]
-    public async Task<V3Result<V3Interested>> saveInterest (V3Interested interestPost)
+    public async Task<V3Result<V3Interested>> SaveInterest (V3Interested interestPost)
     {
         var Interest = new InterestedAdvertisement()
         {
@@ -99,13 +99,13 @@ public class V4UserPreferencesDatabaseController : ControllerBase
 
         await _UserPreferencesDbContext.SaveChangesAsync();
 
-        var result = new V3Result<V3Interested>();
-        result.Value = new V3Interested
+        var Result = new V3Result<V3Interested>();
+        Result.Value = new V3Interested
         {
             UserGuid = interestPost.UserGuid,
             AdvertisementUuid = interestPost.AdvertisementUuid,
         };
-        return result;
+        return Result;
     }
 
     /// <summary>
@@ -113,17 +113,17 @@ public class V4UserPreferencesDatabaseController : ControllerBase
     /// </summary>
     /// <returns>Gets advertisements users did not find interesting</returns>
     [HttpGet("getUnInterest")]
-    public async Task<List<V3Uninterested>> getUninterest()
+    public async Task<List<V3Uninterested>> GetUninterest()
     {
 
-        var responseUninterests = await _UserPreferencesDbContext.uninterestedAdvertisements
-            .Select(uninterest => new V3Uninterested
+        var ResponseUninterests = await _UserPreferencesDbContext.UninterestedAdvertisements
+            .Select(Uninterest => new V3Uninterested
             {
-                UserGuid = uninterest.UserId,
-                AdvertisementUuid = uninterest.AdvertisementUuid
+                UserGuid = Uninterest.UserId,
+                AdvertisementUuid = Uninterest.AdvertisementUuid
             }).ToListAsync();
 
-        return responseUninterests;
+        return ResponseUninterests;
     }
 
 
@@ -133,7 +133,7 @@ public class V4UserPreferencesDatabaseController : ControllerBase
     /// <param name="uninterestPost">Uuid of advertisement, and guid of user</param>
     /// <returns>Error code</returns>
     [HttpPost("saveUninterest")]
-    public async Task<V3Result<V3Uninterested>> saveUninterest(V3Uninterested uninterestPost)
+    public async Task<V3Result<V3Uninterested>> SaveUninterest(V3Uninterested uninterestPost)
     {
         var Interest = new UninterestedAdvertisement()
         {
@@ -144,13 +144,13 @@ public class V4UserPreferencesDatabaseController : ControllerBase
 
         await _UserPreferencesDbContext.SaveChangesAsync();
 
-        var result = new V3Result<V3Uninterested>();
-        result.Value = new V3Uninterested
+        var Result = new V3Result<V3Uninterested>();
+        Result.Value = new V3Uninterested
         {
             UserGuid = uninterestPost.UserGuid,
             AdvertisementUuid = uninterestPost.AdvertisementUuid,
         };
-        return result;
+        return Result;
     }
 }
 

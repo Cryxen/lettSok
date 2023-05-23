@@ -24,22 +24,19 @@ public class V1UserPreferencesDatabaseController : ControllerBase
     [HttpGet("")]
     public async Task<List<V1User>> Get()
     {
-        //var dbContext = new LettsokDbContext();
-
-        var responseUsers = await _UserPreferencesDbContextlettsokDbContext.users
-            .Select(user => new V1User
+        var ResponseUsers = await _UserPreferencesDbContextlettsokDbContext.users
+            .Select(User => new V1User
             {
-                Id = user.Id,
-                Name = user.Name,
+                Id = User.Id,
+                Name = User.Name,
             }).ToListAsync();
 
-        return responseUsers;
+        return ResponseUsers;
     }
     
     [HttpPost("saveUser")]
-    public async Task<V1Result<V1User>> saveUser(V1User userPost)
+    public async Task<V1Result<V1User>> SaveUser(V1User userPost)
     {
-        //var dbContext = new LettsokDbContext();
         var User = new User()
         {
             Id = userPost.Id,
@@ -49,15 +46,15 @@ public class V1UserPreferencesDatabaseController : ControllerBase
 
         await _UserPreferencesDbContextlettsokDbContext.SaveChangesAsync();
 
-        var result = new V1Result<V1User>();
-        result.Value = new V1User
+        var Result = new V1Result<V1User>();
+        Result.Value = new V1User
         {
             Id = userPost.Id,
             Name = userPost.Name,
             Interested = userPost.Interested,
             Uninterested = userPost.Uninterested
         };
-        return result;
+        return Result;
     }
         
     

@@ -8,42 +8,42 @@ namespace JobListingsDatabaseService.Test
     // Using fixture https://learn.microsoft.com/en-us/ef/core/testing/testing-with-the-database
     public class DatabaseFixtureTest 
 	{
-        private const string ConnectionString = "server=localhost;Database=DotnetDatabase;user=dbuser;password=password";
+        private const string _connectionString = "server=localhost;Database=DotnetDatabase;user=dbuser;password=password";
 
-        private static bool _databaseInitialized;
+        private static bool s_databaseInitialized;
 
 
 
-        User user1 = new()
+        User User1 = new()
         {
             Name = "Test bruker 1",
             Id = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8") // Making a static GUID to be used as foreign key in db.
         };
-        User user2 = new()
+        User User2 = new()
         {
             Name = "Test bruker 1",
             Id = Guid.NewGuid()
         };
 
-        InterestedAdvertisement interest = new()
+        InterestedAdvertisement Interest = new()
         {
             AdvertisementUuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
             UserId = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8")
         };
 
-        UninterestedAdvertisement uninterest = new()
+        UninterestedAdvertisement Uninterest = new()
         {
             AdvertisementUuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
             UserId = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8")
         };
 
-        Location location = new()
+        Location Location = new()
         {
             Id = 1,
             Municipality = "Oslo"
         };
 
-        SearchLocation searchLocation = new()
+        SearchLocation SearchLocation = new()
         {
             LocationId = 1,
             UserId = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8")
@@ -59,31 +59,31 @@ namespace JobListingsDatabaseService.Test
         {
             Guid _id = Guid.NewGuid();
 
-            using var context = CreateContext();
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+            using var Context = CreateContext();
+            Context.Database.EnsureDeleted();
+            Context.Database.EnsureCreated();
 
             Cleanup();
         }
         
         public void Cleanup()
         {
-            using var context = CreateContext();
+            using var Context = CreateContext();
 
-            context.users.RemoveRange(context.users);
-            context.interestedAdvertisements.RemoveRange(context.interestedAdvertisements);
-            context.uninterestedAdvertisements.RemoveRange(context.uninterestedAdvertisements);
-            context.searchLocations.RemoveRange(context.searchLocations);
-            context.locations.RemoveRange(context.locations);
-            context.AddRange(
-                    user1,
-                    user2,
-                    interest,
-                    uninterest,
-                    location,
-                    searchLocation
+            Context.users.RemoveRange(Context.users);
+            Context.InterestedAdvertisements.RemoveRange(Context.InterestedAdvertisements);
+            Context.UninterestedAdvertisements.RemoveRange(Context.UninterestedAdvertisements);
+            Context.SearchLocations.RemoveRange(Context.SearchLocations);
+            Context.Locations.RemoveRange(Context.Locations);
+            Context.AddRange(
+                    User1,
+                    User2,
+                    Interest,
+                    Uninterest,
+                    Location,
+                    SearchLocation
                 );
-            context.SaveChanges();
+            Context.SaveChanges();
         }
 
 

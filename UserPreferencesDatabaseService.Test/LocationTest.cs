@@ -20,47 +20,47 @@ namespace UserPreferencesDatabaseService.Test
         public async void Get_Locations_From_Database()
         {
             //Arrange
-            var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
-            var _logger = mockLogger.Object;
+            var MockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+            var Logger = MockLogger.Object;
 
-            using var context = Fixture.CreateContext();
-            var controller = new V5UserPreferencesDatabaseController(_logger, context);
+            using var Context = Fixture.CreateContext();
+            var Controller = new V5UserPreferencesDatabaseController(Logger, Context);
 
-            V3Location expected = new()
+            V3Location Expected = new()
             {
                 Municipality = "Oslo"
             };
 
             //Act
-            var actual = await controller.getLocations();
+            var Actual = await Controller.GetLocations();
 
             //Assert
-            Assert.Equal(expected.Municipality, actual.ElementAt(0).Municipality);
+            Assert.Equal(Expected.Municipality, Actual.ElementAt(0).Municipality);
         }
 
         [Fact]
         public async void Get_Search_Locations_From_Database()
         {
             //Arrange
-            var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
-            var _logger = mockLogger.Object;
+            var MockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+            var Logger = MockLogger.Object;
 
-            using var context = Fixture.CreateContext();
-            var controller = new V5UserPreferencesDatabaseController(_logger, context);
+            using var Context = Fixture.CreateContext();
+            var Controller = new V5UserPreferencesDatabaseController(Logger, Context);
 
-            SearchLocation expected = new()
+            SearchLocation Expected = new()
             {
                 LocationId = 1,
                 UserId = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8")
             };
 
             //Act
-            var actual = await controller.getSearchLocations();
+            var Actual = await Controller.GetSearchLocations();
 
             //Assert
-            Assert.Single(actual);
-            Assert.Equal(expected.LocationId, actual.ElementAt(0).LocationId);
-            Assert.Equal(expected.UserId, actual.ElementAt(0).UserId);
+            Assert.Single(Actual);
+            Assert.Equal(Expected.LocationId, Actual.ElementAt(0).LocationId);
+            Assert.Equal(Expected.UserId, Actual.ElementAt(0).UserId);
 
         }
 
@@ -68,88 +68,88 @@ namespace UserPreferencesDatabaseService.Test
         public async void Save_Search_Location_To_Database()
         {
             //Arrange
-            var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
-            var _logger = mockLogger.Object;
+            var MockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+            var Logger = MockLogger.Object;
 
-            using var context = Fixture.CreateContext();
-            var controller = new V5UserPreferencesDatabaseController(_logger, context);
+            using var Context = Fixture.CreateContext();
+            var Controller = new V5UserPreferencesDatabaseController(Logger, Context);
 
-            bool searchLocationInDatabase = false;
+            bool SearchLocationInDatabase = false;
 
-            var LocationList = await controller.getLocations();
-            var UserList = await controller.Get();
-            V3SearchLocation searchLocationToSave = new()
+            var LocationList = await Controller.GetLocations();
+            var UserList = await Controller.Get();
+            V3SearchLocation SearchLocationToSave = new()
             {
                 LocationId = LocationList.ElementAt(0).Id,
                 UserId = UserList.ElementAt(0).Id
             };
 
             //Act
-            var result = await controller.saveSearchLocation(searchLocationToSave);
+            var Result = await Controller.SaveSearchLocation(SearchLocationToSave);
 
-            var searchLocations = await controller.getSearchLocations();
+            var SearchLocations = await Controller.GetSearchLocations();
 
-            foreach (var item in searchLocations)
+            foreach (var Item in SearchLocations)
             {
-                if (item.LocationId == searchLocationToSave.LocationId && item.UserId == searchLocationToSave.UserId)
+                if (Item.LocationId == SearchLocationToSave.LocationId && Item.UserId == SearchLocationToSave.UserId)
                 {
-                    searchLocationInDatabase = true;
+                    SearchLocationInDatabase = true;
                 }
             }
 
             //Assert
-            Assert.False(result.HasErrors);
-            Assert.True(searchLocationInDatabase);
+            Assert.False(Result.HasErrors);
+            Assert.True(SearchLocationInDatabase);
         }
 
         [Fact]
         public async void Delete_Search_Locations_From_Database()
         {
             //Arrange
-            var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
-            var _logger = mockLogger.Object;
+            var MockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+            var Logger = MockLogger.Object;
 
-            using var context = Fixture.CreateContext();
-            var controller = new V5UserPreferencesDatabaseController(_logger, context);
+            using var Context = Fixture.CreateContext();
+            var Controller = new V5UserPreferencesDatabaseController(Logger, Context);
 
-            SearchLocation toBeDeleted = new()
+            SearchLocation ToBeDeleted = new()
             {
                 LocationId = 1,
                 UserId = Guid.Parse("0da1f25d-9b0b-4b06-8663-08db4a29b2a8")
             };
 
             //Act
-            await controller.deleteSearchLocation(toBeDeleted.UserId, toBeDeleted.LocationId);
-            var actual = await controller.getSearchLocations();
+            await Controller.DeleteSearchLocation(ToBeDeleted.UserId, ToBeDeleted.LocationId);
+            var Actual = await Controller.GetSearchLocations();
 
             //Assert
-            Assert.Empty(actual);
+            Assert.Empty(Actual);
         }
 
         [Fact]
         public async void Fetch_Municipalities_From_Public_API()
         {
             //Arrange
-            var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
-            var _logger = mockLogger.Object;
+            var MockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+            var Logger = MockLogger.Object;
 
-            using var context = Fixture.CreateContext();
-            var controller = new V5UserPreferencesDatabaseController(_logger, context);
+            using var Context = Fixture.CreateContext();
+            var Controller = new V5UserPreferencesDatabaseController(Logger, Context);
 
-            var DatabaseBeforeFetch = await controller.getLocations();
-            bool moreItemsIndatabase = false;
+            var DatabaseBeforeFetch = await Controller.GetLocations();
+            bool MoreItemsIndatabase = false;
 
             //Act
-            await controller.getMunipalitiesFromPublicAPI();
-            var DatabaseAfterFetch = await controller.getLocations();
+            await Controller.getMunipalitiesFromPublicAPI();
+            var DatabaseAfterFetch = await Controller.GetLocations();
 
             if (DatabaseBeforeFetch.Count < DatabaseAfterFetch.Count)
             {
-                moreItemsIndatabase = true;
+                MoreItemsIndatabase = true;
             }
 
             //Assert
-            Assert.True(moreItemsIndatabase);
+            Assert.True(MoreItemsIndatabase);
         }
 
 

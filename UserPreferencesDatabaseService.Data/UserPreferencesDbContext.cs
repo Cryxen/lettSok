@@ -6,10 +6,10 @@ namespace UserPreferencesDatabaseService.Data
     public class UserPreferencesDbContext : DbContext
     {
         public DbSet<User> users { get; set; }
-        public DbSet<InterestedAdvertisement> interestedAdvertisements { get; set; }
-        public DbSet<UninterestedAdvertisement> uninterestedAdvertisements { get; set; }
-        public DbSet<Location> locations { get; set; }
-        public DbSet<SearchLocation> searchLocations { get; set; }
+        public DbSet<InterestedAdvertisement> InterestedAdvertisements { get; set; }
+        public DbSet<UninterestedAdvertisement> UninterestedAdvertisements { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<SearchLocation> SearchLocations { get; set; }
 
         public UserPreferencesDbContext()
         {
@@ -35,7 +35,7 @@ namespace UserPreferencesDatabaseService.Data
 
             modelBuilder.Entity<InterestedAdvertisement>()
                 .HasOne<User>(u => u.User)
-                .WithMany(i => i.interestedAdvertisements)
+                .WithMany(i => i.InterestedAdvertisements)
                 .HasForeignKey(i => i.UserId);
 
 
@@ -47,12 +47,12 @@ namespace UserPreferencesDatabaseService.Data
             modelBuilder.Entity<SearchLocation>()
             .HasKey(bc => new { bc.Id });
             modelBuilder.Entity<SearchLocation>()
-                .HasOne(bc => bc.location)
-                .WithMany(b => b.searchLocations)
+                .HasOne(bc => bc.Location)
+                .WithMany(b => b.SearchLocations)
                 .HasForeignKey(bc => bc.LocationId);
             modelBuilder.Entity<SearchLocation>()
-                .HasOne(bc => bc.user)
-                .WithMany(c => c.searchLocations)
+                .HasOne(bc => bc.User)
+                .WithMany(c => c.SearchLocations)
                 .HasForeignKey(bc => bc.UserId);
         }
 

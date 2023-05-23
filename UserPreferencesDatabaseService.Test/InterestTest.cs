@@ -20,110 +20,110 @@ namespace UserPreferencesDatabaseService.Test
         public async void Get_Interests_In_Database()
         {
             //Arrange
-            var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
-            var _logger = mockLogger.Object;
+            var MockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+            var Logger = MockLogger.Object;
 
-            using var context = Fixture.CreateContext();
-            var controller = new V5UserPreferencesDatabaseController(_logger, context);
+            using var Context = Fixture.CreateContext();
+            var Controller = new V5UserPreferencesDatabaseController(Logger, Context);
 
 
 
-            V3Interested interest = new()
+            V3Interested Interest = new()
             {
                 AdvertisementUuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
                 UserGuid = Guid.NewGuid()
             };
 
-            List<V3Interested> expected = new();
-            expected.Add(interest);
+            List<V3Interested> Expected = new();
+            Expected.Add(Interest);
 
             //Act
-            var actual = await controller.getInterest();
+            var Actual = await Controller.GetInterest();
 
             //Assert
-            Assert.Equal(expected.ElementAt(0).AdvertisementUuid, actual.ElementAt(0).AdvertisementUuid);
+            Assert.Equal(Expected.ElementAt(0).AdvertisementUuid, Actual.ElementAt(0).AdvertisementUuid);
         }
 
         [Fact]
         public async void Post_New_Interested_Advertisement()
         {
             //Arrange
-            var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
-            var _logger = mockLogger.Object;
+            var MockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+            var Logger = MockLogger.Object;
 
-            using var context = Fixture.CreateContext();
-            var controller = new V5UserPreferencesDatabaseController(_logger, context);
+            using var Context = Fixture.CreateContext();
+            var Controller = new V5UserPreferencesDatabaseController(Logger, Context);
 
             //Get a userID
-            var users = await controller.Get();
+            var Users = await Controller.Get();
 
-            V3Interested expected = new()
+            V3Interested Expected = new()
             {
                 AdvertisementUuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
-                UserGuid = users.ElementAt(1).Id
+                UserGuid = Users.ElementAt(1).Id
             };
 
-            int index = 0;
+            int Index = 0;
 
             //Act
-            var result = await controller.saveInterest(expected);
+            var Result = await Controller.SaveInterest(Expected);
 
-            var actual = await controller.getInterest();
+            var Actual = await Controller.GetInterest();
 
-            foreach (var item in actual)
+            foreach (var Item in Actual)
             {
-                if (item.UserGuid == expected.UserGuid && item.AdvertisementUuid == expected.AdvertisementUuid)
+                if (Item.UserGuid == Expected.UserGuid && Item.AdvertisementUuid == Expected.AdvertisementUuid)
                 {
-                    index = actual.IndexOf(item);
+                    Index = Actual.IndexOf(Item);
                 }
             }
 
             //Assert
-            Assert.True(result.Value.UserGuid.Equals(expected.UserGuid));
-            Assert.True(result.Value.AdvertisementUuid.Equals(expected.AdvertisementUuid));
-            Assert.Equal(expected.UserGuid, actual.ElementAt(index).UserGuid);
-            Assert.Equal(expected.AdvertisementUuid, actual.ElementAt(index).AdvertisementUuid);
+            Assert.True(Result.Value.UserGuid.Equals(Expected.UserGuid));
+            Assert.True(Result.Value.AdvertisementUuid.Equals(Expected.AdvertisementUuid));
+            Assert.Equal(Expected.UserGuid, Actual.ElementAt(Index).UserGuid);
+            Assert.Equal(Expected.AdvertisementUuid, Actual.ElementAt(Index).AdvertisementUuid);
         }
 
         [Fact]
         public async void Delete_Interest_From_Database()
         {
             //Arrange
-            var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
-            var _logger = mockLogger.Object;
+            var MockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+            var Logger = MockLogger.Object;
 
-            using var context = Fixture.CreateContext();
-            var controller = new V5UserPreferencesDatabaseController(_logger, context);
+            using var Context = Fixture.CreateContext();
+            var Controller = new V5UserPreferencesDatabaseController(Logger, Context);
 
-            bool actual = false;
+            bool Actual = false;
 
                 //Get a userID and save interest to be deleted
-            var users = await controller.Get();
+            var Users = await Controller.Get();
 
             V3Interested InterestToBeSaved = new()
             {
                 AdvertisementUuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
-                UserGuid = users.ElementAt(1).Id
+                UserGuid = Users.ElementAt(1).Id
             };
 
-            var saveInterest = await controller.saveInterest(InterestToBeSaved);
+            var SaveInterest = await Controller.SaveInterest(InterestToBeSaved);
 
             //Act
-            await controller.DeleteInterest(InterestToBeSaved.UserGuid, InterestToBeSaved.AdvertisementUuid);
+            await Controller.DeleteInterest(InterestToBeSaved.UserGuid, InterestToBeSaved.AdvertisementUuid);
 
             //Get Interested advertisements to see if the advertisement has been deleted
-            var result = await controller.getInterest();
+            var Result = await Controller.GetInterest();
 
-            foreach (var item in result)
+            foreach (var Item in Result)
             {
-                if (item.UserGuid == InterestToBeSaved.UserGuid && item.AdvertisementUuid == InterestToBeSaved.AdvertisementUuid)
+                if (Item.UserGuid == InterestToBeSaved.UserGuid && Item.AdvertisementUuid == InterestToBeSaved.AdvertisementUuid)
                 {
-                    actual = true;
+                    Actual = true;
                 }
             }
 
             //Assert
-            Assert.False(actual);
+            Assert.False(Actual);
         }
 
         public void Dispose()

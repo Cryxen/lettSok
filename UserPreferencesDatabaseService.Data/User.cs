@@ -9,9 +9,9 @@ public class User
 
     public string Name { get; set; }
 
-    public ICollection<InterestedAdvertisement> interestedAdvertisements { get; set; }
+    public ICollection<InterestedAdvertisement> InterestedAdvertisements { get; set; }
     public ICollection<UninterestedAdvertisement> UninterestedAdvertisements { get; set; }
-    public ICollection<SearchLocation> searchLocations { get; set; }
+    public ICollection<SearchLocation> SearchLocations { get; set; }
 
 }
 

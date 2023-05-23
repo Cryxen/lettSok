@@ -8,8 +8,6 @@ namespace UserPreferencesDatabaseService.Model.V2
 
 		public string Name { get; set; }
 
-        //public ICollection<UninterestedAdvertisement>? uninterestedAdvertisements { get; set; }
-        //public ICollection<InterestedAdvertisement>? interestedAdvertisements { get; set; }
     }
 	
 }

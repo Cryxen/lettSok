@@ -21,33 +21,33 @@ public class UserTest : IDisposable
     public async void Get_Users_From_Database()
     {
         //Arrange
-        var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
-        var _logger = mockLogger.Object;
+        var MockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+        var Logger = MockLogger.Object;
 
-        using var context = Fixture.CreateContext();
-        var controller = new V5UserPreferencesDatabaseController(_logger, context);
+        using var Context = Fixture.CreateContext();
+        var Controller = new V5UserPreferencesDatabaseController(Logger, Context);
 
-        V3User user1 = new()
+        V3User User1 = new()
         {
             Name = "Test bruker 1",
             Id = Guid.NewGuid()
         };
-        V3User user2 = new()
+        V3User User2 = new()
         {
             Name = "Test bruker 1",
             Id = Guid.NewGuid()
         };
 
-        List<V3User> expected = new();
-        expected.Add(user1);
-        expected.Add(user2);
+        List<V3User> Expected = new();
+        Expected.Add(User1);
+        Expected.Add(User2);
 
         //Act
-        var actual = await controller.Get();
+        var Actual = await Controller.Get();
         //Assert
-        Assert.Equal(expected.ElementAt(1).Name, actual.ElementAt(1).Name);
-        Assert.Equal(expected.ElementAt(0).Name, actual.ElementAt(0).Name);
-        Assert.Equal(2, actual.Count);
+        Assert.Equal(Expected.ElementAt(1).Name, Actual.ElementAt(1).Name);
+        Assert.Equal(Expected.ElementAt(0).Name, Actual.ElementAt(0).Name);
+        Assert.Equal(2, Actual.Count);
 
     }
 
@@ -55,31 +55,31 @@ public class UserTest : IDisposable
     public async void Save_User_To_Database()
     {
         //Arrange
-        var mockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
-        var _logger = mockLogger.Object;
+        var MockLogger = new Mock<ILogger<V5UserPreferencesDatabaseController>>();
+        var Logger = MockLogger.Object;
 
-        using var context = Fixture.CreateContext();
-        var controller = new V5UserPreferencesDatabaseController(_logger, context);
-        bool userFound = false;
-        V3User user = new()
+        using var Context = Fixture.CreateContext();
+        var Controller = new V5UserPreferencesDatabaseController(Logger, Context);
+        bool UserFound = false;
+        V3User User = new()
         {
             Id = Guid.NewGuid(),
             Name = "Ola Nordmann"
         };
 
         //Act
-        var saveUser = await controller.saveUser(user);
-        var userList = await controller.Get();
+        var SaveUser = await Controller.SaveUser(User);
+        var UserList = await Controller.Get();
 
-        foreach (var item in userList)
+        foreach (var Item in UserList)
         {
-            if(item.Name == user.Name)
-                userFound = true;
+            if(Item.Name == User.Name)
+                UserFound = true;
         }
 
         //Assert
-        Assert.True(userFound);
-        Assert.Equal(3, userList.Count);
+        Assert.True(UserFound);
+        Assert.Equal(3, UserList.Count);
 
     }
 

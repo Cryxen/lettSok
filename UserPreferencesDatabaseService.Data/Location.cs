@@ -8,7 +8,7 @@ namespace UserPreferencesDatabaseService.Data
 
         public string Municipality { get; set; }
 
-        public ICollection<SearchLocation> searchLocations { get; set; }
+        public ICollection<SearchLocation> SearchLocations { get; set; }
     }
 }
 

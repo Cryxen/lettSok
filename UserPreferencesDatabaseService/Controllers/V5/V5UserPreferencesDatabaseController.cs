@@ -13,7 +13,7 @@ namespace UserPreferencesDatabaseService.Controllers.V5;
 public class V5UserPreferencesDatabaseController : ControllerBase
 {
 
-    private static HttpClient client = new HttpClient();
+    private static HttpClient s_client = new HttpClient();
 
     private readonly ILogger<V5UserPreferencesDatabaseController> _logger;
     private readonly UserPreferencesDbContext _UserPreferencesDbContext;
@@ -44,14 +44,14 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     public async Task<List<V3User>> Get()
     {
         _logger.LogInformation("Getting all users from Database, time: {time}", DateTimeOffset.Now);
-        var responseUsers = await _UserPreferencesDbContext.users
-            .Select(user => new V3User
+        var ResponseUsers = await _UserPreferencesDbContext.users
+            .Select(User => new V3User
             {
-                Id = user.Id,
-                Name = user.Name,
+                Id = User.Id,
+                Name = User.Name,
             }).ToListAsync();
 
-        return responseUsers;
+        return ResponseUsers;
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     [HttpPost("saveUser")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<V3Result<V3User>> saveUser(V3User userPost)
+    public async Task<V3Result<V3User>> SaveUser(V3User userPost)
     {
         _logger.LogInformation("Saving user with name: {0} to Database, time: {time}", userPost.Name, DateTimeOffset.Now);
         var User = new User()
@@ -84,12 +84,12 @@ public class V5UserPreferencesDatabaseController : ControllerBase
 
         await _UserPreferencesDbContext.SaveChangesAsync();
 
-        var result = new V3Result<V3User>();
-        result.Value = new V3User
+        var Result = new V3Result<V3User>();
+        Result.Value = new V3User
         {
             Name = userPost.Name,
         };
-        return result;
+        return Result;
     }
 
     /// <summary>
@@ -110,11 +110,11 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     [HttpGet("getInterest")]
     [ProducesResponseType(StatusCodes.Status200OK)]
 
-    public async Task<List<V3Interested>> getInterest()
+    public async Task<List<V3Interested>> GetInterest()
     {
         _logger.LogInformation("Getting all interests from Database, time: {time}", DateTimeOffset.Now);
 
-        var responseInterests = await _UserPreferencesDbContext.interestedAdvertisements
+        var ResponseInterests = await _UserPreferencesDbContext.InterestedAdvertisements
             .Select(interest => new V3Interested
             {
                 UserGuid = interest.UserId,
@@ -122,7 +122,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
                 Id = interest.Id
             }).ToListAsync();
 
-        return responseInterests;
+        return ResponseInterests;
     }
 
     /// <summary>
@@ -146,7 +146,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<V3Result<V3Interested>> saveInterest (V3Interested interestPost)
+    public async Task<V3Result<V3Interested>> SaveInterest (V3Interested interestPost)
     {
         _logger.LogInformation("Saving interest post consisting of adverstisementUuid: {0}, and UserGuid: {1} to Database, time: {time}", interestPost.AdvertisementUuid, interestPost.UserGuid, DateTimeOffset.Now);
 
@@ -159,13 +159,13 @@ public class V5UserPreferencesDatabaseController : ControllerBase
 
         await _UserPreferencesDbContext.SaveChangesAsync();
 
-        var result = new V3Result<V3Interested>();
-        result.Value = new V3Interested
+        var Result = new V3Result<V3Interested>();
+        Result.Value = new V3Interested
         {
             UserGuid = interestPost.UserGuid,
             AdvertisementUuid = interestPost.AdvertisementUuid,
         };
-        return result;
+        return Result;
     }
 
     /// <summary>
@@ -180,12 +180,12 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     {
         _logger.LogInformation("Deleting interest consiting of Advertisement Uuid: {0}, and UserGuid: {1} from Database, time: {time}", AdvertisementUuid, UserGuid, DateTimeOffset.Now);
 
-        List<V3Interested>interests = await getInterest();
-        foreach (var item in interests)
+        List<V3Interested>Interests = await GetInterest();
+        foreach (var Item in Interests)
         {
-            if (item.AdvertisementUuid == AdvertisementUuid && item.UserGuid == UserGuid)
+            if (Item.AdvertisementUuid == AdvertisementUuid && Item.UserGuid == UserGuid)
             {
-                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.interestedAdvertisements.Single(i => i.Id == item.Id ));
+                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.InterestedAdvertisements.Single(i => i.Id == Item.Id ));
             }
         }
         await _UserPreferencesDbContext.SaveChangesAsync();
@@ -209,19 +209,19 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// <response code="200">OK, list of all advertisements marked as uninteresting by all users</response>
     [HttpGet("getUnInterest")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<List<V3Uninterested>> getUninterest()
+    public async Task<List<V3Uninterested>> GetUninterest()
     {
         _logger.LogInformation("Getting all Uninterests from Database, time: {time}", DateTimeOffset.Now);
 
-        var responseUninterests = await _UserPreferencesDbContext.uninterestedAdvertisements
-            .Select(uninterest => new V3Uninterested
+        var ResponseUninterests = await _UserPreferencesDbContext.UninterestedAdvertisements
+            .Select(Uninterest => new V3Uninterested
             {
-                UserGuid = uninterest.UserId,
-                AdvertisementUuid = uninterest.AdvertisementUuid,
-                Id = uninterest.Id
+                UserGuid = Uninterest.UserId,
+                AdvertisementUuid = Uninterest.AdvertisementUuid,
+                Id = Uninterest.Id
             }).ToListAsync();
 
-        return responseUninterests;
+        return ResponseUninterests;
     }
 
 
@@ -246,7 +246,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<V3Result<V3Uninterested>> saveUninterest(V3Uninterested uninterestPost)
+    public async Task<V3Result<V3Uninterested>> SaveUninterest(V3Uninterested uninterestPost)
     {
         _logger.LogInformation("Saving uninterest post consisting of adverstisementUuid: {0}, and UserGuid: {1} to Database, time: {time}", uninterestPost.AdvertisementUuid, uninterestPost.UserGuid, DateTimeOffset.Now);
 
@@ -259,13 +259,13 @@ public class V5UserPreferencesDatabaseController : ControllerBase
 
         await _UserPreferencesDbContext.SaveChangesAsync();
 
-        var result = new V3Result<V3Uninterested>();
-        result.Value = new V3Uninterested
+        var Result = new V3Result<V3Uninterested>();
+        Result.Value = new V3Uninterested
         {
             UserGuid = uninterestPost.UserGuid,
             AdvertisementUuid = uninterestPost.AdvertisementUuid,
         };
-        return result;
+        return Result;
     }
 
     /// <summary>
@@ -276,16 +276,16 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// <returns>Status 200, success</returns>
     [HttpDelete("deleteUninterest")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task deleteUninterest(Guid UserGuid, string AdvertisementUuid)
+    public async Task DeleteUninterest(Guid UserGuid, string AdvertisementUuid)
     {
         _logger.LogInformation("Deleting interest consiting of Advertisement Uuid: {0}, and UserGuid: {1} from Database, time: {time}", AdvertisementUuid, UserGuid, DateTimeOffset.Now);
 
-        List<V3Uninterested> uninterests = await getUninterest();
-        foreach (var item in uninterests)
+        List<V3Uninterested> Uninterests = await GetUninterest();
+        foreach (var Item in Uninterests)
         {
-            if (item.AdvertisementUuid == AdvertisementUuid && item.UserGuid == UserGuid)
+            if (Item.AdvertisementUuid == AdvertisementUuid && Item.UserGuid == UserGuid)
             {
-                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.uninterestedAdvertisements.Single(i => i.Id == item.Id));
+                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.UninterestedAdvertisements.Single(i => i.Id == Item.Id));
             }
         }
         await _UserPreferencesDbContext.SaveChangesAsync();
@@ -308,19 +308,19 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// <response code="200">OK, list of all advertisements marked as uninteresting by all users</response>
     [HttpGet("getLocations")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<List<V3Location>> getLocations()
+    public async Task<List<V3Location>> GetLocations()
     {
         _logger.LogInformation("Getting all locations from Database, time: {time}", DateTimeOffset.Now);
 
-        var responseLocations = await _UserPreferencesDbContext.locations
-    .Select(location => new V3Location
+        var ResponseLocations = await _UserPreferencesDbContext.Locations
+    .Select(Location => new V3Location
     {
-        Municipality = location.Municipality,
-        Id = location.Id
+        Municipality = Location.Municipality,
+        Id = Location.Id
 
     }).ToListAsync();
 
-        return responseLocations;
+        return ResponseLocations;
     }
 
 
@@ -341,19 +341,19 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// <response code="200">OK, list of all advertisements marked as uninteresting by all users</response>
     [HttpGet("getSearchLocations")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<List<V3SearchLocation>> getSearchLocations()
+    public async Task<List<V3SearchLocation>> GetSearchLocations()
     {
         _logger.LogInformation("Getting all SearchLocations from Database, time: {time}", DateTimeOffset.Now);
 
-        var responseLocations = await _UserPreferencesDbContext.searchLocations
-        .Select(searchLocation => new V3SearchLocation
+        var ResponseLocations = await _UserPreferencesDbContext.SearchLocations
+        .Select(SearchLocation => new V3SearchLocation
         {
-            UserId = searchLocation.UserId,
-            LocationId = searchLocation.LocationId,
-            Id = searchLocation.Id
+            UserId = SearchLocation.UserId,
+            LocationId = SearchLocation.LocationId,
+            Id = SearchLocation.Id
         }).ToListAsync();
 
-        return responseLocations;
+        return ResponseLocations;
     }
 
     /// <summary>
@@ -377,25 +377,25 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<V3Result<V3SearchLocation>> saveSearchLocation (V3SearchLocation v3SearchLocation)
+    public async Task<V3Result<V3SearchLocation>> SaveSearchLocation (V3SearchLocation v3SearchLocation)
     {
         _logger.LogInformation("Save Search Location with location ID {0}, and UserId: {1} to Database, at time: {time}", v3SearchLocation.LocationId, v3SearchLocation.UserId, DateTimeOffset.Now);
-        var searchLocation = new SearchLocation()
+        var SearchLocation = new SearchLocation()
         {
             UserId = v3SearchLocation.UserId,
             LocationId = v3SearchLocation.LocationId
         };
-        _UserPreferencesDbContext.Add(searchLocation);
+        _UserPreferencesDbContext.Add(SearchLocation);
 
         await _UserPreferencesDbContext.SaveChangesAsync();
 
-        var result = new V3Result<V3SearchLocation>();
-        result.Value = new V3SearchLocation
+        var Result = new V3Result<V3SearchLocation>();
+        Result.Value = new V3SearchLocation
         {
             UserId = v3SearchLocation.UserId,
             LocationId = v3SearchLocation.LocationId
         };
-        return result;
+        return Result;
     }
 
 
@@ -407,15 +407,15 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// <returns>Status 200, success</returns>
     [HttpDelete("deleteSearchLocation")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task deleteSearchLocation(Guid UserId, int locationId)
+    public async Task DeleteSearchLocation(Guid UserId, int locationId)
     {
         _logger.LogInformation("Deleting Search location with Location id: {0}, and User Id: {1} from Database, time: {time}", locationId, UserId, DateTimeOffset.Now);
-        List<V3SearchLocation> searchLocations = await getSearchLocations();
-        foreach (var item in searchLocations)
+        List<V3SearchLocation> SearchLocations = await GetSearchLocations();
+        foreach (var Item in SearchLocations)
         {
-            if (item.UserId == UserId && item.LocationId == locationId)
+            if (Item.UserId == UserId && Item.LocationId == locationId)
             {
-                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.searchLocations.Single(i => i.Id == item.Id));
+                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.SearchLocations.Single(i => i.Id == Item.Id));
             }
         }
         await _UserPreferencesDbContext.SaveChangesAsync();
@@ -432,40 +432,40 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     public async Task getMunipalitiesFromPublicAPI()
     {
         _logger.LogInformation("Fetch municipalities from geonorge, time: {time}", DateTimeOffset.Now);
-        IEnumerable<V3Location> locations = new List<V3Location>();
+        IEnumerable<V3Location> Locations = new List<V3Location>();
 
-        var jsonUrl = "https://ws.geonorge.no/kommuneinfo/v1/kommuner";
-        string? json = await client.GetStringAsync("https://ws.geonorge.no/kommuneinfo/v1/kommuner");
+        var JsonUrl = "https://ws.geonorge.no/kommuneinfo/v1/kommuner";
+        string? Json = await client.GetStringAsync("https://ws.geonorge.no/kommuneinfo/v1/kommuner");
 
-        locations = JsonConvert.DeserializeObject<IEnumerable<V3Location>>(json.Replace("kommunenavn", "Municipality"));
+        Locations = JsonConvert.DeserializeObject<IEnumerable<V3Location>>(Json.Replace("kommunenavn", "Municipality"));
 
-        _UserPreferencesDbContext.RemoveRange(_UserPreferencesDbContext.locations);
+        _UserPreferencesDbContext.RemoveRange(_UserPreferencesDbContext.Locations);
 
-        foreach (var item in locations)
+        foreach (var Item in Locations)
         {
-            await saveLocation(item);
+            await SaveLocation(Item);
         }
 
     }
 
 
-    private async Task<V3Result<V3Location>> saveLocation(V3Location v3Location)
+    private async Task<V3Result<V3Location>> SaveLocation(V3Location v3Location)
     {
         _logger.LogInformation("Saving Municipality {0} to Database, time: {time}", v3Location.Municipality, DateTimeOffset.Now);
-        var location = new Data.Location()
+        var Location = new Data.Location()
         {
             Municipality = v3Location.Municipality,
         };
-        _UserPreferencesDbContext.Add(location);
+        _UserPreferencesDbContext.Add(Location);
 
         await _UserPreferencesDbContext.SaveChangesAsync();
 
-        var result = new V3Result<V3Location>();
-        result.Value = new V3Location
+        var Result = new V3Result<V3Location>();
+        Result.Value = new V3Location
         {
             Municipality = v3Location.Municipality,
         };
-        return result;
+        return Result;
     }
 }
 
