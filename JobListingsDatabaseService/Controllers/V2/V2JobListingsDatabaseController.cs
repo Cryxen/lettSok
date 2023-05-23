@@ -48,7 +48,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     public virtual async Task<List<V1Advertisement>> Get()
     {
         _logger.LogInformation("Getting advertisements from Database, {time}", DateTimeOffset.Now);
-        var ResponseAdvertisements = await _lettsokDbContext.advertisements
+        var ResponseAdvertisements = await _lettsokDbContext.Advertisements
             .Select(advertisement => new V1Advertisement
             {
                 Uuid = advertisement.Uuid,
@@ -68,7 +68,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
             await CheckExpiration(Advertisement);
         }
 
-        ResponseAdvertisements = await _lettsokDbContext.advertisements
+        ResponseAdvertisements = await _lettsokDbContext.Advertisements
         .Select(Advertisement => new V1Advertisement
         {
             Uuid = Advertisement.Uuid,

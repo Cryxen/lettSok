@@ -54,7 +54,7 @@ namespace JobListingsDatabaseService.Test
         {
             using var context = CreateContext();
 
-            context.advertisements.RemoveRange(context.advertisements);
+            context.Advertisements.RemoveRange(context.Advertisements);
             context.AddRange(
                 advertisement1,
                 advertisement2

@@ -43,20 +43,5 @@ public class Advertisement
         get;
         set;
     }
-
-    /*
-     * Virtual er funnet fra:
-     *	https://learn.microsoft.com/en-us/ef/ef6/modeling/code-first/workflows/new-database  
-     */
-    //public virtual List<Advertisement>? Advertisements { get; set; }
-
-    /*
-     * Many to many:
-     * https://www.entityframeworktutorial.net/code-first/configure-many-to-many-relationship-in-code-first.aspx?utm_content=cmp-true
-     
-    public virtual ICollection<User>? Users { get; set; }
-    */
-
-
 }
 

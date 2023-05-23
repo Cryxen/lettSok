@@ -25,7 +25,7 @@ public class V1JobListingsDatabaseController : ControllerBase
     {
         //var dbContext = new LettsokDbContext();
 
-        var ResponseAdvertisements = await _lettsokDbContext.advertisements
+        var ResponseAdvertisements = await _lettsokDbContext.Advertisements
             .Select(advertisement => new V1Advertisement
             {
                 Expires = (DateTime)advertisement.Expires,
