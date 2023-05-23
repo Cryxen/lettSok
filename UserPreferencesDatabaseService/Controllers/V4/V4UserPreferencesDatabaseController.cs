@@ -72,7 +72,7 @@ public class V4UserPreferencesDatabaseController : ControllerBase
     public async Task<List<V3Interested>> GetInterest()
     {
 
-        var ResponseInterests = await _UserPreferencesDbContext.InterestedAdvertisements
+        var ResponseInterests = await _UserPreferencesDbContext.interestedAdvertisements
             .Select(Interest => new V3Interested
             {
                 UserGuid = Interest.UserId,
@@ -116,7 +116,7 @@ public class V4UserPreferencesDatabaseController : ControllerBase
     public async Task<List<V3Uninterested>> GetUninterest()
     {
 
-        var ResponseUninterests = await _UserPreferencesDbContext.UninterestedAdvertisements
+        var ResponseUninterests = await _UserPreferencesDbContext.uninterestedAdvertisements
             .Select(Uninterest => new V3Uninterested
             {
                 UserGuid = Uninterest.UserId,

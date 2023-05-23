@@ -6,10 +6,10 @@ namespace UserPreferencesDatabaseService.Data
     public class UserPreferencesDbContext : DbContext
     {
         public DbSet<User> users { get; set; }
-        public DbSet<InterestedAdvertisement> InterestedAdvertisements { get; set; }
-        public DbSet<UninterestedAdvertisement> UninterestedAdvertisements { get; set; }
-        public DbSet<Location> Locations { get; set; }
-        public DbSet<SearchLocation> SearchLocations { get; set; }
+        public DbSet<InterestedAdvertisement> interestedAdvertisements { get; set; }
+        public DbSet<UninterestedAdvertisement> uninterestedAdvertisements { get; set; }
+        public DbSet<Location> locations { get; set; }
+        public DbSet<SearchLocation> searchLocations { get; set; }
 
         public UserPreferencesDbContext()
         {

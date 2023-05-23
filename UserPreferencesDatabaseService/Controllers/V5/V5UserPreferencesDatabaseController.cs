@@ -114,7 +114,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     {
         _logger.LogInformation("Getting all interests from Database, time: {time}", DateTimeOffset.Now);
 
-        var ResponseInterests = await _UserPreferencesDbContext.InterestedAdvertisements
+        var ResponseInterests = await _UserPreferencesDbContext.interestedAdvertisements
             .Select(interest => new V3Interested
             {
                 UserGuid = interest.UserId,
@@ -185,7 +185,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         {
             if (Item.AdvertisementUuid == AdvertisementUuid && Item.UserGuid == UserGuid)
             {
-                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.InterestedAdvertisements.Single(i => i.Id == Item.Id ));
+                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.interestedAdvertisements.Single(i => i.Id == Item.Id ));
             }
         }
         await _UserPreferencesDbContext.SaveChangesAsync();
@@ -213,7 +213,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     {
         _logger.LogInformation("Getting all Uninterests from Database, time: {time}", DateTimeOffset.Now);
 
-        var ResponseUninterests = await _UserPreferencesDbContext.UninterestedAdvertisements
+        var ResponseUninterests = await _UserPreferencesDbContext.uninterestedAdvertisements
             .Select(Uninterest => new V3Uninterested
             {
                 UserGuid = Uninterest.UserId,
@@ -285,7 +285,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         {
             if (Item.AdvertisementUuid == AdvertisementUuid && Item.UserGuid == UserGuid)
             {
-                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.UninterestedAdvertisements.Single(i => i.Id == Item.Id));
+                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.uninterestedAdvertisements.Single(i => i.Id == Item.Id));
             }
         }
         await _UserPreferencesDbContext.SaveChangesAsync();
@@ -312,7 +312,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     {
         _logger.LogInformation("Getting all locations from Database, time: {time}", DateTimeOffset.Now);
 
-        var ResponseLocations = await _UserPreferencesDbContext.Locations
+        var ResponseLocations = await _UserPreferencesDbContext.locations
     .Select(Location => new V3Location
     {
         Municipality = Location.Municipality,
@@ -345,7 +345,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     {
         _logger.LogInformation("Getting all SearchLocations from Database, time: {time}", DateTimeOffset.Now);
 
-        var ResponseLocations = await _UserPreferencesDbContext.SearchLocations
+        var ResponseLocations = await _UserPreferencesDbContext.searchLocations
         .Select(SearchLocation => new V3SearchLocation
         {
             UserId = SearchLocation.UserId,
@@ -415,7 +415,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         {
             if (Item.UserId == UserId && Item.LocationId == locationId)
             {
-                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.SearchLocations.Single(i => i.Id == Item.Id));
+                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.searchLocations.Single(i => i.Id == Item.Id));
             }
         }
         await _UserPreferencesDbContext.SaveChangesAsync();
@@ -435,11 +435,11 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         IEnumerable<V3Location> Locations = new List<V3Location>();
 
         var JsonUrl = "https://ws.geonorge.no/kommuneinfo/v1/kommuner";
-        string? Json = await client.GetStringAsync("https://ws.geonorge.no/kommuneinfo/v1/kommuner");
+        string? Json = await s_client.GetStringAsync("https://ws.geonorge.no/kommuneinfo/v1/kommuner");
 
         Locations = JsonConvert.DeserializeObject<IEnumerable<V3Location>>(Json.Replace("kommunenavn", "Municipality"));
 
-        _UserPreferencesDbContext.RemoveRange(_UserPreferencesDbContext.Locations);
+        _UserPreferencesDbContext.RemoveRange(_UserPreferencesDbContext.locations);
 
         foreach (var Item in Locations)
         {
