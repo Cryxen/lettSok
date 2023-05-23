@@ -3,29 +3,29 @@
 @using Newtonsoft.Json
 
 @inject FetchUserFromDb UserListingService
-@inject ILogger<Index> logger
+@inject ILogger<Index> Logger
 @page "/"
 
 <PageTitle>Index</PageTitle>
 
 <div class="contentWrapper">
-    <p>@fullListingStyle</p>
+    <p>@FullListingStyle</p>
         
-            <DisplayFullListing advertisementToShow="@advertisementToShow" fullListingStyle="@fullListingStyle" showFullAdvertisement="@showFullAdvertisement"/>
+            <DisplayFullListing AdvertisementToShow="@AdvertisementToShow" FullListingStyle="@FullListingStyle" ShowFullAdvertisement="@ShowFullAdvertisement"/>
         
     <h1>ANGSTFRI JOBBSØKING</h1>
     <picture>
         <img src="img/logo.png" class="logo" />
     </picture>
-    <EditForm Model="@searchModel" class="searchForm" name="searchForm">
-        <input type="text" placeholder="Søk her" @bind-value="searchValue" @bind-value:event="oninput" />
-        <button @onclick="searchPress">Søk</button>
+    <EditForm Model="@_searchModel" class="searchForm" name="searchForm">
+        <input type="text" placeholder="Søk her" @bind-value="SearchValue" @bind-value:event="oninput" />
+        <button @onclick="SearchPress">Søk</button>
     </EditForm>
 
-    @if (showSearch)
+    @if (ShowSearch)
     {
         <section class="listings">
-            <FetchListings SearchValue="@searchValue.ToUpper()" advertisementToShow="@showFullListing" />
+            <FetchListings SearchValue="@SearchValue.ToUpper()" AdvertisementToShow="@ShowFullListing" />
         </section>
     }
 </div>
@@ -34,10 +34,10 @@
 @code{
 
 
-    int counter = 0;
-    bool showSearch = false;
-    Advertisement? advertisementToShow;
-    string fullListingStyle;
+    int Counter = 0;
+    bool ShowSearch = false;
+    Advertisement? AdvertisementToShow;
+    string FullListingStyle;
 
     /// <summary>
     /// Used by EditForm
@@ -48,47 +48,47 @@
         {
         }
     }
-    private SearchModel searchModel = new();
+    private SearchModel _searchModel = new();
 
     // Value of search field
-    string? searchValue = "";
-    string? tempSearch = "";
+    string? SearchValue = "";
+    string? TempSearch = "";
 
     /// <summary>
     /// Method being used when search button is pressed.
     /// </summary>
-    private void searchPress()
+    private void SearchPress()
     {
-        showSearch ^= true;
+        ShowSearch ^= true;
     }
 
     //Interests
-    string? interestsFromDb;
-    IEnumerable<Interest> interests = new List<Interest>();
-    List<string> commonInterests = new List<string>();
+    string? InterestsFromDb;
+    IEnumerable<Interest> Interests = new List<Interest>();
+    List<string> CommonInterests = new List<string>();
 
     //Uninterests
-    string? uninterestsFromDb;
-    IEnumerable<Interest> uninterests = new List<Interest>();
-    List<string> commonUninterests = new List<string>();
+    string? UninterestsFromDb;
+    IEnumerable<Interest> Uninterests = new List<Interest>();
+    List<string> CommonUninterests = new List<string>();
 
     //Users
-    IEnumerable<User> users = new List<User>();
-    string usersFromDb;
+    IEnumerable<User> Users = new List<User>();
+    string UsersFromDb;
 
-    private async Task showFullListing(Advertisement advertisement)
+    private async Task ShowFullListing(Advertisement advertisement)
     {
-        logger.LogDebug("Showing the full listing, time: {time}", DateTimeOffset.Now);
-        advertisementToShow = advertisement;
-        fullListingStyle = "visibility: visible;";
-        tempSearch = searchValue;
-        tempSearch = "";
+        Logger.LogDebug("Showing the full listing, time: {time}", DateTimeOffset.Now);
+        AdvertisementToShow = advertisement;
+        FullListingStyle = "visibility: visible;";
+        TempSearch = SearchValue;
+        TempSearch = "";
     }
 
-    private async Task showFullAdvertisement()
+    private async Task ShowFullAdvertisement()
     {
-        fullListingStyle = "visibility: hidden;";
-        searchValue = tempSearch;
+        FullListingStyle = "visibility: hidden;";
+        SearchValue = TempSearch;
 
     }
 

@@ -4,24 +4,24 @@
 @using Newtonsoft.Json
 
 @inject FetchJobListingsFromDb JobListingsService
-@inject ILogger<FetchListings> logger
+@inject ILogger<FetchListings> Logger
 <!--If statement checking if user searches for an ad. -->
 
-<p>@searchValue</p>
-@if (advertisementList != null)
+<p>@SearchValue</p>
+@if (AdvertisementList != null)
 {
-    @if (searchValue != "")
+    @if (SearchValue != "")
     {
-        @foreach (var item in advertisementList)
+        @foreach (var Item in AdvertisementList)
         {
             <!--if statement looking for search string in: Title, description, employer, engagement type and municipal-->
-            @if (item.Title != null && item.Description != null && item.Employer != null && item.EngagementType != null && item.Municipal != null)
+            @if (Item.Title != null && Item.Description != null && Item.Employer != null && Item.EngagementType != null && Item.Municipal != null)
             {
-                @if (item.Title.ToUpper().Contains(searchValue) || item.Description.ToUpper().Contains(searchValue) ||
-                 item.Employer.ToUpper().Contains(searchValue) || item.EngagementType.ToUpper().Contains(searchValue) ||
-                 item.Municipal.ToUpper().Contains(searchValue))
+                @if (Item.Title.ToUpper().Contains(SearchValue) || Item.Description.ToUpper().Contains(SearchValue) ||
+                 Item.Employer.ToUpper().Contains(SearchValue) || Item.EngagementType.ToUpper().Contains(SearchValue) ||
+                 Item.Municipal.ToUpper().Contains(SearchValue))
                 {
-                    <DisplayListing item="item" showFullAdvertisement="@showFullAdvertisement" />
+                    <DisplayListing Item="Item" ShowFullAdvertisement="@ShowFullAdvertisement" />
                 }
             }
 
@@ -29,9 +29,9 @@
     }
     else
     {
-        @foreach (var item in advertisementList)
+        @foreach (var Item in AdvertisementList)
         {
-            <DisplayListing item="item" advertisementToShow="@advertisementToShow" />
+            <DisplayListing Item="Item" AdvertisementToShow="@AdvertisementToShow" />
         }
     }
 }
@@ -46,26 +46,26 @@ else
 
 
 @code {
-    IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
-    string advertisementsFromDb;
+    IEnumerable<Advertisement> AdvertisementList = new List<Advertisement>();
+    string AdvertisementsFromDb;
 
     [Parameter]
-    public string? searchValue { get; set; }
+    public string? SearchValue { get; set; }
 
     [Parameter]
-    public EventCallback<Advertisement> advertisementToShow { get; set; }
+    public EventCallback<Advertisement> AdvertisementToShow { get; set; }
 
     [Parameter]
-    public bool showFullAdvertisement { get; set; }
+    public bool ShowFullAdvertisement { get; set; }
     /// <summary>
     /// Fetch job listings from database
     /// </summary>
     /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
-        logger.LogInformation("Fetching listings from Database, time: {time}", DateTimeOffset.Now);
-        advertisementsFromDb = await JobListingsService.FetchJobListings();
-        advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
+        Logger.LogInformation("Fetching listings from Database, time: {time}", DateTimeOffset.Now);
+        AdvertisementsFromDb = await JobListingsService.FetchJobListings();
+        AdvertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(AdvertisementsFromDb);
     }
 
 }

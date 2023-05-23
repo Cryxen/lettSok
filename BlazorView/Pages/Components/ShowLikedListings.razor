@@ -3,19 +3,19 @@
 
 @inject FetchJobListingsFromDb JobListingsService
 @inject FetchUserFromDb UserListingService
-@inject ILogger<ShowLikedListings> logger
+@inject ILogger<ShowLikedListings> Logger
 
 
-        @if (advertisementList != null)
+        @if (AdvertisementList != null)
         {
-            @foreach (var item in advertisementList)
+            @foreach (var Item in AdvertisementList)
             {
-                if (LoggedInUserService.interests.Contains(item.Uuid))
+                if (LoggedInUserService.Interests.Contains(Item.Uuid))
                 {
                     <table>
                         <tr>
-                            <td>@item.Title</td>
-                            <td><button @onclick="() => RemoveFromInterests(item)">Slett</button></td>
+                            <td>@Item.Title</td>
+                            <td><button @onclick="() => RemoveFromInterests(Item)">Slett</button></td>
                         </tr>
                     </table>
                 }
@@ -26,21 +26,21 @@
             <p>Det er dessverre utfordringer med å nå Databasen som holder på ledige stillinger. Vennligst prøv igjen senere.</p>
         }
 
-        @if (LoggedInUserService.interests == null || LoggedInUserService.interests.Count() == 0)
+        @if (LoggedInUserService.Interests == null || LoggedInUserService.Interests.Count() == 0)
         {
             <p>Ingen stillinger er markert som likt</p>
         }
 
     @code {
-        IEnumerable<Advertisement> advertisementList = new List<Advertisement>();
-        string advertisementsFromDb;
+        IEnumerable<Advertisement> AdvertisementList = new List<Advertisement>();
+        string AdvertisementsFromDb;
 
 
 
         //Interests
-        string? interestsFromDb;
-        IEnumerable<Interest> interests = new List<Interest>();
-        List<string> commonInterests = new List<string>();
+        string? InterestsFromDb;
+        IEnumerable<Interest> Interests = new List<Interest>();
+        List<string> CommonInterests = new List<string>();
 
         /// <summary>
         /// Fetch job listings from database
@@ -48,38 +48,38 @@
         /// <returns></returns>
         protected override async Task OnInitializedAsync()
         {
-            logger.LogInformation("Fetching Job Listings from Database, time: {time}", DateTimeOffset.Now);
-            advertisementsFromDb = await JobListingsService.FetchJobListings();
-            advertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(advertisementsFromDb);
+            Logger.LogInformation("Fetching Job Listings from Database, time: {time}", DateTimeOffset.Now);
+            AdvertisementsFromDb = await JobListingsService.FetchJobListings();
+            AdvertisementList = JsonConvert.DeserializeObject<IEnumerable<Advertisement>>(AdvertisementsFromDb);
 
             // Fetch uninterests TODO: Try to make this global at some point
-            logger.LogInformation("Fetching Interests from Database, time: {time}", DateTimeOffset.Now);
-            interestsFromDb = await UserListingService.FetchInterest();
-            interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(interestsFromDb);
+            Logger.LogInformation("Fetching Interests from Database, time: {time}", DateTimeOffset.Now);
+            InterestsFromDb = await UserListingService.FetchInterest();
+            Interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(InterestsFromDb);
 
-            if (interests != null)
+            if (Interests != null)
             {
-                foreach (var item in interests)
+                foreach (var Item in Interests)
                 {
-                    if (item.userGuid == LoggedInUserService.Id)
+                    if (Item.UserGuid == LoggedInUserService.Id)
                     {
-                        commonInterests.Add(item.advertisementUuid);
+                        CommonInterests.Add(Item.AdvertisementUuid);
                     }
                 }
-                LoggedInUserService.interests = commonInterests;
+                LoggedInUserService.Interests = CommonInterests;
             }
 
         }
 
         private void RemoveFromInterests(Advertisement advertisement)
         {
-            logger.LogInformation("Removing Advertisement Uuid: {0} from Interest list for user {1}, time: {time}", advertisement.Uuid, LoggedInUserService.Name, DateTimeOffset.Now);
-            Interest interest = new();
-            interest.userGuid = LoggedInUserService.Id;
-            interest.advertisementUuid = advertisement.Uuid;
+            Logger.LogInformation("Removing Advertisement Uuid: {0} from Interest list for user {1}, time: {time}", advertisement.Uuid, LoggedInUserService.Name, DateTimeOffset.Now);
+            Interest Interest = new();
+            Interest.UserGuid = LoggedInUserService.Id;
+            Interest.AdvertisementUuid = advertisement.Uuid;
 
-            UserListingService.DeleteInterest(interest);
-            LoggedInUserService.interests.Remove(advertisement.Uuid);
+            UserListingService.DeleteInterest(Interest);
+            LoggedInUserService.Interests.Remove(advertisement.Uuid);
         }
     }
 

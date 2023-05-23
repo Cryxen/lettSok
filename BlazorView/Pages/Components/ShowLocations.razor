@@ -2,23 +2,23 @@
 @using Newtonsoft.Json
 
 @inject FetchLocationsFromDb LocationService
-@inject ILogger<ShowLocations> logger
+@inject ILogger<ShowLocations> Logger
 
 <section>
-    @if (locations != null)
+    @if (Locations != null)
     {
-        <EditForm Model="locationModel">
-            <select @bind="selectedLocation">
+        <EditForm Model="_locationModel">
+            <select @bind="SelectedLocation">
                 <option value="">Velg kommune</option>
-                @foreach (var item in locations)
+                @foreach (var Item in Locations)
                 {
-                    @if (!prefferedLocations.Any(i => i.LocationId == item.Id))
+                    @if (!PrefferedLocations.Any(i => i.LocationId == Item.Id))
                     {
-                        <option value="@item.Id">@item.Municipality</option>
+                        <option value="@Item.Id">@Item.Municipality</option>
                     }
                 }
             </select>
-            <button @onclick="selectLocation">Velg kommune</button>
+            <button @onclick="SelectLocation">Velg kommune</button>
 
         </EditForm>
     }
@@ -29,16 +29,16 @@
     }
 
     <h5>Lokasjoner lagt til:</h5>
-    @if (locations != null)
+    @if (Locations != null)
     {
-        @foreach (var item in locations)
+        @foreach (var Item in Locations)
         {
-            @if (loggedInUserPrefferedLocations.Any(i => i.LocationId == item.Id))
+            @if (LoggedInUserPrefferedLocations.Any(i => i.LocationId == Item.Id))
             {
                     <table>
                         <tr>
-                            <td>@item.Municipality</td>
-                            <td><button @onclick="() => DeletePreferredLocation(item)">Slett</button></td>
+                            <td>@Item.Municipality</td>
+                            <td><button @onclick="() => DeletePreferredLocation(Item)">Slett</button></td>
                         </tr>
                     </table>
      
@@ -56,64 +56,64 @@
 </section>
 @code {
     [Parameter]
-    public EventCallback<bool> showLocations { get; set; }
+    public EventCallback<bool> ShowAllLocations { get; set; }
 
 
     private class LocationModel
     {
 
     }
-    LocationModel locationModel = new();
-    int selectedLocation;
+    private LocationModel _locationModel = new();
+    int SelectedLocation;
 
     // List of municipalities in Norway
-    string? locationsFromDb;
-    IEnumerable<Location> locations = new List<Location>();
+    string? LocationsFromDb;
+    IEnumerable<Location> Locations = new List<Location>();
 
 
     // List of municipalities marked as favorable
-    string? preferredLocationsFromDb;
-    IEnumerable<PreferredLocation> prefferedLocations = new List<PreferredLocation>();
-    List<PreferredLocation> loggedInUserPrefferedLocations = new List<PreferredLocation>();
+    string? PreferredLocationsFromDb;
+    IEnumerable<PreferredLocation> PrefferedLocations = new List<PreferredLocation>();
+    List<PreferredLocation> LoggedInUserPrefferedLocations = new List<PreferredLocation>();
 
 
     protected override async Task OnInitializedAsync()
     {
 
         // Fetch list of municipalities in Norway from db
-        logger.LogInformation("Fetching list of municipalities in Norway from Database, time: {time}", DateTimeOffset.Now);
-        locationsFromDb = await LocationService.FetchLocations();
-        locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(locationsFromDb);
+        Logger.LogInformation("Fetching list of municipalities in Norway from Database, time: {time}", DateTimeOffset.Now);
+        LocationsFromDb = await LocationService.FetchLocations();
+        Locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(LocationsFromDb);
 
         // Fetch list of preferred municipalities in Norway from db
-        logger.LogInformation("Fetching list of preferred municipalities in Norway from Database, time: {time}", DateTimeOffset.Now);
-        preferredLocationsFromDb = await LocationService.FetchPreferredLocations();
-        prefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(preferredLocationsFromDb);
+        Logger.LogInformation("Fetching list of preferred municipalities in Norway from Database, time: {time}", DateTimeOffset.Now);
+        PreferredLocationsFromDb = await LocationService.FetchPreferredLocations();
+        PrefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(PreferredLocationsFromDb);
 
-        if (prefferedLocations != null)
+        if (PrefferedLocations != null)
         {
-            foreach (var item in prefferedLocations)
+            foreach (var Item in PrefferedLocations)
             {
-                if (item.UserId == LoggedInUserService.Id)
+                if (Item.UserId == LoggedInUserService.Id)
                 {
-                    loggedInUserPrefferedLocations.Add(item);
+                    LoggedInUserPrefferedLocations.Add(Item);
                 }
             }
         }
 
     }
 
-    private async void selectLocation()
+    private async void SelectLocation()
     {
         PreferredLocation preferredLocation = new();
         preferredLocation.UserId = LoggedInUserService.Id;
-        preferredLocation.LocationId = selectedLocation;
-        logger.LogInformation("Saving new preferred location to Database, Location Id: {0}, User Id: {1}, Time: {time}", preferredLocation.LocationId, preferredLocation.UserId, DateTimeOffset.Now);
+        preferredLocation.LocationId = SelectedLocation;
+        Logger.LogInformation("Saving new preferred location to Database, Location Id: {0}, User Id: {1}, Time: {time}", preferredLocation.LocationId, preferredLocation.UserId, DateTimeOffset.Now);
 
         LocationService.PostPreferredLocation(preferredLocation);
-        prefferedLocations.Append(preferredLocation);
+        PrefferedLocations.Append(preferredLocation);
 
-        await showLocations.InvokeAsync();
+        await ShowAllLocations.InvokeAsync();
     }
 
     private async void DeletePreferredLocation(Location location)
@@ -121,10 +121,10 @@
         PreferredLocation preferredLocation = new();
         preferredLocation.LocationId = location.Id;
         preferredLocation.UserId = LoggedInUserService.Id;
-        logger.LogInformation("Deleting preferred location to Database, Location Id: {0}, User Id: {1}, Time: {time}", preferredLocation.LocationId, preferredLocation.UserId, DateTimeOffset.Now);
+        Logger.LogInformation("Deleting preferred location to Database, Location Id: {0}, User Id: {1}, Time: {time}", preferredLocation.LocationId, preferredLocation.UserId, DateTimeOffset.Now);
 
         LocationService.DeletePreferredLocation(preferredLocation);
-        await showLocations.InvokeAsync();
+        await ShowAllLocations.InvokeAsync();
     }
 }
 

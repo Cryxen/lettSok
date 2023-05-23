@@ -1,21 +1,21 @@
 ﻿@using BlazorView.Data
-@inject NavigationManager navigationManager
-@inject ILogger<SelectUser> logger
+@inject NavigationManager NavigationManager
+@inject ILogger<SelectUser> Logger
 
 
 <h5>Velg aktiv bruker:</h5>
-@if (users != null)
+@if (Users != null)
 {
-<EditForm Model="@userModel">
-    <select @bind="selectedUser">
+<EditForm Model="@_userModel">
+    <select @bind="SelectedUser">
 
         <option value="">Velg bruker</option>
-        @foreach (var item in users)
+        @foreach (var Item in Users)
         {
-            <option value="@item.Name">@item.Name</option>
+            <option value="@Item.Name">@Item.Name</option>
         }
     </select>
-    <button @onclick="selectUser">Velg bruker</button>
+    <button @onclick="SelectUserProfile">Velg bruker</button>
 
 </EditForm>
 }
@@ -36,39 +36,39 @@ else
         }
     }
 
-    UserModel userModel = new();
-    String selectedUser;
-    User user = new();
+    private UserModel _userModel = new();
+    String SelectedUser;
+    User User = new();
 
     [Parameter]
-    public IEnumerable<User>? users { get; set; }
+    public IEnumerable<User>? Users { get; set; }
 
 
 
-    private void selectUser()
+    private void SelectUserProfile()
     {
-        if (selectedUser != null)
+        if (SelectedUser != null)
         {
-            findSelectedUser();
+            FindSelectedUser();
 
-            logger.LogInformation("Selecting new user as logged in user, name: {0}, time: {time}", user.Name, DateTimeOffset.Now);
+            Logger.LogInformation("Selecting new user as logged in user, name: {0}, time: {time}", User.Name, DateTimeOffset.Now);
 
-            LoggedInUserService.Name = user.Name;
-            LoggedInUserService.Id = user.Id;
+            LoggedInUserService.Name = User.Name;
+            LoggedInUserService.Id = User.Id;
 
-            navigationManager.NavigateTo("/");
+            NavigationManager.NavigateTo("/");
         }
 
     }
 
-    private void findSelectedUser()
+    private void FindSelectedUser()
     {
-        foreach (var item in users)
+        foreach (var item in Users)
         {
-            if (item.Name.Equals(selectedUser))
+            if (item.Name.Equals(SelectedUser))
             {
-                user.Name = item.Name;
-                user.Id = item.Id;
+                User.Name = item.Name;
+                User.Id = item.Id;
             }
         }
     }

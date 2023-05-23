@@ -13,7 +13,6 @@ public class Program
         // Add services to the container.
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
-        builder.Services.AddSingleton<WeatherForecastService>();
         builder.Services.AddSingleton<FetchJobListingsFromDb>();
         builder.Services.AddSingleton<FetchUserFromDb>();
         builder.Services.AddSingleton<FetchLocationsFromDb>();

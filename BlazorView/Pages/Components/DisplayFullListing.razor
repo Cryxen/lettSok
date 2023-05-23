@@ -1,29 +1,29 @@
 ﻿@using BlazorView.Data
 
-<div class="fullAdvertisementWrapper" style="@fullListingStyle">
-    @if (advertisementToShow != null)
+<div class="fullAdvertisementWrapper" style="@FullListingStyle">
+    @if (AdvertisementToShow != null)
     {
-        <h3>@advertisementToShow.Title</h3>
-        <p>@((MarkupString)advertisementToShow.Description)</p>
+        <h3>@AdvertisementToShow.Title</h3>
+        <p>@((MarkupString)AdvertisementToShow.Description)</p>
         <button @onclick="closeFullListing">Lukk</button>
-        <a href="https://arbeidsplassen.nav.no/stillinger/stilling/@advertisementToShow.Uuid" target="_blank">Se stillingen på NAV</a>
+        <a href="https://arbeidsplassen.nav.no/stillinger/stilling/@AdvertisementToShow.Uuid" target="_blank">Se stillingen på NAV</a>
     }
 
 </div>
 
 @code {
     [Parameter]
-    public Advertisement advertisementToShow { get; set; }
+    public Advertisement AdvertisementToShow { get; set; }
 
     [Parameter]
-    public string fullListingStyle { get; set; }
+    public string FullListingStyle { get; set; }
 
     [Parameter]
-    public EventCallback<bool> showFullAdvertisement { get; set; }
+    public EventCallback<bool> ShowFullAdvertisement { get; set; }
 
     private void closeFullListing()
     {
-        showFullAdvertisement.InvokeAsync();
+        ShowFullAdvertisement.InvokeAsync();
     }
 }
 

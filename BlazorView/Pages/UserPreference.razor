@@ -4,10 +4,10 @@
 @using BlazorView.Pages.Components
 
 @inject FetchUserFromDb UserListingService
-@inject ILogger<UserPreference> logger
+@inject ILogger<UserPreference> Logger
 <section class="userPrefSection" id="userPrefLoggedOnUser">
     <h3>Bruker:</h3>
-    @if (showUsers)
+    @if (ShowUsers)
     {
         <GetUser />
     }
@@ -17,20 +17,20 @@
     </h5>
 
 
-    <EditForm Model="formModel">
+    <EditForm Model="_formModel">
         <h5>Legg til ny bruker:</h5>
 
-        <input type="text" @bind-value="name" @bind-value:event="oninput" />
-        <button @onclick="submitUser">Legg til bruker</button>
+        <input type="text" @bind-value="Name" @bind-value:event="oninput" />
+        <button @onclick="SubmitUser">Legg til bruker</button>
     </EditForm>
 
 </section>
 
 
 <section class="userPrefSection">
-    <button @onclick="@showLikedListingsButtonPress" class="sectionButton">Stillinger som er markert som likt</button>
+    <button @onclick="@ShowLikedListingsButtonPress" class="sectionButton">Stillinger som er markert som likt</button>
 
-    @if (showLikedListings)
+    @if (_showLikedListings)
             {
              <div class="showSectionDiv">
                 <ShowLikedListings />
@@ -40,8 +40,8 @@
 
 
 <section class="userPrefSection">
-    <button @onclick="@showNotLikedListingsButtonPress" class="sectionButton">Stillinger som er markert som ikke likt</button>
-    @if (showNotLikedListings)
+    <button @onclick="@ShowNotLikedListingsButtonPress" class="sectionButton">Stillinger som er markert som ikke likt</button>
+    @if (_showNotLikedListings)
     {
         <div class="showSectionDiv">
             <ShowNotLikedListings />
@@ -49,12 +49,12 @@
             }
     </section>
 
-<section class="userPrefSection">
-    <button @onclick="@showPrefLocations" class="sectionButton">Prefererte søkesteder</button>
-    @if (showLocations)
+<section class="UserPrefSection">
+    <button @onclick="@ShowPrefLocations" class="sectionButton">Prefererte søkesteder</button>
+    @if (_showLocations)
     {
         <div class="showSectionDiv">
-            <ShowLocations showLocations="@locationSelected" />
+            <ShowLocations ShowAllLocations="@LocationSelected" />
         </div>
 
     }
@@ -66,9 +66,9 @@
 
 
 
-            private bool showLocations = false;
-            private bool showLikedListings = false;
-            private bool showNotLikedListings = false;
+            private bool _showLocations = false;
+            private bool _showLikedListings = false;
+            private bool _showNotLikedListings = false;
 
             private class FormModel
             {
@@ -80,41 +80,41 @@
             /*
             Post user to db
             */
-            FormModel formModel = new();
-            string name;
-            bool showUsers = true;
-            private async Task submitUser()
+            FormModel _formModel = new();
+            string Name;
+            bool ShowUsers = true;
+            private async Task SubmitUser()
             {
-                logger.LogInformation("Submitting user with name: {0} to be saved to Database, time: {time}", name, DateTimeOffset.Now);
-                showUsers = false;
+                Logger.LogInformation("Submitting user with name: {0} to be saved to Database, time: {time}", Name, DateTimeOffset.Now);
+                ShowUsers = false;
 
-                User user = new User();
-                user.Name = name;
-                UserListingService.PostUser(user);
+                User User = new User();
+                User.Name = Name;
+                UserListingService.PostUser(User);
                 await Task.Delay(5);
-                showUsers = true;
+                ShowUsers = true;
 
             }
 
-            private async Task locationSelected()
+            private async Task LocationSelected()
             {
-                showLocations = false;
+                _showLocations = false;
                 await Task.Delay(5);
-                showLocations = true;
+                _showLocations = true;
             }
 
-            private void showLikedListingsButtonPress()
+            private void ShowLikedListingsButtonPress()
             {
-                showLikedListings ^= true;
+                _showLikedListings ^= true;
             }
 
-            private void showNotLikedListingsButtonPress()
+            private void ShowNotLikedListingsButtonPress()
             {
-                showNotLikedListings ^= true;
+                _showNotLikedListings ^= true;
             }
-            private void showPrefLocations()
+            private void ShowPrefLocations()
             {
-                showLocations ^= true;
+                _showLocations ^= true;
             }
         }
 

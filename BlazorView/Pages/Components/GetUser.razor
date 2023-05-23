@@ -4,9 +4,9 @@
 
 
 @inject FetchUserFromDb UserListingService
-@inject ILogger<GetUser> logger
+@inject ILogger<GetUser> Logger
 
-    <SelectUser users ="users"/>
+    <SelectUser Users ="Users"/>
 
 
 
@@ -15,14 +15,14 @@
         /*
         Fetch user from db
         */
-        IEnumerable<User> users = new List<User>();
-        string usersFromDb;
+        IEnumerable<User> Users = new List<User>();
+        string UsersFromDb;
 
         protected override async Task OnInitializedAsync()
         {
-            logger.LogInformation("Getting users from Database, time: {time}", DateTimeOffset.Now);
-            usersFromDb = await UserListingService.FetchUser();
-            users = JsonConvert.DeserializeObject<IEnumerable<User>>(usersFromDb);
+            Logger.LogInformation("Getting users from Database, time: {time}", DateTimeOffset.Now);
+            UsersFromDb = await UserListingService.FetchUser();
+            Users = JsonConvert.DeserializeObject<IEnumerable<User>>(UsersFromDb);
         }
 
     }

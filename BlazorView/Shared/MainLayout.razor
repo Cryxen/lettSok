@@ -71,21 +71,21 @@
         interestsFromDb = await UserListingService.FetchInterest();
         interests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(interestsFromDb);
 
-        @if (LoggedInUserService.interests != null)
+        @if (LoggedInUserService.Interests != null)
             {
-                LoggedInUserService.interests.Clear();
+                LoggedInUserService.Interests.Clear();
             }
 
         if (interests != null)
         {
             foreach (var item in interests)
             {
-                if (item.userGuid == LoggedInUserService.Id)
+                if (item.UserGuid == LoggedInUserService.Id)
                 {
-                    commonInterests.Add(item.advertisementUuid);
+                    commonInterests.Add(item.AdvertisementUuid);
                 }
             }
-            LoggedInUserService.interests = commonInterests;
+            LoggedInUserService.Interests = commonInterests;
         }
 
 
@@ -93,21 +93,21 @@
         uninterestsFromDb = await UserListingService.FetchUninterest();
         uninterests = JsonConvert.DeserializeObject<IEnumerable<Interest>>(uninterestsFromDb);
 
-        if (LoggedInUserService.uninterests != null)
+        if (LoggedInUserService.Uninterests != null)
         {
-            LoggedInUserService.uninterests.Clear();
+            LoggedInUserService.Uninterests.Clear();
         }
 
         if (uninterests != null)
         {
             foreach (var item in uninterests)
             {
-                if (item.userGuid == LoggedInUserService.Id)
+                if (item.UserGuid == LoggedInUserService.Id)
                 {
-                    commonUninterests.Add(item.advertisementUuid);
+                    commonUninterests.Add(item.AdvertisementUuid);
                 }
             }
-            LoggedInUserService.uninterests = commonUninterests;
+            LoggedInUserService.Uninterests = commonUninterests;
         }
 
 

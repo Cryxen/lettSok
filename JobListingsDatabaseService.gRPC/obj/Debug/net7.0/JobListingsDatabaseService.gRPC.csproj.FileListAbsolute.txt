@@ -99,3 +99,4 @@
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService.gRPC/obj/Debug/net7.0/JobListingsDatabaseService.gRPC.pdb
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService.gRPC/obj/Debug/net7.0/JobListingsDatabaseService.gRPC.genruntimeconfig.cache
 /Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService.gRPC/obj/Debug/net7.0/ref/JobListingsDatabaseService.gRPC.dll
+/Users/hakonstrom/Documents/Programmer/School/Haakostr.Lettsok.Advertisements/JobListingsDatabaseService.gRPC/bin/Debug/net7.0/JobListingsDatabaseService.xml
