@@ -9,7 +9,7 @@ public class AdvertisementWorkerTest
 
     private readonly ILogger<Worker> _logger;
 
-    private Advertisement _advertisement = new()
+    private readonly Advertisement _advertisement = new()
     {
         Uuid = "Uuid test",
         Expires = DateTime.Today,

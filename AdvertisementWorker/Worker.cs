@@ -19,11 +19,11 @@ public class Worker : BackgroundService
     }
 
     private static HttpClient client = new HttpClient();
-    string PrefferedLocationsJson;
-    string LocationsJson;
+    private string _prefferedLocationsJson;
+    private string _locationsJson;
 
-    List<Advertisement> Advertisements = new List<Advertisement>();
-    List<Location> LocationList = new();
+    private List<Advertisement> _advertisements = new List<Advertisement>();
+    private List<Location> _locationList = new();
 
 
     // Public API settings
@@ -46,22 +46,22 @@ public class Worker : BackgroundService
             try
             {
                 // Empty location list
-                LocationList.Clear();
+                _locationList.Clear();
                 _logger.LogDebug("Clearing locationlist {time}", DateTimeOffset.Now);
 
                 // Get all locations
          
-                    LocationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getLocations", stoppingToken);
-                    var Locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(LocationsJson);
+                    _locationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getLocations", stoppingToken);
+                    var Locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(_locationsJson);
                     _logger.LogDebug("Fetching locations from database {time}", DateTimeOffset.Now);
            
                 // Get preffered Locations
-                    PrefferedLocationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getSearchLocations", stoppingToken);
-                    var PrefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(PrefferedLocationsJson);
+                    _prefferedLocationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getSearchLocations", stoppingToken);
+                    var PrefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(_prefferedLocationsJson);
                     _logger.LogDebug("Fetching preffered locations from database, {time}", DateTimeOffset.Now);
                 
                 // Match locations with prefferedLocations. Make a list
-                LocationList = MatchFavoredLocations(Locations, PrefferedLocations);
+                _locationList = MatchFavoredLocations(Locations, PrefferedLocations);
             }
             catch (Exception e)
             {
@@ -70,9 +70,9 @@ public class Worker : BackgroundService
             }
 
             // If search locations have been saved
-            if (LocationList.Count > 0)
+            if (_locationList.Count > 0)
             {
-                foreach (var Location in LocationList)
+                foreach (var Location in _locationList)
                 {
 
                     _logger.LogInformation("Retrieving jobs for {municipality} at time {time}", Location.Municipality, DateTimeOffset.Now);
@@ -83,7 +83,7 @@ public class Worker : BackgroundService
 
                     try
                     {
-                        await GRPC(Advertisements);
+                        await PostAdvertisementgRPC(_advertisements);
                     }
                     catch (Exception e)
                     {
@@ -105,7 +105,7 @@ public class Worker : BackgroundService
 
                 try
                 {
-                    await GRPC(Advertisements);
+                    await PostAdvertisementgRPC(Advertisements);
 
                 }
                 catch 
@@ -120,7 +120,7 @@ public class Worker : BackgroundService
         }
     }
 
-    private async Task GRPC(List<Advertisement> advertisements)
+    private async Task PostAdvertisementgRPC(List<Advertisement> advertisements)
     {
         _logger.LogInformation("Trying to run gRPC, time: {time}", DateTimeOffset.Now);
         var Channel = GrpcChannel.ForAddress("http://localhost:5080");
@@ -132,7 +132,7 @@ public class Worker : BackgroundService
 
                 try
                 {
-                    await GRPCclient.PostAdvertisementsAsync(new AdvertisementModel
+                    await GRPCclient.postAdvertisementsAsync(new AdvertisementModel
                     {
                         Uuid = Item.Uuid,
                         Expires = TimestampExpires,
@@ -176,18 +176,18 @@ public class Worker : BackgroundService
 
     public async Task<List<Advertisement>> FetchJobsAndParseFromPublicAPI(string location = "No Location")
     {
-        string json;
+        string Json;
 
         if (location == "No Location")
         {
-            json = await RetrieveFromPublicAPI();
+            Json = await RetrieveFromPublicAPI();
         }
         else
         {
-            json = await RetrieveFromPublicAPI(location);
+            Json = await RetrieveFromPublicAPI(location);
         }
 
-        var Results = ParseJson(json);
+        var Results = ParseJson(Json);
         List<Advertisement> Advertisements = new List<Advertisement>();
         foreach (var Item in Results)
         {

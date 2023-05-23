@@ -19,7 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Model\" />
-    <None Remove="Protos\greet.proto" />
     <None Remove="Protos\" />
     <None Remove="Protos\advertisement.proto" />
   </ItemGroup>
@@ -28,7 +27,6 @@
     <Folder Include="Protos\" />
   </ItemGroup>
   <ItemGroup>
-    <Protobuf Include="Protos\greet.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\advertisement.proto" GrpcServices="Client" />
   </ItemGroup>
 </Project>
