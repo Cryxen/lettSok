@@ -292,8 +292,22 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     }
 
 
-
+    /// <summary>
+    /// Gets municipalities saved in database
+    /// </summary>
+    /// <returns>List of municipalities saved in database</returns>
+    /// <remarks>
+    /// sample return:
+    ///
+    ///     GET /getLocations
+    ///     [{
+    ///     "municipality": "Bodø",
+    ///     "id": 1
+    ///     }]
+    /// </remarks>
+    /// <response code="200">OK, list of all advertisements marked as uninteresting by all users</response>
     [HttpGet("getLocations")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<List<V3Location>> getLocations()
     {
         _logger.LogInformation("Getting all locations from Database, time: {time}", DateTimeOffset.Now);
@@ -310,8 +324,23 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     }
 
 
-
+    /// <summary>
+    /// Gets list of users preferred municipalities saved in database
+    /// </summary>
+    /// <returns>List of users preferred municipalities saved in database</returns>
+    /// <remarks>
+    /// sample return:
+    ///
+    ///     GET /getLocations
+    ///     [{
+    ///         "userId": "02603a46-83e4-4089-aeae-f2725c4e83c1",
+    ///         "locationId": 1,
+    ///         "id": 1
+    ///     }]
+    /// </remarks>
+    /// <response code="200">OK, list of all advertisements marked as uninteresting by all users</response>
     [HttpGet("getSearchLocations")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<List<V3SearchLocation>> getSearchLocations()
     {
         _logger.LogInformation("Getting all SearchLocations from Database, time: {time}", DateTimeOffset.Now);
@@ -327,7 +356,27 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         return responseLocations;
     }
 
+    /// <summary>
+    /// Saves preferred search location
+    /// </summary>
+    /// <param name="v3SearchLocation">LocationId and userId</param>
+    /// <returns>Object that has been saved</returns>
+    /// <remarks>
+    /// A sample POST request:
+    ///
+    ///     POST /saveSearchLocation
+    ///     {
+    ///         "userId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    ///         "locationId": 2,
+    ///     }
+    /// </remarks>
+    /// <response code="201">Returns empty error list, and newly created object</response>
+    /// <response code="400">Returns a bad request, typically something wrong with JSON in POST request</response>
+    /// <response code="500">Returns internal server error. This is found when userId and Locationid can't be found in Database</response>
     [HttpPost("saveSearchLocation")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<V3Result<V3SearchLocation>> saveSearchLocation (V3SearchLocation v3SearchLocation)
     {
         _logger.LogInformation("Save Search Location with location ID {0}, and UserId: {1} to Database, at time: {time}", v3SearchLocation.LocationId, v3SearchLocation.UserId, DateTimeOffset.Now);
@@ -349,11 +398,37 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         return result;
     }
 
+
     /// <summary>
-    /// Fetches municipalities from https://ws.geonorge.no/kommuneinfo/v1/#/default/get_kommuner
+    /// Deletes preferred search location from database
     /// </summary>
-    /// <returns></returns>
+    /// <param name="UserGuid"></param>
+    /// <param name="locationId"></param>
+    /// <returns>Status 200, success</returns>
+    [HttpDelete("deleteSearchLocation")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task deleteSearchLocation(Guid UserId, int locationId)
+    {
+        _logger.LogInformation("Deleting Search location with Location id: {0}, and User Id: {1} from Database, time: {time}", locationId, UserId, DateTimeOffset.Now);
+        List<V3SearchLocation> searchLocations = await getSearchLocations();
+        foreach (var item in searchLocations)
+        {
+            if (item.UserId == UserId && item.LocationId == locationId)
+            {
+                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.searchLocations.Single(i => i.Id == item.Id));
+            }
+        }
+        await _UserPreferencesDbContext.SaveChangesAsync();
+    }
+
+
+
+    /// <summary>
+    /// Fetches municipalities from public API: https://ws.geonorge.no/kommuneinfo/v1/#/default/get_kommuner
+    /// </summary>
+    /// <returns>Status code 200: Success</returns>
     [HttpGet("updateLocationsFromGeoNorge")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task getMunipalitiesFromPublicAPI()
     {
         _logger.LogInformation("Fetch municipalities from geonorge, time: {time}", DateTimeOffset.Now);
@@ -391,21 +466,6 @@ public class V5UserPreferencesDatabaseController : ControllerBase
             Municipality = v3Location.Municipality,
         };
         return result;
-    }
-
-    [HttpDelete("deleteSearchLocation")]
-    public async Task deleteSearchLocation(Guid UserId, int locationId)
-    {
-        _logger.LogInformation("Deleting Search location with Location id: {0}, and User Id: {1} from Database, time: {time}", locationId, UserId, DateTimeOffset.Now);
-        List<V3SearchLocation> searchLocations = await getSearchLocations();
-        foreach (var item in searchLocations)
-        {
-            if (item.UserId == UserId && item.LocationId == locationId)
-            {
-                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.searchLocations.Single(i => i.Id == item.Id));
-            }
-        }
-        await _UserPreferencesDbContext.SaveChangesAsync();
     }
 }
 
