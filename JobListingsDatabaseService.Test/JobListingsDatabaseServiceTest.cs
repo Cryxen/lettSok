@@ -13,15 +13,6 @@ namespace JobListingsDatabaseService.Test;
 
 public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
 {
-    /*
-    var mockLogger = new Mock<ILogger<OrderController>>();
-    mockLogger.Setup(x => x.LogError(It.IsAny<Exception>(), It.IsAny<string>() );
-      _logger = mockLogger.Object;
-    */
-
-    
-    //private readonly ILogger<V2JobListingsDatabaseController>? _logger;
-
     public JobListingsDatabaseServiceTest(DatabaseFixtureTest fixture)
     => Fixture = fixture;
 
@@ -31,13 +22,13 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
     public async void Get_Advertisements_From_Database()
     {
         // Arrange
-        var mockLogger = new Mock<ILogger<V2JobListingsDatabaseController>>();
-        var _logger = mockLogger.Object;
+        var MockLogger = new Mock<ILogger<V2JobListingsDatabaseController>>();
+        var Logger = MockLogger.Object;
 
-        using var context = Fixture.CreateContext();
-        var controller = new V2JobListingsDatabaseController(_logger, context);
+        using var Context = Fixture.CreateContext();
+        var Controller = new V2JobListingsDatabaseController(Logger, Context);
 
-        V1Advertisement expected = new()
+        V1Advertisement Expected = new()
         {
             Uuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
             Title = "Utvikling i moderasjon",
@@ -50,18 +41,18 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
         };
 
         // Act
-        var actual = await controller.Get();
+        var Actual = await Controller.Get();
 
         // Assert details of object
-        Assert.Equal(expected.Uuid, actual.ElementAt(1).Uuid);
-        Assert.Equal(expected.Title, actual.ElementAt(1).Title);
-        Assert.Equal(expected.Description, actual.ElementAt(1).Description);
-        Assert.Equal(expected.Employer, actual.ElementAt(1).Employer);
-        Assert.Equal(expected.JobTitle, actual.ElementAt(1).JobTitle);
-        Assert.Equal(expected.Municipal, actual.ElementAt(1).Municipal);
-        Assert.Equal(expected.Expires, actual.ElementAt(1).Expires);
+        Assert.Equal(Expected.Uuid, Actual.ElementAt(1).Uuid);
+        Assert.Equal(Expected.Title, Actual.ElementAt(1).Title);
+        Assert.Equal(Expected.Description, Actual.ElementAt(1).Description);
+        Assert.Equal(Expected.Employer, Actual.ElementAt(1).Employer);
+        Assert.Equal(Expected.JobTitle, Actual.ElementAt(1).JobTitle);
+        Assert.Equal(Expected.Municipal, Actual.ElementAt(1).Municipal);
+        Assert.Equal(Expected.Expires, Actual.ElementAt(1).Expires);
 
-        Assert.Equal(2, actual.Count);
+        Assert.Equal(2, Actual.Count);
 
 
         // Cleanup
@@ -72,60 +63,60 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
     public async void Post_Advertisement_To_database()
     {
         // Arrange
-        var mockLogger = new Mock<ILogger<V2JobListingsDatabaseController>>();
-        var _logger = mockLogger.Object;
-        using var context = Fixture.CreateContext();
-        var controller = new V2JobListingsDatabaseController(_logger, context);
+        var MockLogger = new Mock<ILogger<V2JobListingsDatabaseController>>();
+        var Logger = MockLogger.Object;
+        using var Context = Fixture.CreateContext();
+        var Controller = new V2JobListingsDatabaseController(Logger, Context);
 
         // Object to be added
-        V2Employer employer = new()
+        V2Employer Employer = new()
         {
             Name = "Deg selv"
         };
 
-        V2WorkLocation workLocation = new()
+        V2WorkLocation WorkLocation = new()
         {
             Municipal = "Oslo"
         };
 
-        List<V2WorkLocation> workLocations = new();
-        workLocations.Add(workLocation);
+        List<V2WorkLocation> WorkLocations = new();
+        WorkLocations.Add(WorkLocation);
 
-        V2Advertisement expected = new()
+        V2Advertisement Expected = new()
         {
             Uuid = "02ceec90-06ab-4222-8f80-9664a58f2a29",
             Title = "Utvikler som hobby",
             Description = "Vil du jobbe med Utvikler ved siden av det du gjør til daglig? Søk deg inn på denne stillingen!",
-            Employer = employer,
+            Employer = Employer,
             EngagementType = "Deltid",
             JobTitle = "Ingen spesiell tittel",
-            WorkLocations = workLocations,
+            WorkLocations = WorkLocations,
             Expires = DateTime.Today
         };
 
         //Act
-        var saveToDatabse = await controller.SaveAdvertisements(expected);
+        var SaveToDatabse = await Controller.SaveAdvertisements(Expected);
 
         // Find the object in database
-        var actual = await controller.Get();
-        int index = 0;
-        foreach (var item in actual)
+        var Actual = await Controller.Get();
+        int Index = 0;
+        foreach (var Item in Actual)
         {
-            if(item.Uuid == expected.Uuid)
+            if(Item.Uuid == Expected.Uuid)
             {
-                index = actual.IndexOf(item);
+                Index = Actual.IndexOf(Item);
             }
         }
 
         //Assert
-        Assert.Equal(expected.Uuid, actual.ElementAt(index).Uuid);
-        Assert.Equal(expected.Title, actual.ElementAt(index).Title);
-        Assert.Equal(expected.Description, actual.ElementAt(index).Description);
-        Assert.Equal(expected.Employer.Name, actual.ElementAt(index).Employer);
-        Assert.Equal(expected.EngagementType, actual.ElementAt(index).EngagementType);
-        Assert.Equal(expected.JobTitle, actual.ElementAt(index).JobTitle);
-        Assert.Equal(expected.WorkLocations.First().Municipal, actual.ElementAt(index).Municipal);
-        Assert.Equal(expected.Expires, actual.ElementAt(index).Expires);
+        Assert.Equal(Expected.Uuid, Actual.ElementAt(Index).Uuid);
+        Assert.Equal(Expected.Title, Actual.ElementAt(Index).Title);
+        Assert.Equal(Expected.Description, Actual.ElementAt(Index).Description);
+        Assert.Equal(Expected.Employer.Name, Actual.ElementAt(Index).Employer);
+        Assert.Equal(Expected.EngagementType, Actual.ElementAt(Index).EngagementType);
+        Assert.Equal(Expected.JobTitle, Actual.ElementAt(Index).JobTitle);
+        Assert.Equal(Expected.WorkLocations.First().Municipal, Actual.ElementAt(Index).Municipal);
+        Assert.Equal(Expected.Expires, Actual.ElementAt(Index).Expires);
 
         // Cleanup
         Fixture.Cleanup();

@@ -17,10 +17,10 @@ namespace JobListingsDatabaseService.gRPC.Services
             _lettsokDbContext = lettsokDbContext;
         }
 
-        public override Task<AdvertisementModel> getAdvertisement(getAdvertisementParams request, ServerCallContext context)
+        public override Task<AdvertisementModel> GetAdvertisement(getAdvertisementParams request, ServerCallContext context)
         {
             var Time = Timestamp.FromDateTimeOffset(DateTime.Now);
-            AdvertisementModel advertisement = new AdvertisementModel()
+            AdvertisementModel Advertisement = new AdvertisementModel()
             {
                 Uuid = "Advertisement Uuid",
                 Expires = Time,
@@ -31,37 +31,37 @@ namespace JobListingsDatabaseService.gRPC.Services
                 Employer = "Employer",
                 EngagementType = "100%"
             };
-            return Task.FromResult(advertisement);
+            return Task.FromResult(Advertisement);
         }
 
-        public override async Task<getAdvertisementParams> postAdvertisements(AdvertisementModel request, ServerCallContext context)
+        public override async Task<getAdvertisementParams> PostAdvertisements(AdvertisementModel request, ServerCallContext context)
         {
-            getAdvertisementParams emptyParams = new();
+            getAdvertisementParams EmptyParams = new();
 
 
 
             _logger.LogInformation("Advertisement " + request.Title + " uuid: " + request.Uuid + " expires: " + request.Expires);
 
 
-            V2Employer v2Employer = new()
+            V2Employer V2Employer = new()
             {
                 Name = request.Employer
             };
-            List<V2WorkLocation> workLocations = new();
+            List<V2WorkLocation> WorkLocations = new();
 
-            V2WorkLocation workLocation = new()
+            V2WorkLocation WorkLocation = new()
             {
                 Municipal = request.WorkLocation
             };
-            workLocations.Add(workLocation);
+            WorkLocations.Add(WorkLocation);
 
 
-
-            V2Advertisement v2Advertisement = new V2Advertisement()
+            //TODO: Find out what this is for.
+            V2Advertisement V2Advertisement = new V2Advertisement()
             {
                 Uuid = request.Title,
-                Employer = v2Employer,
-                WorkLocations = workLocations,
+                Employer = V2Employer,
+                WorkLocations = WorkLocations,
                 Title = request.Title,
                 Description = request.Description,
                 JobTitle = request.JobTitle,
@@ -69,7 +69,7 @@ namespace JobListingsDatabaseService.gRPC.Services
                 Expires = request.Expires.ToDateTime()
             };
 
-            var advertisement = new Advertisement()
+            var Advertisement = new Advertisement()
             {
                 Uuid = request.Title,
                 Employer = request.Employer,
@@ -82,10 +82,10 @@ namespace JobListingsDatabaseService.gRPC.Services
             };
 
             
-            _lettsokDbContext.Add(advertisement);
+            _lettsokDbContext.Add(Advertisement);
             await _lettsokDbContext.SaveChangesAsync();
 
-            return emptyParams;
+            return EmptyParams;
         }
 
 

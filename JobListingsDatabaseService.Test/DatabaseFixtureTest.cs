@@ -9,9 +9,9 @@ namespace JobListingsDatabaseService.Test
     public class DatabaseFixtureTest
 	{
 
-        private static bool _databaseInitialized;
+        private static bool s_databaseInitialized;
 
-        Advertisement advertisement1 = new()
+        Advertisement Advertisement1 = new()
         {
             Uuid = "02ceec90-06ab-4222-8f80-9664a58f2a22",
             Title = "Utvikling i moderasjon",
@@ -23,7 +23,7 @@ namespace JobListingsDatabaseService.Test
             Expires = DateTime.Today
         };
 
-        Advertisement advertisement2 = new()
+        Advertisement Advertisement2 = new()
         {
             Uuid = "02ceec90-06ab-4222-8f80-9664a58f2a21",
             Title = "Alltid utvikling",
@@ -43,23 +43,23 @@ namespace JobListingsDatabaseService.Test
 
         public DatabaseFixtureTest()
         {
-            using var context = CreateContext();
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+            using var Context = CreateContext();
+            Context.Database.EnsureDeleted();
+            Context.Database.EnsureCreated();
 
             Cleanup();
         }
         
         public void Cleanup()
         {
-            using var context = CreateContext();
+            using var Context = CreateContext();
 
-            context.Advertisements.RemoveRange(context.Advertisements);
-            context.AddRange(
-                advertisement1,
-                advertisement2
+            Context.Advertisements.RemoveRange(Context.Advertisements);
+            Context.AddRange(
+                Advertisement1,
+                Advertisement2
                 );
-            context.SaveChanges();
+            Context.SaveChanges();
         }
 
 
