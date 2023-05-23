@@ -53,8 +53,8 @@ internal class Program
         
         await using (var scope = app.Services.CreateAsyncScope())
         {
-            var dbContext = scope.ServiceProvider.GetService<JobListingsDbContext>();
-            await dbContext.Database.MigrateAsync();
+            var DbContext = scope.ServiceProvider.GetService<JobListingsDbContext>();
+            await DbContext.Database.MigrateAsync();
         }
         
 

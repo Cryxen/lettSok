@@ -13,7 +13,7 @@ namespace JobListingsDatabaseService.Model.V2;
 			get;
 			set;
 		}
-		public List<V2WorkLocation>? workLocations
+		public List<V2WorkLocation>? WorkLocations
 		{
 			get;
 			set;

@@ -48,7 +48,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     public virtual async Task<List<V1Advertisement>> Get()
     {
         _logger.LogInformation("Getting advertisements from Database, {time}", DateTimeOffset.Now);
-        var responseAdvertisements = await _lettsokDbContext.advertisements
+        var ResponseAdvertisements = await _lettsokDbContext.advertisements
             .Select(advertisement => new V1Advertisement
             {
                 Uuid = advertisement.Uuid,
@@ -63,28 +63,27 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
             })
             .ToListAsync();
         
-        foreach (var advertisement in responseAdvertisements)
+        foreach (var Advertisement in ResponseAdvertisements)
         {
-            await checkExpiration(advertisement);
+            await CheckExpiration(Advertisement);
         }
 
-        responseAdvertisements = await _lettsokDbContext.advertisements
-        .Select(advertisement => new V1Advertisement
+        ResponseAdvertisements = await _lettsokDbContext.advertisements
+        .Select(Advertisement => new V1Advertisement
         {
-            Uuid = advertisement.Uuid,
-            Expires = advertisement.Expires,
-            Municipal = advertisement.Municipal,
-            Title = advertisement.Title,
-            Description = advertisement.Description,
-            JobTitle = advertisement.JobTitle,
-            Employer = advertisement.Employer,
-            EngagementType = advertisement.EngagementType
+            Uuid = Advertisement.Uuid,
+            Expires = Advertisement.Expires,
+            Municipal = Advertisement.Municipal,
+            Title = Advertisement.Title,
+            Description = Advertisement.Description,
+            JobTitle = Advertisement.JobTitle,
+            Employer = Advertisement.Employer,
+            EngagementType = Advertisement.EngagementType
 
         })
         .ToListAsync();
 
-        //return new V1Restult<IEnumerable<V1Advertisement>>(responseAdvertisements);
-        return responseAdvertisements;
+        return ResponseAdvertisements;
 
 
 
@@ -122,66 +121,66 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<V1Restult<V2Advertisement>> saveAdvertisements(V2Advertisement advertisementPost)
+    public async Task<V1Result<V2Advertisement>> SaveAdvertisements(V2Advertisement advertisementPost)
     {
         _logger.LogInformation("Saving Advertisement {advertisement}", advertisementPost + " time: " + DateTimeOffset.Now);
-        var advertisementsFromDb = await Get();
+        var AdvertisementsFromDb = await Get();
 
-        if (advertisementsFromDb.Count > 0)
+        if (AdvertisementsFromDb.Count > 0)
         {
             Boolean ItemInDatabase = false;
             _logger.LogDebug("The database is not empty. Making a check to see if the advertisement is in the database, time: {time}", DateTimeOffset.Now);
-            foreach (var item in advertisementsFromDb)
+            foreach (var Item in AdvertisementsFromDb)
             {
-                if (item.Uuid == advertisementPost.Uuid)
+                if (Item.Uuid == advertisementPost.Uuid)
                 {
                     ItemInDatabase = true;
-                    _logger.LogDebug(item.Uuid + " Is already in database, time: {time}", DateTimeOffset.Now);
+                    _logger.LogDebug(Item.Uuid + " Is already in database, time: {time}", DateTimeOffset.Now);
                 }
             }
             if (!ItemInDatabase)
             {
                 _logger.LogDebug(advertisementPost + " Is not in database. Adding advertisement to database, time: {time}", DateTimeOffset.Now);
-                var advertisement = new Advertisement()
+                var Advertisement = new Advertisement()
                 {
                     Uuid = advertisementPost.Uuid,
                     Expires = advertisementPost.Expires,
-                    Municipal = advertisementPost.workLocations[0].municipal,
+                    Municipal = advertisementPost.WorkLocations[0].Municipal,
                     Title = advertisementPost.Title,
                     Description = advertisementPost.Description,
                     JobTitle = advertisementPost.JobTitle,
-                    Employer = advertisementPost.Employer.name,
+                    Employer = advertisementPost.Employer.Name,
                     EngagementType = advertisementPost.EngagementType
                 };
-                _lettsokDbContext.Add(advertisement);
+                _lettsokDbContext.Add(Advertisement);
             } 
         }
         else
         {
             _logger.LogDebug("The database is empty. Adding the first advertisement, time: {time}", DateTimeOffset.Now);
-            var advertisement = new Advertisement()
+            var Advertisement = new Advertisement()
             {
                 Uuid = advertisementPost.Uuid,
                 Expires = advertisementPost.Expires,
-                Municipal = advertisementPost.workLocations[0].municipal,
+                Municipal = advertisementPost.WorkLocations[0].Municipal,
                 Title = advertisementPost.Title,
                 Description = advertisementPost.Description,
                 JobTitle = advertisementPost.JobTitle,
-                Employer = advertisementPost.Employer.name,
+                Employer = advertisementPost.Employer.Name,
                 EngagementType = advertisementPost.EngagementType
             };
-            _lettsokDbContext.Add(advertisement);
+            _lettsokDbContext.Add(Advertisement);
         }
         _logger.LogDebug("Saving changes to Database, time: {time}", DateTimeOffset.Now);
         await _lettsokDbContext.SaveChangesAsync();
 
-        var result = new V1Restult<V2Advertisement>();
-        _logger.LogDebug("Error codes from saving: " + result.Errors + " time: {time}", DateTimeOffset.Now);
-        result.Value = new V2Advertisement
+        var Result = new V1Result<V2Advertisement>();
+        _logger.LogDebug("Error codes from saving: " + Result.Errors + " time: {time}", DateTimeOffset.Now);
+        Result.Value = new V2Advertisement
         {
             Uuid = advertisementPost.Uuid,
             Expires = advertisementPost.Expires,
-            workLocations = advertisementPost.workLocations,
+            WorkLocations = advertisementPost.WorkLocations,
             Title = advertisementPost.Title,
             Description = advertisementPost.Description,
             JobTitle = advertisementPost.JobTitle,
@@ -189,22 +188,22 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
             EngagementType = advertisementPost.EngagementType
         };
 
-        return result;
+        return Result;
     }
 
 
-    private async Task<V1Advertisement> checkExpiration(V1Advertisement deleteAdvertisement)
+    private async Task<V1Advertisement> CheckExpiration(V1Advertisement deleteAdvertisement)
     {
         _logger.LogDebug("Checking when job advertisement expires of advertisement: " + deleteAdvertisement.Uuid + " time: {time}", DateTimeOffset.Now);
-        DateTime date = DateTime.Today;
-        if (DateTime.Compare(date, (DateTime)deleteAdvertisement.Expires) > 0)
+        DateTime Date = DateTime.Today;
+        if (DateTime.Compare(Date, (DateTime)deleteAdvertisement.Expires) > 0)
         {
-            var advertisement = new Advertisement
+            var Advertisement = new Advertisement
             {
                 Uuid = deleteAdvertisement.Uuid
             };
             _lettsokDbContext.ChangeTracker.Clear();
-            _lettsokDbContext.Remove(advertisement);
+            _lettsokDbContext.Remove(Advertisement);
             await _lettsokDbContext.SaveChangesAsync();
         }
         return deleteAdvertisement;

@@ -3,13 +3,13 @@ using System.Text.Json.Serialization;
 
 namespace JobListingsDatabaseService.Model.V1
 {
-	public class V1Restult<T>
+	public class V1Result<T>
 	{
-        public V1Restult()
+        public V1Result()
         {
         }
 
-        public V1Restult(T value)
+        public V1Result(T value)
 		{
 			Value = value;
 		}

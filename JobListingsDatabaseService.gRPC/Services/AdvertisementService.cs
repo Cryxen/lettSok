@@ -45,13 +45,13 @@ namespace JobListingsDatabaseService.gRPC.Services
 
             V2Employer v2Employer = new()
             {
-                name = request.Employer
+                Name = request.Employer
             };
             List<V2WorkLocation> workLocations = new();
 
             V2WorkLocation workLocation = new()
             {
-                municipal = request.WorkLocation
+                Municipal = request.WorkLocation
             };
             workLocations.Add(workLocation);
 
@@ -61,7 +61,7 @@ namespace JobListingsDatabaseService.gRPC.Services
             {
                 Uuid = request.Title,
                 Employer = v2Employer,
-                workLocations = workLocations,
+                WorkLocations = workLocations,
                 Title = request.Title,
                 Description = request.Description,
                 JobTitle = request.JobTitle,

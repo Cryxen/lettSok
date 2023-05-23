@@ -21,11 +21,11 @@ public class V1JobListingsDatabaseController : ControllerBase
     }
 
     [HttpGet("")]
-    public async Task<V1Restult<IEnumerable<V1Advertisement>>> Get()
+    public async Task<V1Result<IEnumerable<V1Advertisement>>> Get()
     {
         //var dbContext = new LettsokDbContext();
 
-        var responseAdvertisements = await _lettsokDbContext.advertisements
+        var ResponseAdvertisements = await _lettsokDbContext.advertisements
             .Select(advertisement => new V1Advertisement
             {
                 Expires = (DateTime)advertisement.Expires,
@@ -39,17 +39,16 @@ public class V1JobListingsDatabaseController : ControllerBase
             })
             .ToListAsync();
        
-        return new V1Restult<IEnumerable<V1Advertisement>>(responseAdvertisements);
+        return new V1Result<IEnumerable<V1Advertisement>>(ResponseAdvertisements);
            
      
       
     }
     [HttpPost("saveAdvertisement")]
-    public async Task<V1Restult<V1Advertisement>> saveAdvertisements(V1Advertisement advertisementPost)
+    public async Task<V1Result<V1Advertisement>> SaveAdvertisements(V1Advertisement advertisementPost)
     {
 
-        //var dbContext = new LettsokDbContext();
-        var advertisement = new Advertisement()
+        var Advertisement = new Advertisement()
         {
             Uuid = advertisementPost.Uuid,
             Expires = advertisementPost.Expires,
@@ -61,11 +60,11 @@ public class V1JobListingsDatabaseController : ControllerBase
             EngagementType = advertisementPost.EngagementType
         };
 
-        _lettsokDbContext.Add(advertisement);
+        _lettsokDbContext.Add(Advertisement);
         await _lettsokDbContext.SaveChangesAsync();
 
-        var result = new V1Restult<V1Advertisement>();
-        result.Value = new V1Advertisement
+        var Result = new V1Result<V1Advertisement>();
+        Result.Value = new V1Advertisement
         {
             Uuid = advertisementPost.Uuid,
             Expires = advertisementPost.Expires,
@@ -77,7 +76,7 @@ public class V1JobListingsDatabaseController : ControllerBase
             EngagementType = advertisementPost.EngagementType
         };
 
-        return result;
+        return Result;
     }
 
 

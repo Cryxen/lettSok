@@ -80,12 +80,12 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
         // Object to be added
         V2Employer employer = new()
         {
-            name = "Deg selv"
+            Name = "Deg selv"
         };
 
         V2WorkLocation workLocation = new()
         {
-            municipal = "Oslo"
+            Municipal = "Oslo"
         };
 
         List<V2WorkLocation> workLocations = new();
@@ -99,12 +99,12 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
             Employer = employer,
             EngagementType = "Deltid",
             JobTitle = "Ingen spesiell tittel",
-            workLocations = workLocations,
+            WorkLocations = workLocations,
             Expires = DateTime.Today
         };
 
         //Act
-        var saveToDatabse = await controller.saveAdvertisements(expected);
+        var saveToDatabse = await controller.SaveAdvertisements(expected);
 
         // Find the object in database
         var actual = await controller.Get();
@@ -121,10 +121,10 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
         Assert.Equal(expected.Uuid, actual.ElementAt(index).Uuid);
         Assert.Equal(expected.Title, actual.ElementAt(index).Title);
         Assert.Equal(expected.Description, actual.ElementAt(index).Description);
-        Assert.Equal(expected.Employer.name, actual.ElementAt(index).Employer);
+        Assert.Equal(expected.Employer.Name, actual.ElementAt(index).Employer);
         Assert.Equal(expected.EngagementType, actual.ElementAt(index).EngagementType);
         Assert.Equal(expected.JobTitle, actual.ElementAt(index).JobTitle);
-        Assert.Equal(expected.workLocations.First().municipal, actual.ElementAt(index).Municipal);
+        Assert.Equal(expected.WorkLocations.First().Municipal, actual.ElementAt(index).Municipal);
         Assert.Equal(expected.Expires, actual.ElementAt(index).Expires);
 
         // Cleanup
@@ -146,12 +146,12 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
 
         V2Employer employer = new()
         {
-            name = "Deg selv"
+            Name = "Deg selv"
         };
 
         V2WorkLocation workLocation = new()
         {
-            municipal = "Oslo"
+            Municipal = "Oslo"
         };
 
         List<V2WorkLocation> workLocations = new();
@@ -165,13 +165,13 @@ public class JobListingsDatabaseServiceTest : IClassFixture<DatabaseFixtureTest>
             EngagementType = "Fulltid",
             Employer = employer,
             JobTitle = "Overarbeidet",
-            workLocations = workLocations,
+            WorkLocations = workLocations,
             Expires = DateTime.Today.AddDays(-1)
         };
 
 
         //Act
-        var saveAdvertisement = controller.saveAdvertisements(advertisement);
+        var saveAdvertisement = controller.SaveAdvertisements(advertisement);
         var ListOfAdvertisements = await controller.Get();
         Boolean actual = false;
         

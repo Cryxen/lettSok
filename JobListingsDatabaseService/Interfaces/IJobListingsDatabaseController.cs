@@ -9,7 +9,7 @@ namespace JobListingsDatabaseService.Interfaces
 	{
 		Task<List<V1Advertisement>> Get();
 
-        Task<V1Restult<V2Advertisement>> saveAdvertisements(V2Advertisement advertisementPost);
+        Task<V1Result<V2Advertisement>> SaveAdvertisements(V2Advertisement advertisementPost);
 
 	}
 }
