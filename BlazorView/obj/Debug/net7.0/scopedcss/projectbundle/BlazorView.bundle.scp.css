@@ -94,9 +94,9 @@ a[b-oqtdvgu93u] {
 
 /* _content/BlazorView/Pages/UserPreference.razor.rz.scp.css */
 .userPrefSection[b-uekz9cdww5] {
-    width: 80rem;
+    width: 100%;
     background-color: #00989e;
-    padding: 1%;
+    padding-top: 1%;
 }
 
     .userPrefSection .sectionButton[b-uekz9cdww5] {

@@ -20,7 +20,7 @@
     <EditForm Model="_formModel">
         <h5>Legg til ny bruker:</h5>
 
-        <input type="text" @bind-value="_name" @bind-value:event="oninput" />
+        <input type="text" @bind-value="_name" @bind-value:event="oninput" placeholder="Navn" />
         <button @onclick="SubmitUser">Legg til bruker</button>
     </EditForm>
 
@@ -49,7 +49,7 @@
             }
     </section>
 
-<section class="UserPrefSection">
+<section class="userPrefSection">
     <button @onclick="@ShowPrefLocations" class="sectionButton">Prefererte søkesteder</button>
     @if (_showLocations)
     {

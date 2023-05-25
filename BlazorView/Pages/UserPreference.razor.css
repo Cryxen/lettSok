@@ -1,7 +1,7 @@
 ﻿.userPrefSection {
-    width: 80rem;
+    width: 100%;
     background-color: #00989e;
-    padding: 1%;
+    padding-top: 1%;
 }
 
     .userPrefSection .sectionButton {
