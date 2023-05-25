@@ -1,4 +1,12 @@
 /* _content/BlazorView/Pages/Components/DisplayFullListing.razor.rz.scp.css */
+a[b-oqtdvgu93u] {
+    border-style: solid;
+    border-color: black;
+    box-shadow: 0.5px 0.5px black;
+    background-color: #e5eaeb;
+    padding: 3px;
+
+}
 /* _content/BlazorView/Pages/Components/DisplayListing.razor.rz.scp.css */
 .listing[b-2gdzlh0gqm] {
     border-style: solid;

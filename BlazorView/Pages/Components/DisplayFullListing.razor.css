@@ -1,1 +1,8 @@
-﻿
+﻿a {
+    border-style: solid;
+    border-color: black;
+    box-shadow: 0.5px 0.5px black;
+    background-color: #e5eaeb;
+    padding: 3px;
+
+}

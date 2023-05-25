@@ -173,9 +173,11 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// </summary>
     /// <param name="UserGuid"></param>
     /// <param name="AdvertisementUuid"></param>
-    /// <returns>Status 200, success</returns>
+    /// <response code="200">OK, Success</response>
+    /// <response code="400">Returns a bad request, One or more validation errors occurred</response>
     [HttpDelete("deleteInterest")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task DeleteInterest(Guid UserGuid, string AdvertisementUuid)
     {
         _logger.LogInformation("Deleting interest consiting of Advertisement Uuid: {0}, and UserGuid: {1} from Database, time: {time}", AdvertisementUuid, UserGuid, DateTimeOffset.Now);
@@ -273,9 +275,12 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     /// </summary>
     /// <param name="UserGuid"></param>
     /// <param name="AdvertisementUuid"></param>
-    /// <returns>Status 200, success</returns>
+    /// <response code="200">OK, Success</response>
+    /// <response code="400">Returns a bad request, One or more validation errors occurred</response>
+
     [HttpDelete("deleteUninterest")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task DeleteUninterest(Guid UserGuid, string AdvertisementUuid)
     {
         _logger.LogInformation("Deleting interest consiting of Advertisement Uuid: {0}, and UserGuid: {1} from Database, time: {time}", AdvertisementUuid, UserGuid, DateTimeOffset.Now);
