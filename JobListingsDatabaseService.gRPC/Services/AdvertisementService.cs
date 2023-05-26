@@ -43,7 +43,7 @@ namespace JobListingsDatabaseService.gRPC.Services
 
             var Advertisement = new Advertisement()
             {
-                Uuid = request.Title,
+                Uuid = request.Uuid,
                 Employer = request.Employer,
                 Municipal = request.WorkLocation,
                 Title = request.Title,
