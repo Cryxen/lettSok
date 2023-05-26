@@ -3,6 +3,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using JobListingsDatabaseService.Data;
 using JobListingsDatabaseService.gRPC.Model;
+using Microsoft.EntityFrameworkCore;
 using Advertisement = JobListingsDatabaseService.Data.Advertisement;
 
 namespace JobListingsDatabaseService.gRPC.Services
@@ -37,6 +38,14 @@ namespace JobListingsDatabaseService.gRPC.Services
 
         public override async Task<getAdvertisementParams> postAdvertisements(AdvertisementModel request, ServerCallContext context)
         {
+
+            var AdvertisementsInDatabase = await _lettsokDbContext.Advertisements
+            .Select(advertisement => new JobListingsDatabaseService.gRPC.Model.Advertisement
+            {
+                Uuid = advertisement.Uuid
+            })
+            .ToListAsync();
+
             getAdvertisementParams EmptyParams = new();
 
             _logger.LogInformation("Advertisement " + request.Title + " uuid: " + request.Uuid + " expires: " + request.Expires);
@@ -53,10 +62,19 @@ namespace JobListingsDatabaseService.gRPC.Services
                 Expires = request.Expires.ToDateTime()
             };
 
-            
-            _lettsokDbContext.Add(Advertisement);
-            await _lettsokDbContext.SaveChangesAsync();
+            if(AdvertisementsInDatabase.Any(item => item.Uuid == Advertisement.Uuid))
+                {
+                _logger.LogDebug("Advertisement {0} already exists in Database, time: {time} ", Advertisement.Uuid, DateTimeOffset.Now);
+            }
+            else
+            {
 
+                _lettsokDbContext.Add(Advertisement);
+                await _lettsokDbContext.SaveChangesAsync();
+
+            }
+
+            
             return EmptyParams;
         }
 

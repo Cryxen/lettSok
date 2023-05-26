@@ -1,7 +1,7 @@
 ﻿syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
-
+import "google/protobuf/wrappers.proto";
 
 option csharp_namespace = "JobListingsDatabaseService.gRPC";
 
@@ -16,13 +16,13 @@ service AdvertisementgRPC
 message getAdvertisementParams {}
 
 message AdvertisementModel {
-    string uuid = 1;
+    google.protobuf.StringValue uuid = 1;
     google.protobuf.Timestamp expires = 2;
-    string workLocation = 3;
-    string title = 4;
-    string description = 5;
-    string jobTitle = 6;
-    string employer = 7;
-    string engagementType = 8;
+    google.protobuf.StringValue workLocation = 3;
+    google.protobuf.StringValue title = 4;
+    google.protobuf.StringValue description = 5;
+    google.protobuf.StringValue jobTitle = 6;
+    google.protobuf.StringValue employer = 7;
+    google.protobuf.StringValue engagementType = 8;
 
 }
