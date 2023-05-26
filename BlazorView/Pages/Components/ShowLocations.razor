@@ -10,7 +10,7 @@
         <EditForm Model="_locationModel">
             <select @bind="_selectedLocation">
                 <option value="">Velg kommune</option>
-                @foreach (var Item in _locations)
+                @foreach (var Item in _locationsSorted)
                 {
                     @if (!_prefferedLocations.Any(i => i.LocationId == Item.Id))
                     {
@@ -70,7 +70,7 @@
     // List of municipalities in Norway
     private string? _locationsFromDb;
     private IEnumerable<Location> _locations = new List<Location>();
-
+    private IEnumerable<Location> _locationsSorted = new List<Location>();
 
     // List of municipalities marked as favorable
     private string? _preferredLocationsFromDb;
@@ -85,6 +85,8 @@
         Logger.LogInformation("Fetching list of municipalities in Norway from Database, time: {time}", DateTimeOffset.Now);
         _locationsFromDb = await LocationService.FetchLocations();
         _locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(_locationsFromDb);
+        // Sort location
+        _locationsSorted = _locations.OrderBy(c => c.Municipality);
 
         // Fetch list of preferred municipalities in Norway from db
         Logger.LogInformation("Fetching list of preferred municipalities in Norway from Database, time: {time}", DateTimeOffset.Now);

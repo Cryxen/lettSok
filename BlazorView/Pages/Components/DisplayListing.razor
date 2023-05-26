@@ -37,7 +37,7 @@
     }
     catch (Exception e)
     {
-        Logger.LogDebug("The LoggedInUserService does not seem to reach the database {time}", DateTimeOffset.Now);
+        Logger.LogDebug("The LoggedInUserService does not seem to reach the database, error message: {0}, time: {time}", e, DateTimeOffset.Now);
         <p>Det ser ut til å være utfordringer med å koble til Databasen for brukerprefferanser</p>
 
     };
