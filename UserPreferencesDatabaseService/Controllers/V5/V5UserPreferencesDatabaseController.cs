@@ -80,10 +80,16 @@ public class V5UserPreferencesDatabaseController : ControllerBase
             Id = Guid.NewGuid(),
             Name = userPost.Name,
         };
-        _UserPreferencesDbContext.Add(User);
+        try
+        {
+            _UserPreferencesDbContext.Add(User);
 
-        await _UserPreferencesDbContext.SaveChangesAsync();
-
+            await _UserPreferencesDbContext.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Something went wrong saving user with Id {0} to Database. Exception error: {1}, time: {time}", User.Id, e, DateTimeOffset.Now);
+        }
         var Result = new V3Result<V3User>();
         Result.Value = new V3User
         {
@@ -155,10 +161,17 @@ public class V5UserPreferencesDatabaseController : ControllerBase
             AdvertisementUuid = interestPost.AdvertisementUuid,
             UserId = interestPost.UserGuid,
         };
-        _UserPreferencesDbContext.Add(Interest);
 
-        await _UserPreferencesDbContext.SaveChangesAsync();
+        try
+        {
+            _UserPreferencesDbContext.Add(Interest);
 
+            await _UserPreferencesDbContext.SaveChangesAsync();
+        }
+        catch(Exception e)
+        {
+            _logger.LogError("Something went wrong saving advertisement with uuid {0} marked as interesting, Exception error: {1}, time: {time}", Interest.AdvertisementUuid, e, DateTimeOffset.Now);
+        }
         var Result = new V3Result<V3Interested>();
         Result.Value = new V3Interested
         {
@@ -183,6 +196,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         _logger.LogInformation("Deleting interest consiting of Advertisement Uuid: {0}, and UserGuid: {1} from Database, time: {time}", AdvertisementUuid, UserGuid, DateTimeOffset.Now);
 
         List<V3Interested>Interests = await GetInterest();
+        try { 
         foreach (var Item in Interests)
         {
             if (Item.AdvertisementUuid == AdvertisementUuid && Item.UserGuid == UserGuid)
@@ -191,6 +205,11 @@ public class V5UserPreferencesDatabaseController : ControllerBase
             }
         }
         await _UserPreferencesDbContext.SaveChangesAsync();
+        }
+        catch(Exception e)
+        {
+            _logger.LogError("Something went wrong deleting advertisement with uuid {0} marked as interesting, exception error: {1}, time: {time}", AdvertisementUuid, e, DateTimeOffset.Now);
+        }
     }
 
     /// <summary>
@@ -257,10 +276,15 @@ public class V5UserPreferencesDatabaseController : ControllerBase
             AdvertisementUuid = uninterestPost.AdvertisementUuid,
             UserId = uninterestPost.UserGuid,
         };
+        try { 
         _UserPreferencesDbContext.Add(Interest);
 
         await _UserPreferencesDbContext.SaveChangesAsync();
-
+        }
+        catch(Exception e)
+        {
+            _logger.LogError("Something went wrong marking advertisement with Uuid {0} as uninteresting, exception error: {1}, time: {time}", Interest.AdvertisementUuid, e, DateTimeOffset.Now);
+        }
         var Result = new V3Result<V3Uninterested>();
         Result.Value = new V3Uninterested
         {
@@ -286,6 +310,7 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         _logger.LogInformation("Deleting interest consiting of Advertisement Uuid: {0}, and UserGuid: {1} from Database, time: {time}", AdvertisementUuid, UserGuid, DateTimeOffset.Now);
 
         List<V3Uninterested> Uninterests = await GetUninterest();
+        try { 
         foreach (var Item in Uninterests)
         {
             if (Item.AdvertisementUuid == AdvertisementUuid && Item.UserGuid == UserGuid)
@@ -293,7 +318,13 @@ public class V5UserPreferencesDatabaseController : ControllerBase
                 _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.uninterestedAdvertisements.Single(i => i.Id == Item.Id));
             }
         }
+
         await _UserPreferencesDbContext.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            _logger.LogDebug("Something went wrong deleting interest with advertisement marked with uuid: {0}, Exception error: {1}, time: {time}", AdvertisementUuid, e, DateTimeOffset.Now);
+        }
     }
 
 
@@ -390,9 +421,16 @@ public class V5UserPreferencesDatabaseController : ControllerBase
             UserId = v3SearchLocation.UserId,
             LocationId = v3SearchLocation.LocationId
         };
-        _UserPreferencesDbContext.Add(SearchLocation);
+        try
+        {
+            _UserPreferencesDbContext.Add(SearchLocation);
 
-        await _UserPreferencesDbContext.SaveChangesAsync();
+            await _UserPreferencesDbContext.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Something went wrong saving searchLocation with locationId: {0}, Exception error: {1}, time: {time}", SearchLocation.LocationId, e, DateTimeOffset.Now);
+        }
 
         var Result = new V3Result<V3SearchLocation>();
         Result.Value = new V3SearchLocation
@@ -416,15 +454,22 @@ public class V5UserPreferencesDatabaseController : ControllerBase
     {
         _logger.LogInformation("Deleting Search location with Location id: {0}, and User Id: {1} from Database, time: {time}", locationId, UserId, DateTimeOffset.Now);
         List<V3SearchLocation> SearchLocations = await GetSearchLocations();
-        foreach (var Item in SearchLocations)
+        try
         {
-            if (Item.UserId == UserId && Item.LocationId == locationId)
+            foreach (var Item in SearchLocations)
             {
-                _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.searchLocations.Single(i => i.Id == Item.Id));
+                if (Item.UserId == UserId && Item.LocationId == locationId)
+                {
+                    _UserPreferencesDbContext.Remove(_UserPreferencesDbContext.searchLocations.Single(i => i.Id == Item.Id));
+                }
             }
+            await _UserPreferencesDbContext.SaveChangesAsync();
         }
-        await _UserPreferencesDbContext.SaveChangesAsync();
-    }
+        catch(Exception e)
+        {
+            _logger.LogError("Something went wrong deleting searchLocation with location Id: {0}, Exception error: {1}, Time: {time}", locationId, e, DateTimeOffset.Now);
+        }
+        }
 
 
 
@@ -461,10 +506,16 @@ public class V5UserPreferencesDatabaseController : ControllerBase
         {
             Municipality = v3Location.Municipality,
         };
-        _UserPreferencesDbContext.Add(Location);
+        try
+        {
+            _UserPreferencesDbContext.Add(Location);
 
-        await _UserPreferencesDbContext.SaveChangesAsync();
-
+            await _UserPreferencesDbContext.SaveChangesAsync();
+        }
+        catch(Exception e)
+        {
+            _logger.LogError("Something went wrong saving location: {0}, Exception error: {1}, time: {time}", Location.Municipality, e, DateTimeOffset.Now);
+        }
         var Result = new V3Result<V3Location>();
         Result.Value = new V3Location
         {
