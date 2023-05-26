@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
+using AdvertisementWorker.Configuration;
 using AdvertisementWorker.Model;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;
@@ -12,6 +13,7 @@ namespace AdvertisementWorker;
 public class Worker : BackgroundService
 {
     private readonly ILogger<Worker> _logger;
+    private readonly IConfiguration _configuration;
 
     public Worker(ILogger<Worker> logger)
     {
@@ -22,6 +24,7 @@ public class Worker : BackgroundService
     private string _prefferedLocationsJson;
     private string _locationsJson;
 
+
     private List<Advertisement> _advertisements = new List<Advertisement>();
     private List<Location> _locationList = new();
 
@@ -29,11 +32,19 @@ public class Worker : BackgroundService
     // Public API settings
     private static string SetHttpClientToPublicAPISettings()
     {
+        var Configuration = new ConfigurationBuilder()
+            .AddJsonFile("./appsettings.json")
+            .Build();
+
+        var PublicApiKey = Configuration.GetValue<string>("PublicAPI:AuthenticationKey");
+        var PublicUrl = Configuration.GetValue<string>("PublicAPI:AuthenticationUrl");
+        var PublicApiHeader = Configuration.GetValue<string>("PublicAPI:AuthenticationHeaderType");
+
         // Client secret TODO: Make is a proper secret
-        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",
-                "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwdWJsaWMudG9rZW4udjFAbmF2Lm5vIiwiYXVkIjoiZmVlZC1hcGktdjEiLCJpc3MiOiJuYXYubm8iLCJpYXQiOjE1NTc0NzM0MjJ9.jNGlLUF9HxoHo5JrQNMkweLj_91bgk97ZebLdfx3_UQ");
+        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(PublicApiHeader,
+                PublicApiKey);
         // URL for public API
-        var JsonUrl = "https://arbeidsplassen.nav.no/public-feed/api/v1/ads";
+        var JsonUrl = PublicUrl;
 
         return JsonUrl;
     }
