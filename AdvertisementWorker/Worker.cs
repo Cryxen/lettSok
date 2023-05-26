@@ -1,7 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
-using AdvertisementWorker.Configuration;
 using AdvertisementWorker.Model;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Net.Client;

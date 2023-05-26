@@ -47,8 +47,8 @@ namespace JobListingsDatabaseService.gRPC.Services
             .ToListAsync();
 
             getAdvertisementParams EmptyParams = new();
-
-            _logger.LogInformation("Advertisement " + request.Title + " uuid: " + request.Uuid + " expires: " + request.Expires);
+            _logger.LogInformation("Saving advertisement received from gRPC, time: {time}", DateTimeOffset.Now);
+            _logger.LogDebug("Received Advertisement " + request.Title + " uuid: " + request.Uuid + " expires: " + request.Expires + "time: " + DateTimeOffset.Now);
 
             var Advertisement = new Advertisement()
             {
@@ -69,8 +69,14 @@ namespace JobListingsDatabaseService.gRPC.Services
             else
             {
 
+                try { 
                 _lettsokDbContext.Add(Advertisement);
                 await _lettsokDbContext.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError("Something went wrong with saving advertisement with Uuid: {0} to database, Exception : {1} thrown. time: {time}", Advertisement.Uuid, e, DateTimeOffset.Now);
+                }
 
             }
 
