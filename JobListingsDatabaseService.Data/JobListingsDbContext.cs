@@ -7,7 +7,7 @@ namespace JobListingsDatabaseService.Data
 {
 	public class JobListingsDbContext : DbContext
 	{
-        /*
+            /*
              * Source:
 			 * https://learn.microsoft.com/en-us/ef/ef6/modeling/code-first/workflows/new-database 
 			 */

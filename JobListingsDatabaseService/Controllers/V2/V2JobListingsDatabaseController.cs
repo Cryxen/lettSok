@@ -23,7 +23,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     }
 
     /// <summary>
-    /// Retrieves advertisements from database
+    /// Retrieves advertisements from database.
     /// </summary>
     /// <returns>List of advertisements</returns>
     /// <remarks>
@@ -42,7 +42,7 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     ///     }
     /// 
     /// </remarks>
-    /// <response code="200">Returns list of advertisements saved in Database</response>
+    /// <response code="200">Returns list of advertisements saved in Database.</response>
     [HttpGet("getAdvertisements")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public virtual async Task<List<V1Advertisement>> Get()
@@ -90,12 +90,12 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     }
 
     /// <summary>
-    /// Save advertisement to database
+    /// Save advertisement to database.
     /// </summary>
-    /// <param name="advertisementPost">Reflects advertisement model</param>
+    /// <param name="advertisementPost">Reflects advertisement model.</param>
     /// <returns>Returns V1Result error codes</returns>
     /// <remarks>
-    /// Sample value of message
+    /// Sample value of message.
     /// 
     ///     POST /saveAdvertisement
     ///     {
@@ -114,9 +114,9 @@ public class V2JobListingsDatabaseController : ControllerBase, IJobListingsDatab
     ///         "engagementType": "Full time"
     ///     }
     /// </remarks>
-    /// <response code="201">Returns empty error list and newly created object</response>
-    /// <response code="400">Returns a bad request, something wrong with JSON in POST</response>
-    /// <response code="500">Returns internal server error, found to be case if "uuid" is missing in POST</response>
+    /// <response code="201">Returns empty error list and newly created object.</response>
+    /// <response code="400">Returns a bad request, something wrong with JSON in POST.</response>
+    /// <response code="500">Returns internal server error, found to be case if "uuid" is missing in POST.</response>
     [HttpPost("saveAdvertisement")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

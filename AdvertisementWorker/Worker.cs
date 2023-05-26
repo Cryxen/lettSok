@@ -28,9 +28,14 @@ public class Worker : BackgroundService
     private List<Location> _locationList = new();
 
 
-    // Public API settings
+    /// <summary>
+    /// Set HttpClient to public API settings, making it available to be reused for other APIs.
+    /// Values are set in appsettings.json.
+    /// </summary>
+    /// <returns>Url of the public API. Configured in appsettings.json.</returns>
     private static string SetHttpClientToPublicAPISettings()
     {
+        // Making appsettings values available inside static method.
         var Configuration = new ConfigurationBuilder()
             .AddJsonFile("./appsettings.json")
             .Build();
@@ -39,10 +44,10 @@ public class Worker : BackgroundService
         var PublicUrl = Configuration.GetValue<string>("PublicAPI:AuthenticationUrl");
         var PublicApiHeader = Configuration.GetValue<string>("PublicAPI:AuthenticationHeaderType");
 
-        // Client secret TODO: Make is a proper secret
         client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(PublicApiHeader,
                 PublicApiKey);
-        // URL for public API
+
+        // URL for public API.
         var JsonUrl = PublicUrl;
 
         return JsonUrl;
@@ -55,22 +60,22 @@ public class Worker : BackgroundService
             // Find out if any prefered saved locations have been saved:
             try
             {
-                // Empty location list
+                // Empty location list.
                 _locationList.Clear();
                 _logger.LogDebug("Clearing locationlist {time}", DateTimeOffset.Now);
 
-                // Get all locations
+                // Get all locations.
          
                     _locationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getLocations", stoppingToken);
                     var Locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(_locationsJson);
                     _logger.LogDebug("Fetching locations from database {time}", DateTimeOffset.Now);
            
-                // Get preffered Locations
+                // Get preffered Locations.
                     _prefferedLocationsJson = await client.GetStringAsync("https://localhost:7293/V5UserPreferencesDatabase/getSearchLocations", stoppingToken);
                     var PrefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(_prefferedLocationsJson);
                     _logger.LogDebug("Fetching preffered locations from database, {time}", DateTimeOffset.Now);
                 
-                // Match locations with prefferedLocations. Make a list
+                // Match locations with prefferedLocations. Make a list.
                 _locationList = MatchFavoredLocations(Locations, PrefferedLocations);
             }
             catch (Exception e)
@@ -79,7 +84,7 @@ public class Worker : BackgroundService
                 _logger.LogDebug("Error: {e}", e);
             }
 
-            // If search locations have been saved
+            // If search locations have been saved.
             if (_locationList.Count > 0)
             {
                 foreach (var Location in _locationList)
@@ -103,9 +108,9 @@ public class Worker : BackgroundService
                 }
             }
 
-            // Search locations -> Iterate through list and fetch jobs based on search location
+            // Search locations -> Iterate through list and fetch jobs based on search location.
 
-            // No search locations -> Pull from all jobs
+            // No search locations -> Pull from all jobs.
             else
             {
                 _logger.LogInformation("Fetching jobs from public API without location at:{time}", DateTimeOffset.Now);
@@ -130,6 +135,11 @@ public class Worker : BackgroundService
         }
     }
 
+    /// <summary>
+    /// Sends Advertisement to gRPC server.
+    /// </summary>
+    /// <param name="advertisements"></param>
+    /// <returns></returns>
     private async Task PostAdvertisementgRPC(List<Advertisement> advertisements)
     {
         _logger.LogInformation("Trying to run gRPC, time: {time}", DateTimeOffset.Now);
@@ -166,6 +176,12 @@ public class Worker : BackgroundService
         }
     }
 
+    /// <summary>
+    /// Match favored locations with preferred locations.
+    /// </summary>
+    /// <param name="locations"></param>
+    /// <param name="preferredLocations"></param>
+    /// <returns></returns>
     public List<Location> MatchFavoredLocations(IEnumerable<Location> locations, IEnumerable<PreferredLocation> preferredLocations)
     {
         List<Location> LocationList = new();
@@ -183,7 +199,11 @@ public class Worker : BackgroundService
         return LocationList;
     }
 
-
+    /// <summary>
+    /// Fetch jobs from Public API and parse JSON.
+    /// </summary>
+    /// <param name="location">Municipalities to fetch jobs from.</param>
+    /// <returns></returns>
     public async Task<List<Advertisement>> FetchJobsAndParseFromPublicAPI(string location = "No Location")
     {
         string Json;
@@ -210,9 +230,9 @@ public class Worker : BackgroundService
 
 
     /// <summary>
-    /// Retrieves listings from public API
+    /// Retrieves listings from public API.
     /// </summary>
-    /// <returns>Json String</returns>
+    /// <returns>Json String.</returns>
     public async Task<string> RetrieveFromPublicAPI(string location = "No Location")
     {
         HttpResponseMessage? Response = new(); 
@@ -235,10 +255,10 @@ public class Worker : BackgroundService
     }
 
     /// <summary>
-    /// Parse json string to object
+    /// Parse json string to object.
     /// </summary>
     /// <param name="json"></param>
-    /// <returns>IList Json Object</returns>
+    /// <returns>IList Json Object.</returns>
     public IList<JToken> ParseJson(string json)
     {
         JObject jsonObject = JObject.Parse(json);

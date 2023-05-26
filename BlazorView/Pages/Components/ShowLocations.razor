@@ -67,12 +67,12 @@
     private LocationModel _locationModel = new();
     private int _selectedLocation;
 
-    // List of municipalities in Norway
+    // List of municipalities in Norway.
     private string? _locationsFromDb;
     private IEnumerable<Location> _locations = new List<Location>();
     private IEnumerable<Location> _locationsSorted = new List<Location>();
 
-    // List of municipalities marked as favorable
+    // List of municipalities marked as favorable.
     private string? _preferredLocationsFromDb;
     private IEnumerable<PreferredLocation> _prefferedLocations = new List<PreferredLocation>();
     private List<PreferredLocation> _loggedInUserPrefferedLocations = new List<PreferredLocation>();
@@ -81,14 +81,14 @@
     protected override async Task OnInitializedAsync()
     {
 
-        // Fetch list of municipalities in Norway from db
+        // Fetch list of municipalities in Norway from db.
         Logger.LogInformation("Fetching list of municipalities in Norway from Database, time: {time}", DateTimeOffset.Now);
         _locationsFromDb = await LocationService.FetchLocations();
         _locations = JsonConvert.DeserializeObject<IEnumerable<Location>>(_locationsFromDb);
         // Sort location
         _locationsSorted = _locations.OrderBy(c => c.Municipality);
 
-        // Fetch list of preferred municipalities in Norway from db
+        // Fetch list of preferred municipalities in Norway from db.
         Logger.LogInformation("Fetching list of preferred municipalities in Norway from Database, time: {time}", DateTimeOffset.Now);
         _preferredLocationsFromDb = await LocationService.FetchPreferredLocations();
         _prefferedLocations = JsonConvert.DeserializeObject<IEnumerable<PreferredLocation>>(_preferredLocationsFromDb);

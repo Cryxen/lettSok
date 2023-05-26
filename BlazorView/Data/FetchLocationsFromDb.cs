@@ -14,6 +14,10 @@ namespace BlazorView.Data
 
         private static HttpClient s_client = new HttpClient();
 
+        /// <summary>
+        /// Fetch locations from Microservice UserPreferenceDatabaseService.
+        /// </summary>
+        /// <returns>Json list of locations.</returns>
         public async Task<string> FetchLocations()
         {
             string Json = "";
@@ -31,6 +35,10 @@ namespace BlazorView.Data
             return Json;
         }
 
+        /// <summary>
+        /// Fetch preferred locations from microservice UserPreferenceDatabaseService.
+        /// </summary>
+        /// <returns>Json list of preferred locations.</returns>
         public async Task<string> FetchPreferredLocations()
         {
             string Json = "";
@@ -49,6 +57,10 @@ namespace BlazorView.Data
             return Json;
         }
 
+        /// <summary>
+        /// Save preferred locations to UserPreferenceDatabaseService.
+        /// </summary>
+        /// <param name="preferredLocation">Preferred location to be saved to.</param>
         public async void PostPreferredLocation(PreferredLocation preferredLocation)
         {
             _logger.LogDebug("Saving preferred location with Location Id: {0} and User Id: {1}, time: {time}", preferredLocation.LocationId, preferredLocation.UserId, DateTimeOffset.Now);
@@ -57,6 +69,10 @@ namespace BlazorView.Data
             using var Response = await s_client.PostAsync("https://localhost:7293/V5UserPreferencesDatabase/saveSearchLocation", Content);
         }
 
+        /// <summary>
+        /// Delete preferred locations from UserPreferenceDatabaseService.
+        /// </summary>
+        /// <param name="preferredLocation">Preferred Location to delete.</param>
         public async void DeletePreferredLocation(PreferredLocation preferredLocation)
         {
             _logger.LogDebug("Deleting preferred location with Location Id: {0} and User Id: {1}, time: {time}", preferredLocation.LocationId, preferredLocation.UserId, DateTimeOffset.Now);
@@ -65,6 +81,10 @@ namespace BlazorView.Data
             using var Response = await s_client.DeleteAsync(Uri);
         }
 
+        /// <summary>
+        /// Fetch Municipalities from internet using Microservice UserPreferenceDatabaseService.
+        /// </summary>
+        /// <returns>Json of locations.</returns>
         public async Task<String> FetchLocationsFromInternet()
         {
             _logger.LogDebug("Fetching locations from internet, time: {time}", DateTimeOffset.Now);

@@ -15,7 +15,11 @@ namespace BlazorView.Data
         }
 
         private static HttpClient s_client = new HttpClient();
-        
+
+        /// <summary>
+        /// Fetch job listings from microservice "JobListingsService".
+        /// </summary>
+        /// <returns></returns>
         public async Task<string> FetchJobListings()
 		{
             string Json = "";

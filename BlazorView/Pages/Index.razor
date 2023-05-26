@@ -38,7 +38,7 @@
     private string _fullListingStyle;
 
     /// <summary>
-    /// Used by EditForm
+    /// Used by EditForm.
     /// 
     /// </summary>
     private class SearchModel
@@ -49,7 +49,7 @@
     }
     private SearchModel _searchModel = new();
 
-    // Value of search field
+    // Value of search field.
     private string? _searchValue = "";
     private string? _tempSearch = "";
 
@@ -61,17 +61,17 @@
         _showSearch ^= true;
     }
 
-    //Interests
+    //Interests.
     private string? _interestsFromDb;
     private IEnumerable<Interest> _interests = new List<Interest>();
     private List<string> _commonInterests = new List<string>();
 
-    //Uninterests
+    //Uninterests.
     private string? _uninterestsFromDb;
     private IEnumerable<Interest> _uninterests = new List<Interest>();
     private List<string> _commonUninterests = new List<string>();
 
-    //Users
+    //Users.
     private IEnumerable<User> _users = new List<User>();
     private string _usersFromDb;
 

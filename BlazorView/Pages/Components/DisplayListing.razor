@@ -54,12 +54,16 @@
 
     [Parameter]
     public bool ShowFullAdvertisement { get; set; }
+
+    /// <summary>
+    /// Save like to Database.
+    /// </summary>
     private void SaveLikes()
     {
         Logger.LogInformation("Saving advertisement Uuid: {0} and User Id: {1} as a new interest, time: {time}", Item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
         _showListing = false;
 
-        //Interests
+        //Interests.
         Interest interest = new();
         interest.UserGuid = LoggedInUserService.Id;
         interest.AdvertisementUuid = Item.Uuid;
@@ -70,13 +74,16 @@
         _showListing = true;
     }
 
+    /// <summary>
+    /// Save new uninterest to database.
+    /// </summary>
     private void SaveNotLikes()
     {
         Logger.LogInformation("Saving advertisement Uuid: {0} and User Id: {1} as a new Uninterest, time: {time}", Item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
 
         _showListing = false;
 
-        //Interests
+        //Interests.
         Interest Interest = new();
         Interest.UserGuid = LoggedInUserService.Id;
         Interest.AdvertisementUuid = Item.Uuid;
@@ -87,6 +94,9 @@
         _showListing = true;
     }
 
+    /// <summary>
+    /// Delete uninterest from database.
+    /// </summary>
     private void DeleteNotLikes()
     {
         Logger.LogInformation("Deleting advertisement Uuid: {0} and User Id: {1} as an uninterest, time: {time}", Item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
@@ -103,6 +113,9 @@
         _showListing = true;
     }
 
+    /// <summary>
+    /// Delete interest from database.
+    /// </summary>
     private void deleteLikes()
     {
         Logger.LogInformation("Deleting advertisement Uuid: {0} and User Id: {1} as an interest, time: {time}", Item.Uuid, LoggedInUserService.Id, DateTimeOffset.Now);
@@ -119,6 +132,9 @@
         _showListing = true;
     }
 
+    /// <summary>
+    /// Show the full advertisement
+    /// </summary>
     private async void ShowFullListing()
     {
         ShowFullAdvertisement = true;

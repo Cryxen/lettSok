@@ -16,6 +16,10 @@ namespace BlazorView.Data
         
         private static HttpClient s_client = new HttpClient();
 
+        /// <summary>
+        /// Fetch all users from database in microservice UserPreferenceDatabaseService.
+        /// </summary>
+        /// <returns>Json Object of all users.</returns>
         public async Task<string> FetchUser()
         {
             string Json = "";
@@ -33,9 +37,9 @@ namespace BlazorView.Data
         }
 
         /// <summary>
-        /// TODO: Make handling of error codes
+        /// Save user to database in UserPreferenceDatabaseService.
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="user">User object to save.</param>
         public async void PostUser(User user) 
         {
             _logger.LogDebug("Saving User: {0} to Database, time: {time}", user.Name, DateTimeOffset.Now);
@@ -51,6 +55,10 @@ namespace BlazorView.Data
             }
         }
 
+        /// <summary>
+        /// Save interest to database in microservice: UserPreferenceDatabaseService.
+        /// </summary>
+        /// <param name="interest">Interest object to save.</param>
         public async void PostInterest(Interest interest)
         {
             _logger.LogDebug("Saving interest with advertisement Uuid: {0}, and User Id: {1} to Database, time: {time}", interest.AdvertisementUuid, interest.UserGuid, DateTimeOffset.Now);
@@ -59,6 +67,10 @@ namespace BlazorView.Data
             using var Response = await s_client.PostAsync("https://localhost:7293/V3UserPreferencesDatabase/saveInterest", Content);
         }
 
+        /// <summary>
+        /// get all interests from database in microservice: UserPreferenceDatabaseService.
+        /// </summary>
+        /// <returns>JsonObject listing all interests.</returns>
         public async Task<string> FetchInterest()
         {
             string Json = "";
@@ -75,6 +87,10 @@ namespace BlazorView.Data
             return Json;
         }
 
+        /// <summary>
+        /// Delete interest from database in microservice: UserPreferenceDatabaseService.
+        /// </summary>
+        /// <param name="interest">Interest object to delete.</param>
         public async void DeleteInterest(Interest interest)
         {
             _logger.LogDebug("Deleting interest with Advertisement Uuid: {0}, and User Id: {1} from Database, time: {time}", interest.AdvertisementUuid, interest.UserGuid, DateTimeOffset.Now);
@@ -82,6 +98,10 @@ namespace BlazorView.Data
             using var Response = await s_client.DeleteAsync(Uri);
         }
 
+        /// <summary>
+        /// Save Uninterest to database in microservice: UserPreferenceDatabaseService.
+        /// </summary>
+        /// <param name="interest">Interest object to save</param>
         public async void PostUninterest(Interest interest)
         {
             _logger.LogDebug("Saving Uninterest with advertisement Uuid: {0}, and User Id: {1} to Database, time: {time}", interest.AdvertisementUuid, interest.UserGuid, DateTimeOffset.Now);
@@ -91,6 +111,10 @@ namespace BlazorView.Data
             using var Response = await s_client.PostAsync("https://localhost:7293/V3UserPreferencesDatabase/saveUninterest", Content);
         }
 
+        /// <summary>
+        /// Fetch all uninterests from database in microservice: UserPreferenceDatabaseService.
+        /// </summary>
+        /// <returns>Json object of all uninterests in Database.</returns>
         public async Task<string> FetchUninterest()
         {
             string Json = "";
@@ -109,6 +133,10 @@ namespace BlazorView.Data
             return Json;
         }
 
+        /// <summary>
+        /// Delete uninterest from database in microservice: UserPreferenceDatabaseService.
+        /// </summary>
+        /// <param name="interest">Uninterest object to delete.</param>
         public async void DeleteUninterest(Interest interest)
         {
             _logger.LogDebug("Deleting Uninterest with Advertisement Uuid: {0}, and User Id: {1} from Database, time: {time}", interest.AdvertisementUuid, interest.UserGuid, DateTimeOffset.Now);
